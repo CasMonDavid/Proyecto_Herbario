@@ -14,5 +14,5 @@ commands = [
 
 [phases.start]
 commands = [
-  "cd backend/routes && yarn start"
+  "cd backend && yarn start"
 ]
