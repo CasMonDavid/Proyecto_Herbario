@@ -1,4 +1,4 @@
-[phases.install]
+[phases.setup]
 commands = [
   "cd backend && yarn install",
   "cd frontend && yarn install"
@@ -11,6 +11,6 @@ commands = [
 
 [phases.start]
 commands = [
-  "cd backend && yarn start",
+  "cd backend && yarn start &",
   "cd frontend && yarn serve"
 ]
