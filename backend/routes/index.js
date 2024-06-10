@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json());
 
 // FUNCION PARA INGRESAR ADMINISTRADORES (no testeado)
-router.post("/create",async (req,res, next)=>{
+router.post("/",async (req,res, next)=>{
     const name = req.body.name;
     const email = req.body.email;
     const password = req.body.password;

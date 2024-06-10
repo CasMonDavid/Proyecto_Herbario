@@ -21,6 +21,8 @@ function App() {
   return (
     <div className="App">
       <div className="datos">
+        <h1>Herbolario</h1><br/>
+
         <h2>Registrar administrador</h2>
 
         <label>Nombre: <input
