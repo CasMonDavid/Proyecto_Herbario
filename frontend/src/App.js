@@ -9,7 +9,7 @@ function App() {
   const [password,setPassword] = useState("");
 
   const addAdmin = ()=>{
-    Axios.post("http://localhost:3001/create",{
+    Axios.post("http://localhost:4000/create",{
       name:name,
       email:email,
       password:password

@@ -1,16 +1,19 @@
 const express = require("express");
 const connection = require("../config/db");
-const router = express.Router();
+const cors = require('cors');
+const app = express();
 const port = process.env.PORT || 3001;
 
-const app = express();
-const cors = require("cors");
-
-app.use(cors());
+const corsOption = {
+    origin: ['http://localhost:3000'],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+}
+app.use(cors(corsOption));
 app.use(express.json());
 
 // FUNCION PARA INGRESAR ADMINISTRADORES (no testeado)
-router.post("/create",async (req,res, next)=>{
+app.post("/create",async (req,res, next)=>{
     const name = req.body.name;
     const email = req.body.email;
     const password = req.body.password;
@@ -30,4 +33,4 @@ app.listen(port, () => {
     console.log(`Server running on port ${port}`);
   });
 
-module.exports = router;
+module.exports = app;

@@ -7,6 +7,8 @@ const mysql = require("mysql2/promise");
 //app.use(cors());
 //app.use(express.json());
 
+require('dotenv').config();
+
 const connection = mysql.createPool({
     host: process.env.MYSQLHOST,
     user: process.env.MYSQLUSER,
