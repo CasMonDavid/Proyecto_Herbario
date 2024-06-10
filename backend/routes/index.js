@@ -1,6 +1,7 @@
 const express = require("express");
 const connection = require("../config/db");
 const router = express.Router();
+const port = process.env.PORT || 3001;
 
 const app = express();
 const cors = require("cors");
