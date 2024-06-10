@@ -2,10 +2,11 @@ const express = require("express");
 const connection = require("../config/db");
 const router = express.Router();
 
+const app = express();
 const cors = require("cors");
 
-router.use(cors());
-router.use(express.json());
+app.use(cors());
+app.use(express.json());
 
 // FUNCION PARA INGRESAR ADMINISTRADORES (no testeado)
 router.post("/create",async (req,res, next)=>{
@@ -23,5 +24,9 @@ router.post("/create",async (req,res, next)=>{
         }
     );
 });
+
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+  });
 
 module.exports = router;

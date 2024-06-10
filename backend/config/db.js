@@ -1,5 +1,12 @@
 const mysql = require("mysql2/promise");
 
+//const app = express();
+//const mysql = require("mysql2");
+//const cors = require("cors");
+
+//app.use(cors());
+//app.use(express.json());
+
 const connection = mysql.createPool({
     host: process.env.MYSQLHOST,
     user: process.env.MYSQLUSER,

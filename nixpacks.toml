@@ -1,0 +1,18 @@
+[phases.setup]
+nixpkgs = ["nodejs-16_x", "yarn"]
+
+[phases.install]
+commands = [
+  "cd backend && yarn install",
+  "cd frontend && yarn install"
+]
+
+[phases.build]
+commands = [
+  "cd frontend && yarn start"
+]
+
+[phases.start]
+commands = [
+  "cd backend && cd routes && node index.js"
+]
