@@ -14,5 +14,5 @@ commands = [
 
 [phases.start]
 commands = [
-  "cd backend/routes && node index.js"
+  "cd backend && yarn start"
 ]
