@@ -21,7 +21,7 @@ function App() {
   return (
     <div className="App">
       <div className="datos">
-        <h1>Herbolario</h1><br/>
+        <h1>Herbario</h1><br/>
 
         <h2>Registrar administrador</h2>
 
