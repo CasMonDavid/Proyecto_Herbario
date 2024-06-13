@@ -1,6 +1,7 @@
 import './App.css';
 import {useState} from 'react';
 import Axios from "axios";
+import Menu from "./components/menu"
 
 function App() {
 
@@ -21,7 +22,7 @@ function App() {
   return (
     <div className="App">
       <div className="datos">
-        <h1>Herbario</h1><br/>
+        <Menu></Menu>
 
         <h2>Registrar administrador</h2>
 
