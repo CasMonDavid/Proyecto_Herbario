@@ -6,6 +6,8 @@ import cac2 from './cac2.png';
 import cac3 from './cac3.png';
 import cac4 from './cac4.png';
 import cac5 from './cac5.png';
+//import cacTest from '../../img/Cactaceae-Cylindropuntialeptoc_1619875376.jpg';
+import cacTest from '../../img/Sphaeralcea_orcuttii_1_1467484862.jpg';
 
 const descripcion = () => {
     return (
@@ -41,7 +43,7 @@ const descripcion = () => {
                             <img src={cac4} alt="img" />
                         </div>
                         <div className="slide">
-                            <img src={cac5} alt="img" />
+                            <img src={cacTest} alt="img" />
                         </div>
 
 
