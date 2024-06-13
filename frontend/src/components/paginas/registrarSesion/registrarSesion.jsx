@@ -18,7 +18,7 @@ const RegistrarSesion = () => {
 
     const addAdmin = () => {
 
-        if ((name!=null && email!=null) && samePassword){
+        if ((name!=null && email!=null) && password===confirmPassword){
             Axios.post("http://localhost:4000/registrar/user", {
             name: name,
             email: email,
@@ -28,14 +28,6 @@ const RegistrarSesion = () => {
             });
         }else{
             alert("Ocurrio un error, verifique que todos los campos sean ingresados y correctos");
-        }
-    }
-
-    const samePassword = () => {
-        if ((password!=null && confirmPassword!=null) && password==confirmPassword){
-            return true;
-        }else{
-            return false;
         }
     }
 
