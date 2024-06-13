@@ -1,7 +1,9 @@
 import './App.css';
 import {useState} from 'react';
 import Axios from "axios";
-import Menu from "./components/menu"
+import Menu from "./components/menu/menu"
+import DescripcionPP from "./components/descripcionPP/descripcion"
+import Mapa from "./components/mapa/mapa"
 
 function App() {
 
@@ -23,28 +25,8 @@ function App() {
     <div className="App">
       <div className="datos">
         <Menu></Menu>
-
-        <h2>Registrar administrador</h2>
-
-        <label>Nombre: <input
-        onChange={(event)=>{
-          setName(event.target.value);
-        }}
-        type="text"></input></label><br/>
-
-        <label>Correo: <input
-        onChange={(event)=>{
-          setEmail(event.target.value);
-        }}
-        type="text"></input></label><br/>
-
-        <label>Contraseña: <input
-        onChange={(event)=>{
-          setPassword(event.target.value);
-        }}
-        type="password"></input></label><br/>
-
-        <button onClick={addAdmin}>Añadir</button>
+        <DescripcionPP></DescripcionPP>
+        <Mapa></Mapa>
       </div>
     </div>
   );

@@ -1,0 +1,16 @@
+.mapa {
+    display: flex;
+    flex-direction: column;
+    margin: 10vh;
+}
+
+.mapaD {
+    display: flex;
+    align-items: center;
+}
+
+.mapa-img {
+    margin-top: 2vh;
+    width: 100%;
+    height: auto;
+}
