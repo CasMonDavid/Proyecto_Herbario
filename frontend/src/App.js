@@ -1,6 +1,6 @@
 import './App.css';
-import {useState} from 'react';
-import Axios from "axios";
+//import {useState} from 'react';
+//import Axios from "axios";
 import Menu from "./components/menu/menu"
 import DescripcionPP from "./components/descripcionPP/descripcion"
 import Mapa from "./components/mapa/mapa"
