@@ -11,7 +11,7 @@ const IniciarSesion = () => {
     const [password, setPassword] = useState("");
 
     const loginTeacher = () => {
-        Axios.post("http://localhost:4000/iniciarsesion/investigador", { email, password })
+        Axios.post("https://backherbario-production-7369.up.railway.app/iniciarsesion/investigador", { email, password })
         .then(response => {
           if (response.data.success) {
             const userData = response.data.data;

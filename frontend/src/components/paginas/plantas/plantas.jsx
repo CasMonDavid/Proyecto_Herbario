@@ -10,7 +10,7 @@ const Plantas = () => {
 
     useEffect(() => {
         // Reemplaza la URL con la URL de tu backend que devuelve la lista de plantas
-        Axios.get('http://localhost:4000/plantas/getall')
+        Axios.get('https://backherbario-production-7369.up.railway.app/plantas/getall')
             .then(response => {
                 setPlantas(response.data);
             })
