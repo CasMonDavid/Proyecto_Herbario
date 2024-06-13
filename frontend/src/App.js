@@ -7,7 +7,7 @@ import Mapa from "./components/mapa/mapa"
 
 function App() {
 
-  const [name,setName] = useState("");
+  /*const [name,setName] = useState("");
   const [email,setEmail] = useState("");
   const [password,setPassword] = useState("");
 
@@ -19,7 +19,7 @@ function App() {
     }).then(()=>{
       alert("Sesión iniciada");
     })
-  }
+  }*/
 
   return (
     <div className="App">
