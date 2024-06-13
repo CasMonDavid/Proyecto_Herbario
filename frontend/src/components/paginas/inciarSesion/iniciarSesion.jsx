@@ -53,7 +53,7 @@ const IniciarSesion = () => {
                         setPassword(event.target.value);
                     }}/>
                 <button className="botonIS" onClick={loginTeacher}>Iniciar sesión</button>
-                <a className="linkIS" href="#">He olvidado mi contraseña</a>
+                <p className="linkIS">He olvidado mi contraseña</p>
                 <h1 className="textIS">¿Todavia no tienes cuenta? <span><Link to='/registrar' className="linkISD"> Registrate</Link></span></h1>
             </div>
         </div>
