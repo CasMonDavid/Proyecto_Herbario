@@ -16,6 +16,7 @@ const RegistrarSesion = () => {
                     <h1>HERBARIO</h1>
                 </div>
                 <h1 className="subRS">Registrarse</h1>
+                <input type="name" placeholder="Nombre completo" className="inRS"/>
                 <input type="email" placeholder="Correo" className="inRS"/>
                 <input type="password" placeholder="Contraseña" className="inRS"/>
                 <input type="password" placeholder="Confirmar contraseña" className="inRS"/>

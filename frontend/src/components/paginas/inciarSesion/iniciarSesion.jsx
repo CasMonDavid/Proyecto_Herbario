@@ -19,7 +19,7 @@ const IniciarSesion = () => {
                 <input type="email" placeholder="Correo" className="inIS"/>
                 <input type="password" placeholder="Contraseña" className="inIS"/>
                 <button className="botonIS">Iniciar sesión</button>
-                <a className="linkIS" href="">He olvidado mi contraseña</a>
+                <a className="linkIS" href="#">He olvidado mi contraseña</a>
                 <h1 className="textIS">¿Todavia no tienes cuenta? <span><Link to='/registrar' className="linkISD"> Registrate</Link></span></h1>
             </div>
         </div>
