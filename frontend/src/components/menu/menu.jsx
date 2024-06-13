@@ -5,21 +5,22 @@ import flecha from './flecha.png'
 import filtrar from './filtrar.png'
 import idioma from './idioma.png'
 import perfil from './usuario.png'
+import { Link } from "react-router-dom";
 
 const Menu = () => {
     return (
         <div className="background-menu">
             <div className="parte-uno">
                 <img src={logo} className="logo" alt="logo" />
-                <h1 className="uabcs-title">U A B C S</h1>
+                <Link className="uabcs-title" to='/'>U A B C S</Link>
                 <div className="line"></div>
                 <h1 className="herbario-title">H E R B A R I O</h1>
             </div>
             <div className="parte-dos">
-                <h1 className="opciones-uno">PLANTAS
-                <img className="flecha" src={flecha} alt="ver mas" /></h1>
-                <h1 className="opciones-dos">MAPA</h1>
-                <h1 className="opciones-uno">ESTADISTICAS</h1>
+                <Link className="opciones" to='/plantas'>PLANTAS
+                <img className="flecha" src={flecha} alt="ver mas" /></Link>
+                <Link className="opciones-dos" to='/mapa'>MAPA</Link>
+                <Link className="opciones-uno" to='/'>ESTADISTICAS</Link>
             </div>
             <div className="parte-tres">
                 <input 
@@ -30,9 +31,9 @@ const Menu = () => {
                 <img className="filtrar" src={filtrar} alt="filtro"/>
                 <div className="line"></div>
                 <img className="idioma" src={idioma} alt="idioma"/>
-                <div className="fondo-perfil">
+                <Link className="fondo-perfil" to='/iniciarsesion'>
                     <img className="perfil" src={perfil} alt="perfil"/>
-                </div>
+                </Link>
             </div>
         </div>
     );

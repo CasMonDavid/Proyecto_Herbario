@@ -40,6 +40,8 @@
     color: white;
     font-weight: 100;
     margin-right: 2vh;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 .line {
@@ -55,10 +57,21 @@
     font-weight: 100;
 }
 
+.opciones {
+    font-size: 18px;
+    color: white;
+    font-weight: 400;
+    cursor: pointer;
+    text-decoration: none;
+}
+
 .opciones-uno {
     font-size: 18px;
     color: white;
     font-weight: 400;
+    cursor: pointer;
+    position: relative;
+    text-decoration: none;
 }
 
 .opciones-dos {
@@ -66,6 +79,39 @@
     color: white;
     font-weight: 400;
     margin-right: 6vh;
+    cursor: pointer;
+    position: relative;
+    text-decoration: none;
+}
+
+.opciones-uno::before {
+    content: '';
+    position: absolute;
+    width: 0%;
+    top: 100%;
+    left: 0;
+    height: 2px;
+    background: white;
+    transition: 0.3s;
+}
+
+.opciones-uno:hover::before {
+    width: 100%;
+}
+
+.opciones-dos::before {
+    content: '';
+    position: absolute;
+    width: 0%;
+    top: 100%;
+    left: 0;
+    height: 2px;
+    background: white;
+    transition: 0.3s;
+}
+
+.opciones-dos:hover::before {
+    width: 100%;
 }
 
 .flecha {
