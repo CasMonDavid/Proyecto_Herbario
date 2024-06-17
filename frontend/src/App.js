@@ -32,9 +32,9 @@ function App() {
             <Route path='/editar/:id' element={<Editar />} /> {/* INTERFAZ ACTUALIZADA: ES PARA MANDAR DATOS A TRAVEZ DEL URL */}
             <Route path='/informacion' element={<Informacion />} /> {/* NUEVA INTERFAZ */}
             <Route path='/usuario' element={<Usuario />} /> {/* NUEVA INTERFAZ */}
-            <Route path='/usuarioedit' element={<UsuarioEditar />} /> {/* NUEVA INTERFAZ */}
+            <Route path='/usuarioedit/:id' element={<UsuarioEditar />} /> {/* INTERFAZ ACTUALIZADA */}
             <Route path='/administrarusuarios' element={<AdministrarUsuarios />} /> {/* NUEVA INTERFAZ */}
-            <Route path='/registrarplanta' element={<RegistrarPlanta />} /> {/* NUEVA INTERFAZ */}
+            <Route path='/registrarplanta' element={<RegistrarPlanta />} /> {/* LISTO: CON DETALLES */}
           </Routes>
         </Router>
       </div>

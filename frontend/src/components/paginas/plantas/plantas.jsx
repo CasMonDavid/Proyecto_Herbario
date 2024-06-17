@@ -1,5 +1,4 @@
-import React from "react";
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import './plantas.css'
 import Card from "./card";
 import Axios from 'axios';
@@ -31,7 +30,6 @@ const Plantas = () => {
             ) : (
                 <div className="cartas">
                     {plantas.map((planta) => {
-                        console.log(planta.nombre_cientifico);
                         return (
                             <Card
                                 key={planta.id}

@@ -46,6 +46,20 @@ app.get("/editar/:id", async (req, res, next) => {
     }
 });
 
+app.get("/usuarioedit/:id", async (req, res, next) => {
+    try{
+        const id = req.params.id;
+        const [result] = await connection.execute("SELECT * FROM investigadores WHERE id_investigador = ?",[id]);
+        if (result.length === 0) {
+            return res.status(404).send("Usuario no encontrado");
+        }
+        res.json(result[0]);
+    }catch(err){
+        console.log(err);
+        res.status(500).send("Error al obtener al usuario");
+    }
+});
+
 app.get("/plantasadmin/getall", async (req, res, next) => {
     try {
         const [result] = await connection.query('SELECT * FROM plantas');
@@ -56,13 +70,24 @@ app.get("/plantasadmin/getall", async (req, res, next) => {
     }
 });
 
+app.get("/administrarusuarios/getall", async (req, res, next) => {
+    try {
+        const [result] = await connection.query('SELECT * FROM investigadores');
+        res.json(result);
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Error al obtener la lista de investigadores");
+    }
+});
+
+//NO ESTA EN USO
 app.get("/getfamilias", async (req, res, next) => {
     try {
         const [result] = await connection.query('SELECT * FROM familias');
         res.json(result);
     } catch (err) {
         console.log(err);
-        res.status(500).send("Error al obtener la lista de plantas");
+        res.status(500).send("Error al obtener la lista de familias");
     }
 });
 
@@ -91,6 +116,30 @@ app.put('/editar/:id', async (req, res) => {
             res.json({ message: 'Planta actualizada correctamente' });
         } else {
             res.status(404).json({ message: 'Planta no encontrada' });
+        }
+    }catch(err){
+        console.log(err);
+        res.status(500).send("Error al actualizar la planta");
+    }
+});
+
+app.put('/usuarioedit/:id', async (req, res) => {
+    const id = req.params.id;
+    const { nombre, correo_electronico, contrasena } = req.body;
+
+    if (nombre === undefined || correo_electronico === undefined || contrasena === undefined) {
+        return res.status(400).json({ message: 'Faltan campos requeridos en el cuerpo de la solicitud' });
+    }
+    
+    try{
+        const [result] = await connection.execute(
+            'UPDATE investigadores SET nombre = ?, correo_electronico = ?, contrasena = ?, codigo_acceso = ? WHERE id_investigador = ?',
+        [nombre, correo_electronico, contrasena, 123456789, id]);
+
+        if (result.affectedRows > 0) {
+            res.json({ message: 'Usuario actualizado correctamente' });
+        } else {
+            res.status(404).json({ message: 'Usuario no encontrado' });
         }
     }catch(err){
         console.log(err);
@@ -162,6 +211,7 @@ app.post("/registrar/user",async (req,res, next)=>{
 
 });
 
+//NO ESTA EN USO
 app.post("/createAdmin",async (req,res, next)=>{
     const name = req.body.name;
     const email = req.body.email;
