@@ -16,7 +16,7 @@ const Plantas = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        Axios.get('https://backherbario-production-7369.up.railway.app/plantas/getall')
+        Axios.get('http://localhost:4000/plantas/getall')
             .then(response => {
                 setPlantas(response.data);
                 setIsLoading(false);

@@ -5,6 +5,11 @@
     height: 92vh;
 }
 
+.plantas button{
+    background: none;
+    border: none;
+}
+
 .cartas {
     display: flex;
     flex-wrap: wrap;
