@@ -16,7 +16,7 @@ import AdministrarUsuarios from './components/paginas/administrarUsuarios/admini
 import RegistrarPlanta from './components/paginas/registrarPlanta/registrarPlanta';
 
 function App() {
-  
+
   return (
     <div className="App">
       <div className="datos">

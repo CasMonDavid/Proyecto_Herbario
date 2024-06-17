@@ -7,6 +7,9 @@ import Axios from 'axios';
 //railway: https://backherbario-production-7369.up.railway.app
 
 const PlantasAdmin = () => {
+    const userStr = localStorage.getItem('user');
+    const user = userStr ? JSON.parse(userStr) : null;
+    
     const [plantas, setPlantas] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
