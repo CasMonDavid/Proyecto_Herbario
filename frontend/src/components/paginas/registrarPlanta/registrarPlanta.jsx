@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from 'react-router-dom';
+import React, { useState } from "react";
 import './registrarPlanta.css';
 import Axios from "axios";
 
@@ -7,7 +6,6 @@ import Axios from "axios";
 //railway: https://backherbario-production-7369.up.railway.app
 
 const RegistrarPlanta = () => {
-    const [familias, setFamilias] = useState([]);
 
     const [numeroCatalogo, setNumeroCatalogo] = useState(0);
     const [idOcurrencia, setIdOcurrencia] = useState("");
