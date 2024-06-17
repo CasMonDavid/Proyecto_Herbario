@@ -1,18 +1,16 @@
-import React from "react";
-import { useState, useEffect } from 'react';
-import './plantas.css'
-import Card from "./card";
+import React, { useState, useEffect } from "react";
+import './plantasAdmin.css'
+import Card from "./cardAdmin";
 import Axios from 'axios';
 
-//local: http://localhost:4000
-//railway: https://backherbario-production-7369.up.railway.app
+// SE ACCEDE EDIANTE: *link*/plantasadmin 
 
-const Plantas = () => {
+const PlantasAdmin = () => {
     const [plantas, setPlantas] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        Axios.get('http://localhost:4000/plantas/getall')
+        Axios.get('http://localhost:4000/plantasadmin/getall')
             .then(response => {
                 setPlantas(response.data);
                 setIsLoading(false);
@@ -21,11 +19,11 @@ const Plantas = () => {
                 console.error("Hubo un error al obtener los datos:", error);
                 setIsLoading(false);
             });
-    }, []); 
+    }, []);
 
     return (
-        <div className="plantas">
-            <h1>Plantas</h1>
+        <div className="plantasA">
+            <h1>Administrar plantas</h1>
             {isLoading ? (
                 <p>Cargando...</p>
             ) : (
@@ -34,7 +32,8 @@ const Plantas = () => {
                         console.log(planta.nombre_cientifico);
                         return (
                             <Card
-                                key={planta.id}
+                                key={planta.id_planta}
+                                id={planta.id_planta}
                                 title={planta.nombre_cientifico}
                                 imageUrl={planta.fotografia}
                             />
@@ -46,4 +45,4 @@ const Plantas = () => {
     );
 }
 
-export default Plantas;
+export default PlantasAdmin;

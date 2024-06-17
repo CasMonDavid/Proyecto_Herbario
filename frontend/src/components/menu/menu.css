@@ -147,13 +147,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
     background: rgb(30, 30, 30);
     border-radius: 50%;
 }
 
 .perfil {
-    max-width: 24px;
+    max-width: 20px;
     height: auto;
 }

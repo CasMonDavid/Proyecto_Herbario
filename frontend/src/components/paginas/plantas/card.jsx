@@ -1,7 +1,7 @@
 import React from "react";
 import './card.css'
 
-const Card = ({ title, description, imageUrl}) => {
+const Card = ({ title, key, imageUrl}) => {
     return (
         <div className="card" style={{ width: "18rem", marginTop: "10px" }}>
             <div className="card-body">

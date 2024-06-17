@@ -41,8 +41,8 @@
 }
 
 .subIS {
-    margin-top: 6vh;
-    margin-bottom: 6vh;
+    margin-top: 2vh;
+    margin-bottom: 4vh;
     font-size: 36px;
     font-weight: 600;
 }
@@ -50,7 +50,7 @@
 .inIS {
     width: 60% !important;
     padding: 12px 20px!important;
-    margin: 10px 0!important;
+    margin: 5px 0!important;
     border: 1px solid #989898!important;
     border-radius: 10px!important;
     font-size: 16px!important;

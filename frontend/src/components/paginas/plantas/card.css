@@ -1,7 +1,9 @@
 .card {
+  
   display: flex;
   flex-direction: column;
   height: auto;
+  cursor: pointer;
 }
 
 .card-img-top {

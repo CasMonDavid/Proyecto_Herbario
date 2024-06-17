@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useState } from 'react';
 import { Link } from 'react-router-dom'
@@ -6,8 +7,8 @@ import fondoo from './caclog.jpg'
 import logoo from './logo_uabcs.png'
 import Axios from 'axios';
 
-//local: http://localhost:4000/registrar/user
-//railway: https://backherbario-production-7369.up.railway.app/registrar/user
+//local: http://localhost:4000
+//railway: https://backherbario-production-7369.up.railway.app
 
 const RegistrarSesion = () => {
 
@@ -19,7 +20,7 @@ const RegistrarSesion = () => {
     const addAdmin = () => {
 
         if ((name!=null && email!=null) && password===confirmPassword){
-            Axios.post("https://backherbario-production-7369.up.railway.app/registrar/user", {
+            Axios.post("http://localhost:4000/registrar/user", {
             name: name,
             email: email,
             password: password

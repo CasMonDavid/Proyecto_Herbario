@@ -1,11 +1,11 @@
-.plantas {
+.plantasA {
     display: flex;
     flex-direction: column;
     width: 90%;
     height: 92vh;
 }
 
-.cartas {
+.cartasA {
     display: flex;
     flex-wrap: wrap;
     gap: 68px;

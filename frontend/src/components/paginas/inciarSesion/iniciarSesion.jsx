@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Link } from 'react-router-dom'
 import './iniciarSesion.css'
@@ -5,13 +6,16 @@ import fondo from './caclog.jpg'
 import logo from './logo_uabcs.png'
 import Axios from 'axios';
 
+//local: http://localhost:4000
+//railway: https://backherbario-production-7369.up.railway.app
+
 const IniciarSesion = () => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     const loginTeacher = () => {
-        Axios.post("https://backherbario-production-7369.up.railway.app/iniciarsesion/investigador", { email, password })
+        Axios.post("http://localhost:4000/iniciarsesion/investigador", { email, password })
         .then(response => {
           if (response.data.success) {
             const userData = response.data.data;

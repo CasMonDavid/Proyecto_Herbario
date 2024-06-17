@@ -4,11 +4,11 @@ const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 3001;
 
-//local: http://http://localhost:3000
+//local: http://localhost:3000
 //railway: https://proyectoherbario-production.up.railway.app
 
 const corsOption = {
-    origin: 'https://proyectoherbario-production.up.railway.app',
+    origin: 'http://localhost:3000',
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"]
@@ -21,6 +21,30 @@ app.get("/", (req, res) => {
 });
 
 app.get("/plantas/getall", async (req, res, next) => {
+    try {
+        const [result] = await connection.query('SELECT * FROM plantas');
+        res.json(result);
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Error al obtener la lista de plantas");
+    }
+});
+
+app.get("/editar/:id", async (req, res, next) => {
+    try{
+        const id = req.params.id;
+        const [result] = await connection.execute(`SELECT * FROM plantas WHERE id_planta = ?`,[id]);
+        if (result.length === 0) {
+            return res.status(404).send("Planta no encontrada");
+        }
+        res.json(result);
+    }catch(err){
+        console.log(err);
+        res.status(500).send("Error al obtener la planta");
+    }
+});
+
+app.get("/plantasadmin/getall", async (req, res, next) => {
     try {
         const [result] = await connection.query('SELECT * FROM plantas');
         res.json(result);
