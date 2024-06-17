@@ -34,8 +34,7 @@ const Informacion = () => {
                 const respuesta5 = await Axios.get(`https://backherbario-production-7369.up.railway.app/habitat/${respuesta1.data.id_habitat}`);
                 setHabitat(respuesta5.data);
             }catch(err) {
-                setError(err);
-                setLoading(false);
+                console.error("Hubo un error al obtener los datos:", error);
             }
         }
         fetchData();
