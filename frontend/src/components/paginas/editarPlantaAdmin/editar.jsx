@@ -28,7 +28,6 @@ const Editar = () => {
     useEffect(() => {
         Axios.get(`https://backherbario-production-7369.up.railway.app/editar/${id}`)
             .then(response => {
-                setPlanta(response.data);
                 setFotografia(response.data.fotografia);
                 setFecha(response.data.fecha_recoleccion);
                 setNombreCientifico(response.data.nombre_cientifico);
