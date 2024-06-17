@@ -17,7 +17,7 @@ const UsuarioEditar = () => {
     const [passwordConfirm, setPasswordConfirm] = useState("");
 
     useEffect(() => {
-        Axios.get(`http://localhost:4000/usuarioedit/${id}`)
+        Axios.get(`https://backherbario-production-7369.up.railway.app/usuarioedit/${id}`)
             .then(response => {
                 setUsuario(response.data);
                 setNombre(response.data.nombre);
@@ -33,7 +33,7 @@ const UsuarioEditar = () => {
         event.preventDefault();
 
         if (password!==undefined && passwordConfirm!==undefined && password===passwordConfirm){
-            Axios.put(`http://localhost:4000/usuarioedit/${id}`, {
+            Axios.put(`https://backherbario-production-7369.up.railway.app/usuarioedit/${id}`, {
                 nombre: nombre,
                 correo_electronico: correoElectronico,
                 contrasena: password

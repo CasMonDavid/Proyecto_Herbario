@@ -8,7 +8,7 @@ const port = process.env.PORT || 3001;
 //railway: https://proyectoherbario-production.up.railway.app
 
 const corsOption = {
-    origin: 'http://localhost:3000',
+    origin: 'https://proyectoherbario-production.up.railway.app',
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"]
@@ -40,6 +40,78 @@ app.get("/editar/:id", async (req, res, next) => {
         const planta = result[0];
         planta.fecha_recoleccion = new Date(planta.fecha_recoleccion).toISOString().split('T')[0];
         res.json(planta);
+    }catch(err){
+        console.log(err);
+        res.status(500).send("Error al obtener la planta");
+    }
+});
+
+app.get("/informacion/:id", async (req, res, next) => {
+    try{
+        const id = req.params.id;
+        const [result] = await connection.execute("SELECT * FROM plantas WHERE id_planta = ?",[id]);
+        if (result.length === 0) {
+            return res.status(404).send("Planta no encontrada");
+        }
+        const planta = result[0];
+        planta.fecha_recoleccion = new Date(planta.fecha_recoleccion).toISOString().split('T')[0];
+        res.json(planta);
+    }catch(err){
+        console.log(err);
+        res.status(500).send("Error al obtener la planta");
+    }
+});
+
+app.get("/familia/:id", async (req, res, next) => {
+    try{
+        const id = req.params.id;
+        const [result] = await connection.execute("SELECT * FROM familias WHERE id_familia = ?",[id]);
+        if (result.length === 0) {
+            return res.status(404).send("Planta no encontrada");
+        }
+        res.json(result[0]);
+    }catch(err){
+        console.log(err);
+        res.status(500).send("Error al obtener la planta");
+    }
+});
+
+app.get("/colector/:id", async (req, res, next) => {
+    try{
+        const id = req.params.id;
+        const [result] = await connection.execute("SELECT * FROM colector WHERE id_colector = ?",[id]);
+        if (result.length === 0) {
+            return res.status(404).send("Planta no encontrada");
+        }
+        res.json(result[0]);
+    }catch(err){
+        console.log(err);
+        res.status(500).send("Error al obtener la planta");
+    }
+});
+
+app.get("/localidad/:id", async (req, res, next) => {
+    try{
+        const id = req.params.id;
+        const [result] = await connection.execute("SELECT * FROM localidad WHERE id_localidad = ?",[id]);
+        if (result.length === 0) {
+            return res.status(404).send("Planta no encontrada");
+        }
+        res.json(result[0]);
+    }catch(err){
+        console.log(err);
+        res.status(500).send("Error al obtener la planta");
+    }
+});
+
+app.get("/habitat/:id", async (req, res, next) => {
+    try{
+        const id = req.params.id;
+        const [result] = await connection.execute("SELECT * FROM habitat WHERE id_habitat = ?",[id]);
+        if (result.length === 0) {
+            return res.status(404).send("Planta no encontrada");
+        }
+        res.json(result[0]);
     }catch(err){
         console.log(err);
         res.status(500).send("Error al obtener la planta");

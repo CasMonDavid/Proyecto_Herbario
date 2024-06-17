@@ -12,7 +12,7 @@ const AdministrarUsuarios = () => { {/* SE TIENE QUE AUTOMATIZAR */}
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        Axios.get('http://localhost:4000/administrarusuarios/getall')
+        Axios.get('https://backherbario-production-7369.up.railway.app/administrarusuarios/getall')
             .then(response => {
                 setUsuarios(response.data);
                 setIsLoading(false);

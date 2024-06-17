@@ -30,7 +30,7 @@ function App() {
             <Route path='/registrar' element={<RegistrarSesion />} />
             <Route path='/plantasadmin' element={<PlantasAdmin />} />
             <Route path='/editar/:id' element={<Editar />} /> {/* INTERFAZ ACTUALIZADA: ES PARA MANDAR DATOS A TRAVEZ DEL URL */}
-            <Route path='/informacion' element={<Informacion />} /> {/* NUEVA INTERFAZ */}
+            <Route path='/informacion/:id' element={<Informacion />} /> {/* INTERFAZ ACTUALIZADA */}
             <Route path='/usuario' element={<Usuario />} /> {/* NUEVA INTERFAZ */}
             <Route path='/usuarioedit/:id' element={<UsuarioEditar />} /> {/* INTERFAZ ACTUALIZADA */}
             <Route path='/administrarusuarios' element={<AdministrarUsuarios />} /> {/* NUEVA INTERFAZ */}

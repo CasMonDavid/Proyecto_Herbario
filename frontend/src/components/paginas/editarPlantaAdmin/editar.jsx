@@ -9,9 +9,9 @@ import Axios from "axios";
 const Editar = () => {
     //OBTIENE LOS DATOS DEL URL
     const { id } = useParams();
-    console.log("Id: "+id);
+    //console.log("Id: "+id);
 
-    const [planta, setPlanta] = useState([]);
+    //const [planta, setPlanta] = useState([]);
     const [numeroCatalogo, setNumeroCatalogo] = useState(0);
     const [idOcurrencia, setIdOcurrencia] = useState("");
     const [nombreCientifico, setNombreCientifico] = useState("");
@@ -26,7 +26,7 @@ const Editar = () => {
     const [idInvestigador, setIdInvestigador] = useState(0);
     
     useEffect(() => {
-        Axios.get(`http://localhost:4000/editar/${id}`)
+        Axios.get(`https://backherbario-production-7369.up.railway.app/editar/${id}`)
             .then(response => {
                 setPlanta(response.data);
                 setFotografia(response.data.fotografia);
@@ -53,7 +53,7 @@ const Editar = () => {
 
         const formattedDate = new Date(fecha).toISOString().split('T')[0];
 
-        Axios.put(`http://localhost:4000/editar/${id}`, {
+        Axios.put(`https://backherbario-production-7369.up.railway.app/editar/${id}`, {
             numero_catalogo: numeroCatalogo,
             id_ocurrencia: idOcurrencia,
             nombre_cientifico: nombreCientifico,

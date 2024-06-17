@@ -20,7 +20,7 @@ const RegistrarSesion = () => {
     const addAdmin = () => {
 
         if ((name!=null && email!=null) && password===confirmPassword){
-            Axios.post("http://localhost:4000/registrar/user", {
+            Axios.post("https://backherbario-production-7369.up.railway.app/registrar/user", {
             name: name,
             email: email,
             password: password

@@ -38,7 +38,7 @@ const RegistrarPlanta = () => {
 
         const formattedDate = new Date(fecha).toISOString().split('T')[0];
 
-        Axios.post(`http://localhost:4000/registrarplanta`, {
+        Axios.post(`https://backherbario-production-7369.up.railway.app/registrarplanta`, {
             numero_catalogo: numeroCatalogo,
             id_ocurrencia: idOcurrencia,
             nombre_cientifico: nombreCientifico,

@@ -11,7 +11,7 @@ const Plantas = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        Axios.get('http://localhost:4000/plantas/getall')
+        Axios.get('https://backherbario-production-7369.up.railway.app/plantas/getall')
             .then(response => {
                 setPlantas(response.data);
                 setIsLoading(false);
@@ -32,7 +32,8 @@ const Plantas = () => {
                     {plantas.map((planta) => {
                         return (
                             <Card
-                                key={planta.id}
+                                key={planta.id_planta}
+                                id={planta.id_planta}
                                 title={planta.nombre_cientifico}
                                 imageUrl={planta.fotografia}
                             />

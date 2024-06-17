@@ -3,14 +3,15 @@ import './plantasAdmin.css'
 import Card from "./cardAdmin";
 import Axios from 'axios';
 
-// SE ACCEDE EDIANTE: *link*/plantasadmin 
+//local: http://localhost:4000
+//railway: https://backherbario-production-7369.up.railway.app
 
 const PlantasAdmin = () => {
     const [plantas, setPlantas] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        Axios.get('http://localhost:4000/plantasadmin/getall')
+        Axios.get('https://backherbario-production-7369.up.railway.app/plantasadmin/getall')
             .then(response => {
                 setPlantas(response.data);
                 setIsLoading(false);

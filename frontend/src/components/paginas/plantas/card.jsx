@@ -1,12 +1,19 @@
 import React from "react";
-import './card.css'
+import './card.css';
+import { Link } from "react-router-dom";
+import ver from "./ojo.png";
 
-const Card = ({ title, key, imageUrl}) => {
+const Card = ({ title, id, imageUrl}) => {
     return (
         <div className="card" style={{ width: "18rem", marginTop: "10px" }}>
             <div className="card-body">
             <img src={imageUrl} className="card-img-top" alt={title} />
-                <h5 className="card-title">{title}</h5>
+            <div className="atriA">
+                <Link to={`/informacion/${id}`} className="card-img-butt-2">
+                    <img src={ver} className="card-img-denA" alt="ver" />
+                </Link>
+            </div>
+            <h5 className="card-title">{title}</h5>
             </div>
         </div>
     );
