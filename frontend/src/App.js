@@ -9,6 +9,11 @@ import RegistrarSesion from "./components/paginas/registrarSesion/registrarSesio
 import Plantas from "./components/paginas/plantas/plantas";
 import Editar from "./components/paginas/editarPlantaAdmin/editar";
 import PlantasAdmin from "./components/paginas/plantasAdmin/plantasAdmin";
+import Informacion from "./components/paginas/informacion/informacion";
+import Usuario from "./components/paginas/usuario/usuario";
+import UsuarioEditar from './components/paginas/usuarioEditar/usuarioEditar';
+import AdministrarUsuarios from './components/paginas/administrarUsuarios/administrarUsuarios';
+import RegistrarPlanta from './components/paginas/registrarPlanta/registrarPlanta';
 
 function App() {
   
@@ -25,6 +30,11 @@ function App() {
             <Route path='/registrar' element={<RegistrarSesion />} />
             <Route path='/plantasadmin' element={<PlantasAdmin />} />
             <Route path='/editar/:id' element={<Editar />} /> {/* INTERFAZ ACTUALIZADA: ES PARA MANDAR DATOS A TRAVEZ DEL URL */}
+            <Route path='/informacion' element={<Informacion />} /> {/* NUEVA INTERFAZ */}
+            <Route path='/usuario' element={<Usuario />} /> {/* NUEVA INTERFAZ */}
+            <Route path='/usuarioedit' element={<UsuarioEditar />} /> {/* NUEVA INTERFAZ */}
+            <Route path='/administrarusuarios' element={<AdministrarUsuarios />} /> {/* NUEVA INTERFAZ */}
+            <Route path='/registrarplanta' element={<RegistrarPlanta />} /> {/* NUEVA INTERFAZ */}
           </Routes>
         </Router>
       </div>

@@ -3,6 +3,7 @@ import './cardAdmin.css'
 import { Link } from "react-router-dom";
 import ver from "./ojo.png"
 import editar from "./lapiz.png"
+import borrar from "./borrar.png"
 
 const CardAdmin = ({ title, id, imageUrl}) => {
     return (
@@ -16,6 +17,9 @@ const CardAdmin = ({ title, id, imageUrl}) => {
                     <Link to={`/editar/${id}`} className="card-img-butt-1">
                         <img src={editar} className="card-img-denA" alt="editar" />
                     </Link>
+                    <div className="card-img-butt-3">
+                        <img src={borrar} alt="borrar"  className="card-img-denA"/>
+                    </div>
                 </div>
                 <h5 className="card-titleA">{title}</h5>
             </div>
