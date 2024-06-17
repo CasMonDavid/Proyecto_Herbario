@@ -10,7 +10,6 @@ const UsuarioEditar = () => {
     const { id } = useParams();
     //console.log("Id: "+id);
 
-    const [usuario, setUsuario] = useState([]);
     const [nombre, setNombre] = useState("");
     const [correoElectronico, setCorreoElectronico] = useState("");
     const [password, setPassword] = useState("");
@@ -19,7 +18,6 @@ const UsuarioEditar = () => {
     useEffect(() => {
         Axios.get(`https://backherbario-production-7369.up.railway.app/usuarioedit/${id}`)
             .then(response => {
-                setUsuario(response.data);
                 setNombre(response.data.nombre);
                 setCorreoElectronico(response.data.correo_electronico);
                 setPassword(response.data.contrasena);
