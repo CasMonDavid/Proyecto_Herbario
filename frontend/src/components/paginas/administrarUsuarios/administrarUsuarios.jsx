@@ -6,7 +6,7 @@ import Axios from "axios";
 //local: http://localhost:4000
 //railway: https://backherbario-production-7369.up.railway.app
 
-const AdministrarUsuarios = () => { {/* SE TIENE QUE AUTOMATIZAR */}
+const AdministrarUsuarios = () => {
 
     const [usuarios, setUsuarios] = useState([]);
     const [isLoading, setIsLoading] = useState(true);

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import './cardAdmin.css'
 import { Link } from "react-router-dom";
 import ver from "./ojo.png"
