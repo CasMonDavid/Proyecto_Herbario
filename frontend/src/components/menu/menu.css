@@ -1,0 +1,159 @@
+.background-menu {
+    display: flex;
+    align-items: center;
+    height: 8vh;
+    width: 100%;
+    background: #78B578;
+}
+
+.parte-uno {
+    display: flex;
+    align-items: center;
+    width: 30%;
+    height: 100%;
+}
+
+.parte-dos {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40%;
+    height: 100%;
+}
+
+.parte-tres {
+    display: flex;
+    align-items: center;
+    width: 30%;
+    height: 100%;
+}
+
+.logo {
+    margin-left: 4vh;
+    margin-right: 2vh;
+    max-width: 9%;
+    height: auto;
+}
+
+.uabcs-title {
+    font-size: 24px;
+    color: white;
+    font-weight: 100;
+    margin-right: 2vh;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.line {
+    height: 50%;
+    width: 1px;
+    margin-right: 2vh;
+    background: white;
+}
+
+.herbario-title {
+    font-size: 24px;
+    color: white;
+    font-weight: 100;
+}
+
+.opciones {
+    font-size: 18px;
+    color: white;
+    font-weight: 400;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.opciones-uno {
+    font-size: 18px;
+    color: white;
+    font-weight: 400;
+    cursor: pointer;
+    position: relative;
+    text-decoration: none;
+}
+
+.opciones-dos {
+    font-size: 18px;
+    color: white;
+    font-weight: 400;
+    margin-right: 6vh;
+    cursor: pointer;
+    position: relative;
+    text-decoration: none;
+}
+
+.opciones-uno::before {
+    content: '';
+    position: absolute;
+    width: 0%;
+    top: 100%;
+    left: 0;
+    height: 2px;
+    background: white;
+    transition: 0.3s;
+}
+
+.opciones-uno:hover::before {
+    width: 100%;
+}
+
+.opciones-dos::before {
+    content: '';
+    position: absolute;
+    width: 0%;
+    top: 100%;
+    left: 0;
+    height: 2px;
+    background: white;
+    transition: 0.3s;
+}
+
+.opciones-dos:hover::before {
+    width: 100%;
+}
+
+.flecha {
+    max-width: 7%;
+    margin-left: 1vh;
+}
+
+.search-input {
+    padding: 5px !important;
+    padding-left: 8px !important;;
+    font-size: 14px !important;;
+    border: none !important;;
+    border-radius: 50px !important;;
+    margin-right: 1vh !important;;
+    width: 60% !important;;
+    height: 2.7vh !important;;
+    outline: none !important;;
+}
+
+.filtrar {
+    max-width: 4%;
+    height: auto;
+    margin-right: 2vh;
+}
+
+.idioma {
+    max-width: 7%;
+    height: auto;
+    margin-right: 2vh;
+}
+
+.fondo-perfil {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    background: rgb(30, 30, 30);
+    border-radius: 50%;
+}
+
+.perfil {
+    max-width: 20px;
+    height: auto;
+}

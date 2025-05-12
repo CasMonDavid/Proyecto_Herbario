@@ -1,0 +1,16 @@
+[phases.setup]
+commands = [
+  "cd backend && yarn install",
+  "cd frontend && yarn install"
+]
+
+[phases.build]
+commands = [
+  "cd frontend && yarn build"
+]
+
+[phases.start]
+commands = [
+  "cd backend && npm run start &",
+  "cd frontend && npm run start"
+]

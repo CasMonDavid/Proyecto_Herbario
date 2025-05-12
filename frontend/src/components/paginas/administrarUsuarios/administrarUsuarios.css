@@ -1,0 +1,20 @@
+.nombresUAU {
+    display: flex;
+    flex-direction: column;
+}
+
+.nombresOuAU {
+    font-size: 25px;
+    margin-right: 10px;
+}
+
+.opcionesOuAU {
+    font-size: 15px;
+    margin-top: 26px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.cont-nom {
+    display: flex;
+}
