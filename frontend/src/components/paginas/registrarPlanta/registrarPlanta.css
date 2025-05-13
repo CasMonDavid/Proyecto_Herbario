@@ -37,16 +37,17 @@
 }
 
 .boton-epRP {
-    width: 100%!important;
+    width: auto!important; 
     padding: 12px 20px!important;
     margin-top: 20px!important;
     border: none!important;
     border-radius: 10px!important;
-    background-color: #1877f2!important;
+    background-color: #35bc47; /* verde pastel */
     color: white!important;
     font-size: 20px!important;
     cursor: pointer!important;
     transition: background-color 0.3s!important;
+
 }
 
 .boton.epRP:hover {
@@ -64,4 +65,10 @@
     width: 65%;
     align-items: start;
     justify-content: start;
+}
+.contenedor-botones {
+  display: flex;
+  gap: 20px; /* espacio entre los botones */
+  justify-content: center; /* opcional, para centrar los botones */
+  width: 100%;
 }

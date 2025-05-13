@@ -213,8 +213,11 @@ const Editar = () => {
                     onChange={idInvestigadorChange}
                 />
                 <div>
-                    <button onClick={handleSubmit} className="boton-ep ">Guardar</button>
+                    <button className="boton-volver" onClick={() => window.history.back()}>Cancelar</button>
+               
+                    <button onClick={handleSubmit} className="boton-ep">Guardar</button>
                 </div>
+                
 
             </div>
         </div>

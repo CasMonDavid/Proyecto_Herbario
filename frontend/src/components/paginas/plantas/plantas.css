@@ -17,3 +17,11 @@
     width: 100%;
     height: 100%;
 }
+
+.botones-verticales {
+    display: flex;
+    gap: 20px; /* Espacio entre botones */
+    margin: 20px 0; /* Margen vertical si lo necesitas */
+}
+
+

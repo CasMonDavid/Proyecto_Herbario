@@ -184,9 +184,12 @@ const RegistrarPlanta = () => {
                 onChange={idInvestigadorChange}
                 />
 
-                <div>
-                    <button onClick={registrarPlanta} className="boton-epRP">Registrar planta</button>
-                </div>
+                <div className="contenedor-botones">
+  <button className="boton-epRP" onClick={() => window.history.back()}>Cancelar</button>
+  <button className="boton-epRP" onClick={registrarPlanta}>Registrar planta</button>
+</div>
+
+
             </div>
         </div>
     );

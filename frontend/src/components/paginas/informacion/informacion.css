@@ -83,8 +83,9 @@
 .cont-ed {
     font-size: 16px;
     font-weight: 0;
-    color: rgb(35, 35, 35);
     margin: 0;
+    color: #7a7a7a !important;
+    
 }
 
 .nam-tit-ed {
@@ -99,4 +100,18 @@
     width: 65%;
     align-items: start;
     justify-content: start;
+}
+.boton-volver {
+    background-color: #35bc47; /* verde pastel */
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.boton-volver:hover {
+    background-color: #8ce99a; /* un poco más oscuro al pasar el mouse */
 }

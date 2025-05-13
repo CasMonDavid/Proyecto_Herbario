@@ -52,6 +52,9 @@ const Informacion = () => {
 
     return (
         <div className="editar-bg">
+              <button className="boton-volver" onClick={() => window.history.back()}>
+            ⬅ Volver
+        </button>
             <div className="editar-uno">
                 <img src={planta.fotografia} alt="img"  className="imgn-edr"/> {/* AQUI VA LA IMAGEN COLOCADA EN LA BASE DE DATOS */}
                 <div className="nam-tit-ed"><h1 className="tit-ed">{planta.nombre_cientifico}</h1></div>
@@ -60,18 +63,25 @@ const Informacion = () => {
             <div className="editar-dos">
                 <div className="nam-sub-ed"><h1 className="sub-ed">Numero de catalogo</h1></div>
                 <div className="nam-sub-ed"><h1 className="cont-ed">{planta.numero_catalago}</h1></div>
+
                 <div className="nam-sub-ed"><h1 className="sub-ed">Taxon</h1></div>
                 <div className="nam-sub-ed"><h1 className="cont-ed">{planta.taxon}</h1></div>
+
                 <div className="nam-sub-ed"><h1 className="sub-ed">Familia</h1></div>
                 <div className="nam-sub-ed"><h1 className="cont-ed">{familia.nombre}</h1></div>
+
                 <div className="nam-sub-ed"><h1 className="sub-ed">Colector</h1></div>
                 <div className="nam-sub-ed"><h1 className="cont-ed">{colector.nombre}</h1></div>
+
                 <div className="nam-sub-ed"><h1 className="sub-ed">Fecha de recolección</h1></div>
                 <div className="nam-sub-ed"><h1 className="cont-ed">{planta.fecha_recoleccion}</h1></div>
+
                 <div className="nam-sub-ed"><h1 className="sub-ed">Localidad</h1></div>
                 <div className="nam-sub-ed"><h1 className="cont-ed">{localidad.nombre}</h1></div>
+
                 <div className="nam-sub-ed"><h1 className="sub-ed">Hábitat</h1></div>
                 <div className="nam-sub-ed"><h1 className="cont-ed">{habitat.nombre}</h1></div>
+                
                 <div className="nam-sub-ed"><h1 className="sub-ed">Investigador</h1></div>
                 <div className="nam-sub-ed"><h1 className="cont-ed">{planta.id_investigador}</h1></div>
             </div>
