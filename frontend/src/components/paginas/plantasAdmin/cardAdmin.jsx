@@ -11,7 +11,7 @@ const CardAdmin = ({ title, id, imageUrl}) => {
             <div className="card-bodyA">
                 <img src={imageUrl} className="card-img-topA" alt={title} />
                 <div className="atriA"> {/* SE OCUPA COLOCAR LA LLAVE PRIMARIA PARA HACER EL VINCULO A LA FOTO SELECCIONADA */}
-                    <Link to="/informacion" className="card-img-butt-2">
+                    <Link to={`/informacion/${id}`} className="card-img-butt-2">
                         <img src={ver} className="card-img-denA" alt="ver" />
                     </Link>
                     <Link to={`/editar/${id}`} className="card-img-butt-1">
