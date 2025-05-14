@@ -52,3 +52,27 @@ exports.editUserById = async (req, res) => {
         res.status(500).send("Error al actualizar la planta");
     }
 }
+
+exports.getUserById = async (req, res, next) => {
+    try{
+        const id = req.params.id;
+        const [result] = await connection.execute("SELECT * FROM investigadores WHERE id_investigador = ?",[id]);
+        if (result.length === 0) {
+            return res.status(404).send("Usuario no encontrado");
+        }
+        res.json(result[0]);
+    }catch(err){
+        console.log(err);
+        res.status(500).send("Error al obtener al usuario");
+    }
+};
+
+exports.getAllUsers = async (req, res, next) => {
+    try {
+        const [result] = await connection.query('SELECT * FROM investigadores');
+        res.json(result);
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Error al obtener la lista de investigadores");
+    }
+};
