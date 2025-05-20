@@ -5,6 +5,8 @@ import './iniciarSesion.css'
 import fondo from './caclog.jpg'
 import logo from './logo_uabcs.png'
 import Axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
 
 //local: http://localhost:4000
 //railway: https://backherbario--production-7369.up.railway.app
@@ -12,23 +14,46 @@ import Axios from 'axios';
 const IniciarSesion = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
-    const loginTeacher = () => {
-        Axios.post("http://localhost:4000/iniciarsesion/investigador", { email, password })
+
+const loginTeacher = () => {
+    // Validación de campos vacíos
+    if (email.trim() === "" && password === "") {
+        alert("Por favor, ingrese su correo y contraseña.");
+        return;
+    }
+
+    if (email.trim() === "") {
+        alert("Por favor, ingrese su correo.");
+        return;
+    }
+
+    if (password === "") {
+        alert("Por favor, ingrese su contraseña.");
+        return;
+    }
+
+    // Si pasa validación, se envía la solicitud
+    Axios.post("http://localhost:4000/iniciarsesion/investigador", { email, password })
         .then(response => {
-          if (response.data.success) {
-            const userData = response.data.data;
-            localStorage.setItem('user', JSON.stringify(userData));
-            localStorage.setItem('isLoggedIn', true);
-            alert('Sesión iniciada con éxito');
-          } else {
-            alert('Correo o contraseña incorrectos');
-          }
+            if (response.data.success) {
+                const userData = response.data.data;
+                localStorage.setItem('user', JSON.stringify(userData));
+                localStorage.setItem('isLoggedIn', true);
+                alert('Sesión iniciada con éxito');
+
+                navigate("/"); 
+            } else {
+                alert('Correo o contraseña incorrectos. Por favor, inténtelo nuevamente.');
+            }
         })
         .catch(error => {
-          console.error('Error al iniciar sesión:', error);
+            console.error('Error al iniciar sesión:', error);
+            alert('Error al conectar con el servidor. Intente más tarde.');
         });
-    };
+};
+
 
     return (
         <div className="iniciar-sesion">
@@ -56,7 +81,6 @@ const IniciarSesion = () => {
                         setPassword(event.target.value);
                     }}/>
                 <button className="botonIS" onClick={loginTeacher}>Iniciar sesión</button>
-                <p className="linkIS">He olvidado mi contraseña</p>
                 <h1 className="textIS">¿Todavia no tienes cuenta? <span><Link to='/registrar' className="linkISD"> Registrate</Link></span></h1>
             </div>
         </div>
