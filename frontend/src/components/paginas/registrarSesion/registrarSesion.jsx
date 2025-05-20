@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useState } from 'react';
 import { Link } from 'react-router-dom'
@@ -17,20 +16,36 @@ const RegistrarSesion = () => {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
-    const addAdmin = () => {
+  const addAdmin = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-        if ((name!=null && email!=null) && password===confirmPassword){
-            Axios.post("http://localhost:4000/registrar/user", {
+    if (
+        name.trim().length >= 8 &&
+        email.trim() !== "" &&
+        emailRegex.test(email) &&
+        password.length >= 8 &&
+        confirmPassword !== "" &&
+        password === confirmPassword
+    ) {
+        Axios.post("http://localhost:4000/registrar/user", {
             name: name,
             email: email,
             password: password
-            }).then(() => {
+        }).then(() => {
             alert("Registro exitoso");
-            });
-        }else{
-            alert("Ocurrio un error, verifique que todos los campos sean ingresados y correctos");
-        }
+        });
+    } else {
+        let errorMsg = "Ocurrió un error:\n";
+
+        if (name.trim().length < 8) errorMsg += "- El nombre debe tener al menos 8 caracteres.\n";
+        if (!emailRegex.test(email)) errorMsg += "- El correo no tiene un formato válido.\n";
+        if (password.length < 8) errorMsg += "- La contraseña debe tener al menos 8 caracteres.\n";
+        if (password !== confirmPassword) errorMsg += "- Las contraseñas no coinciden.\n";
+
+        alert(errorMsg);
     }
+}
+
 
     return (
         <div className="registrar-sesion">
