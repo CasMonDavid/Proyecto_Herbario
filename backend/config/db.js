@@ -1,12 +1,4 @@
 const mysql = require("mysql2/promise");
-
-//const app = express();
-//const mysql = require("mysql2");
-//const cors = require("cors");
-
-//app.use(cors());
-//app.use(express.json());
-
 require('dotenv').config();
 
 const connection = mysql.createPool({

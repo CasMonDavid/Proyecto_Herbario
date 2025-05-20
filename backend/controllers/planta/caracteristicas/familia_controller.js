@@ -1,4 +1,4 @@
-const connection = require('../../config/db');
+const connection = require('../../../config/db');
 
 exports.getAllFamilias = async (req, res, next) => {
     try {
