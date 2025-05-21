@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require('path');
 const cors = require('cors');
 require('dotenv').config();
 
@@ -16,6 +17,8 @@ const corsOption = {
 }
 app.use(cors(corsOption));
 app.use(express.json());
+
+app.use('/fotos', express.static(path.join(__dirname, 'fotos')));
 
 const routes = require("./routes");
 app.use(routes);

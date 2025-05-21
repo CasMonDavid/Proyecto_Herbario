@@ -60,7 +60,8 @@ exports.getPlantaById = async (req, res, next) => {
 
 exports.createPlanta = async (req, res) => {
     const id = req.params.id;
-    const { numero_catalogo, id_ocurrencia, nombre_cientifico, nombre_comun, taxon, id_familia, id_colector, fecha, id_localidad, id_habitat, fotografia, id_investigador } = req.body;
+    const { numero_catalogo, id_ocurrencia, nombre_cientifico, nombre_comun, taxon, id_familia, id_colector, fecha, id_localidad, id_habitat, id_investigador } = req.body;
+    const fotografia = req.file ? req.file.path : null;
 
     if (
         numero_catalogo === undefined || id_ocurrencia === undefined ||
@@ -80,12 +81,12 @@ exports.createPlanta = async (req, res) => {
         [numero_catalogo, id_ocurrencia, nombre_cientifico, nombre_comun, taxon, id_familia, id_colector, fecha, id_localidad, id_habitat, fotografia, id_investigador]);
 
         if (result.affectedRows > 0) {
-            res.json({ message: 'Planta actualizada correctamente' });
+            res.json({ message: 'Planta creada correctamente' });
         } else {
             res.status(404).json({ message: 'Planta no encontrada' });
         }
     }catch(err){
         console.log(err);
-        res.status(500).send("Error al actualizar la planta");
+        res.status(500).send("Error al crear la planta");
     }
 };

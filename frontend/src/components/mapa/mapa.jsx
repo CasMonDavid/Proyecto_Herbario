@@ -13,17 +13,24 @@ L.Icon.Default.mergeOptions({
 
 const Mapa = () => {
     return (
-        <MapContainer center={[20.6597, -103.3496]} zoom={6} style={{ height: "400px", width: "100%" }}>
-            <TileLayer
-                attribution='&copy; OpenStreetMap contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-            <Marker position={[24.102626, -110.316013]}>
-                <Popup>
-                    Aquí se encontró una planta.
-                </Popup>
-            </Marker>
-        </MapContainer>
+        <div className="mapa">
+            <MapContainer center={[24.102769955203822, -110.3160343719642]} zoom={13} className="mapa-img">
+                <TileLayer
+                    attribution='&copy; OpenStreetMap contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                <Marker position={[24.102626, -110.316013]}>
+                    <Popup>
+                        Aquí se encontró un girasol.
+                    </Popup>
+                </Marker>
+                <Marker position={[24.130677, -110.296301]}>
+                    <Popup>
+                        Aquí se encontró un palo de arco.
+                    </Popup>
+                </Marker>
+            </MapContainer>
+        </div>
     );
 }
 

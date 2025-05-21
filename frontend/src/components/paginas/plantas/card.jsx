@@ -4,10 +4,11 @@ import { Link } from "react-router-dom";
 import ver from "./ojo.png";
 
 const Card = ({ title, id, imageUrl}) => {
+    const baseUrl = "http://localhost:4000";
     return (
         <div className="card" style={{ width: "18rem", marginTop: "10px" }}>
             <div className="card-body">
-            <img src={imageUrl} className="card-img-top" alt={title} />
+            <img src={`${baseUrl}/${imageUrl}`} className="card-img-top" alt={title} />
             <div className="atriA">
                 <Link to={`/informacion/${id}`} className="card-img-butt-2">
                     <img src={ver} className="card-img-denA" alt="ver" />

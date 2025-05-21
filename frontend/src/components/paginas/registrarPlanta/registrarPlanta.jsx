@@ -16,32 +16,15 @@ const RegistrarPlanta = () => {
   const [idColector, setIdColector] = useState(0);
   const [idLocalidad, setIdLocalidad] = useState(0);
   const [idHabitat, setIdHabitat] = useState(0);
-  const [fotografia, setFotografia] = useState("");
+  const [fotografia, setFotografia] = useState();
   const [idInvestigador, setIdInvestigador] = useState(0);
-
-  /*useEffect(() => {
-        Axios.get('http://localhost:4000/getfamilias')
-        .then(
-            response => {
-                setFamilias(response.data);
-            }
-        ).catch(error => {
-            console.error("Hubo un error al obtener los datos:", error);
-        });
-    }, []);*/
 
   const registrarPlanta = (event) => {
     event.preventDefault();
 
-    if (errorUrl) {
-      alert("Por favor corrige los errores antes de enviar.");
-      return;
-    }
-
     if (
       errorNumeroCatalogo ||
       !numeroCatalogo.trim() ||
-      errorUrl ||
       errorNombreCientifico ||
       errorNombreComun ||
       !fotografia ||
@@ -54,19 +37,24 @@ const RegistrarPlanta = () => {
 
     const formattedDate = new Date(fecha).toISOString().split("T")[0];
 
-    Axios.post(`http://localhost:4000/registrarplanta`, {
-      numero_catalogo: numeroCatalogo,
-      id_ocurrencia: idOcurrencia,
-      nombre_cientifico: nombreCientifico,
-      nombre_comun: nombreComun,
-      taxon: taxon,
-      id_familia: idFamilia,
-      id_colector: idColector,
-      fecha: formattedDate,
-      id_localidad: idLocalidad,
-      id_habitat: idHabitat,
-      fotografia: fotografia,
-      id_investigador: idInvestigador,
+    const formData = new FormData();
+    formData.append("numero_catalogo", numeroCatalogo);
+    formData.append("id_ocurrencia", idOcurrencia);
+    formData.append("nombre_cientifico", nombreCientifico);
+    formData.append("nombre_comun", nombreComun);
+    formData.append("taxon", taxon);
+    formData.append("id_familia", idFamilia);
+    formData.append("id_colector", idColector);
+    formData.append("fecha", formattedDate);
+    formData.append("id_localidad", idLocalidad);
+    formData.append("id_habitat", idHabitat);
+    formData.append("id_investigador", idInvestigador);
+    formData.append("fotografia", fotografia); // <-- Aquí se manda el archivo
+
+    Axios.post("http://localhost:4000/registrarplanta", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     })
       .then((response) => {
         alert("Planta registrada de forma exitosa");
@@ -77,12 +65,11 @@ const RegistrarPlanta = () => {
       });
   };
 
-  const [errorUrl, setErrorUrl] = useState("");
   const [errorNombreCientifico, setErrorNombreCientifico] = useState("");
   const [errorNombreComun, setErrorNombreComun] = useState("");
   const [errorNumeroCatalogo, setErrorNumeroCatalogo] = useState("");
 
-  const fotografiaChange = (event) => {
+  /*const fotografiaChange = (event) => {
     const value = event.target.value;
     setFotografia(value);
 
@@ -92,7 +79,7 @@ const RegistrarPlanta = () => {
     } catch (_) {
       setErrorUrl("La URL ingresada no es válida.");
     }
-  };
+  };*/
 
   const nombreCientificoChange = (event) => {
     const nombre = event.target.value;
@@ -151,9 +138,9 @@ const RegistrarPlanta = () => {
   const idHabitatChange = (event) => {
     setIdHabitat(event.target.value);
   };
-  /*const fotografiaChange = (event) => {
+  const fotografiaChange = (event) => {
         setFotografia(event.target.value);
-    };*/
+    };
   const idInvestigadorChange = (event) => {
     setIdInvestigador(event.target.value);
   };
@@ -166,14 +153,11 @@ const RegistrarPlanta = () => {
           <h1 className="sub-ed">Url de la imagen</h1>
         </div>
         <input
-          type="url"
+          type="file"
           className="in-ep"
           placeholder="URL de la imagen"
-          onChange={fotografiaChange}
+          onChange= {(e) => setFotografia(e.target.files[0])}
         />
-        {errorUrl && (
-          <p style={{ color: "red", marginTop: "5px" }}>{errorUrl}</p>
-        )}
 
         <div className="nam-sub-ed">
           <h1 className="sub-ed">Nombre cientifico</h1>
