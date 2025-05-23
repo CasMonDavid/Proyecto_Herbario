@@ -56,7 +56,7 @@ const Editar = () => {
   formData.append("localidad", localidad);
   formData.append("habitat", habitat);
   formData.append("id_investigador", idInvestigador);
-  if (nuevaFoto) formData.append("fotografia", nuevaFoto);
+  (nuevaFoto)? formData.append("fotografia", nuevaFoto) : formData.append("fotografia", fotografia);
 
   // ————————————————
   // **Aquí añadimos el log**

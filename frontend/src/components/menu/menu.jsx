@@ -28,8 +28,7 @@ const Menu = () => {
             <div className="parte-dos">
                 <Link className="opciones" to='/plantas'>PLANTAS
                 <img className="flecha" src={flecha} alt="ver mas" /></Link>
-                <Link className="opciones-dos" to='/mapa'>MAPA</Link>
-                <Link className="opciones-uno" to='/'>ESTADISTICAS</Link>
+                <Link className="opciones-dos" to='/descubrimientos'>DESCUBRIMIENTOS</Link>
             </div>
             <div className="parte-tres">
                 <input 
