@@ -19,7 +19,7 @@ const upload = multer({ storage });
 router.get("/plantas/getall", plantaController.getAllPlantas);
 router.get("/plantas/getall", plantaController.getAllPlantas);
 
-router.get("/editar/:id", plantaController.editPlantaById);
+//router.get("/editar/:id", plantaController.editPlantaById);
 
 router.get("/informacion/:id", plantaController.getPlantaById);
 router.get("/plantasadmin/getall", plantaController.getAllPlantas);
@@ -28,5 +28,8 @@ router.get("/plantasadmin/getall", plantaController.getAllPlantas);
 router.put('/editar/:id', upload.single('fotografia'), plantaController.updatePlantaById);
 
 router.post('/registrarplanta', upload.single("fotografia"), plantaController.createPlanta);
+
+// funcion para eliminar plantas por ID
+router.delete('/planta/borrar/:id', plantaController.deletePlanta)
 
 module.exports = router;

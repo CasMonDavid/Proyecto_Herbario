@@ -19,6 +19,7 @@ app.use(cors(corsOption));
 app.use(express.json());
 
 app.use('/fotos', express.static(path.join(__dirname, 'fotos')));
+app.use('/fotos/descubrimientos', express.static('fotos/descubrimientos'));
 
 const routes = require("./routes");
 app.use(routes);

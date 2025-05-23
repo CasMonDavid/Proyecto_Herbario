@@ -34,20 +34,8 @@ exports.getPlantaById = async (req, res) => {
   }
 };
 
-
-
-
-
-
-
-
 // Actualizar planta por id
 exports.updatePlantaById = async (req, res) => {
-  console.log("────── updatePlantaById ──────");
-  console.log("req.body:", req.body);
-  console.log("req.file:", req.file);
-  console.log("────────────────────────────────");
-
   const id = req.params.id;
   const {
     nombre_cientifico,
@@ -60,8 +48,6 @@ exports.updatePlantaById = async (req, res) => {
     habitat,
     id_investigador
   } = req.body;
-
-
 
   // Si llegó un archivo nuevo lo tomamos de multer, si no usamos el anterior
   const fotografia = req.file ? req.file.path : req.body.fotografia;
@@ -123,22 +109,6 @@ exports.updatePlantaById = async (req, res) => {
   }
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Crear nueva planta
 exports.createPlanta = async (req, res) => {
   const { nombre_cientifico, nombre_comun, taxon, familia, colector, fecha, fecha_registro, localidad, habitat, id_investigador } = req.body;
@@ -174,4 +144,27 @@ exports.createPlanta = async (req, res) => {
     console.log(err);
     res.status(500).send("Error al crear la planta");
   }
+};
+
+exports.deletePlanta = async (req, res) => {
+    const id = req.params.id;
+
+    if (!id){
+        return res.status(400).json({message: 'No llego ningún id'});
+    }
+
+    try {
+        connection.query("DELETE FROM plantas WHERE id_planta = ?", [id], (err) => {
+            if (err) {
+                console.error("Error al eliminar la planta:", err);
+                return res.status(500).json({ message: "Error al eliminar la planta" });
+            }
+
+            return res.status(200).json({ message: "Planta eliminada correctamente" });
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Ocurrio un error en el servidor al intentar eliminar la planta");
+    }
+
 };
