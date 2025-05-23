@@ -6,7 +6,7 @@ import Axios from "axios";
 const RegistrarPlanta = () => {
   const navigate = useNavigate();
 
-  // ✅ Hooks (siempre se declaran al inicio)
+  //  
   const [nombreCientifico, setNombreCientifico] = useState("");
   const [nombreComun, setNombreComun] = useState("");
   const [fecha, setFecha] = useState("");
@@ -21,7 +21,7 @@ const RegistrarPlanta = () => {
 
   const usuario = JSON.parse(localStorage.getItem("user"));
 
-  // ✅ Lógica de redirección después de los hooks
+  //  
   if (!usuario) {
     return <Navigate to="/" replace />;
   }

@@ -24,7 +24,8 @@ router.get("/editar/:id", plantaController.editPlantaById);
 router.get("/informacion/:id", plantaController.getPlantaById);
 router.get("/plantasadmin/getall", plantaController.getAllPlantas);
 
-router.put('/editar/:id', plantaController.editPlantaById);
+//router.put('/editar/:id', plantaController.editPlantaById);
+router.put('/editar/:id', upload.single('fotografia'), plantaController.updatePlantaById);
 
 router.post('/registrarplanta', upload.single("fotografia"), plantaController.createPlanta);
 
