@@ -43,7 +43,8 @@ const loginTeacher = () => {
                 localStorage.setItem('isLoggedIn', true);
                 alert('Sesión iniciada con éxito');
 
-                navigate("/"); 
+                window.location.href = "/"; 
+
             } else {
                 alert('Correo o contraseña incorrectos. Por favor, inténtelo nuevamente.');
             }

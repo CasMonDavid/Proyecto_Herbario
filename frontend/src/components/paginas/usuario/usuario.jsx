@@ -11,7 +11,7 @@ const Usuario = ({ nombreUsuario, correo }) => {
     // Redirige al login si no hay sesión activa
     useEffect(() => {
         if (!user) {
-            navigate('/iniciarsesion/investigador');
+            navigate('/iniciarsesion');
         }
     }, [user, navigate]);
 
@@ -33,7 +33,7 @@ const Usuario = ({ nombreUsuario, correo }) => {
                 <button
                     onClick={() => {
                         localStorage.removeItem('user');
-                        navigate('/iniciarsesion/investigador');
+                        navigate('/iniciarsesion');
                     }}
                     className="boton-ep cerrar-sesion"
                 >
