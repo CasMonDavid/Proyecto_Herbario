@@ -100,3 +100,14 @@
     align-items: start;
     justify-content: start;
 }
+
+.cerrar-sesion {
+    background-color: #e74c3c;
+    color: white;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.cerrar-sesion:hover {
+    background-color: #c0392b;
+}
