@@ -35,7 +35,7 @@ const Usuario = ({ nombreUsuario, correo }) => {
                         localStorage.removeItem('user');
                         navigate('/iniciarsesion');
                     }}
-                    className="boton-ep cerrar-sesion"
+                    className=" cerrar-sesion"
                 >
                     Cerrar sesión
                 </button>

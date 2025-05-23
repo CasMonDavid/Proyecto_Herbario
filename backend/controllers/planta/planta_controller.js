@@ -12,34 +12,75 @@ exports.getAllPlantas = async (req, res) => {
 
 exports.editPlantaById = async (req, res) => {
     const id = req.params.id;
-    const {nombre_cientifico, nombre_comun, taxon, familia, colector, fecha, fecha_registro, localidad, habitat, fotografia, id_investigador } = req.body;
+    const {
+      nombre_cientifico,
+      nombre_comun,
+      taxon,
+      familia,
+      colector,
+      fecha,
+      fecha_registro,
+      localidad,
+      habitat,
+      fotografia,
+      id_investigador
+    } = req.body;
 
     if (
-        nombre_cientifico === undefined || nombre_comun === undefined ||
-        taxon === undefined || familia === undefined ||
-        colector === undefined || fecha === undefined ||
-        localidad === undefined || habitat === undefined ||
-        fotografia === undefined || id_investigador === undefined
+        !nombre_cientifico || !nombre_comun ||
+        !taxon || !familia ||
+        !colector || !fecha ||
+        !fecha_registro || !localidad ||
+        !habitat || !id_investigador
     ) {
         return res.status(400).json({ message: 'Faltan campos requeridos en el cuerpo de la solicitud' });
     }
-    
-    try{
-        const formattedDate = new Date(fecha).toISOString().split('T')[0];
+
+    try {
+        const formattedFecha = new Date(fecha).toISOString().split('T')[0];
+        const formattedFechaRegistro = new Date(fecha_registro).toISOString().split('T')[0];
+        
         const [result] = await connection.execute(
-            'UPDATE plantas SET nombre_cientifico = ?, nombre_comun = ?, taxon = ?, id_familia = ?, id_colector = ?, fecha_recoleccion = ?, fecha_registro = ?, id_localidad = ?, id_habitat = ?, fotografia = ?, id_investigador = ? WHERE id_planta = ?',
-        [numero_catalogo, id_ocurrencia, nombre_cientifico, nombre_comun, taxon, id_familia, id_colector, fecha, id_localidad, id_habitat, fotografia, id_investigador, id]);
+            `UPDATE plantas SET 
+              nombre_cientifico = ?, 
+              nombre_comun = ?, 
+              taxon = ?, 
+              familia = ?, 
+              colector = ?, 
+              fecha_recoleccion = ?, 
+              fecha_registro = ?, 
+              localidad = ?, 
+              habitat = ?, 
+              fotografia = ?, 
+              id_investigador = ? 
+            WHERE id_planta = ?`,
+            [
+              nombre_cientifico,
+              nombre_comun,
+              taxon,
+              familia,
+              colector,
+              formattedFecha,
+              formattedFechaRegistro,
+              localidad,
+              habitat,
+              fotografia,
+              id_investigador,
+              id
+            ]
+        );
 
         if (result.affectedRows > 0) {
             res.json({ message: 'Planta actualizada correctamente' });
         } else {
             res.status(404).json({ message: 'Planta no encontrada' });
         }
-    }catch(err){
+    } catch (err) {
         console.log(err);
         res.status(500).send("Error al actualizar la planta");
     }
 };
+
 
 exports.getPlantaById = async (req, res, next) => {
     try{

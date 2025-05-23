@@ -34,7 +34,12 @@ const AdministrarUsuarios = () => {
                             <div className="cont-nom">
                                 <h1 className="nombresOuAU">{user.nombre}</h1>
                                 <h1 className="nombresOuAU">{user.correo_electronico}</h1>
+
+
                                 <h1 className="opcionesOuAU">Eliminar</h1>
+
+
+                                
                                 <Link to={`/usuarioedit/${user.id_investigador}`} >
                                     <h1 className="opcionesOuAU">Editar</h1>
                                 </Link>
