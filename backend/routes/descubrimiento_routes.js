@@ -24,3 +24,5 @@ router.post("/descubrimientos/publicar", upload.single("fotografia"), descubrimi
 router.put("/descubrimientos/editar/:id", descubrimientosController.editPost);
 
 router.delete("/descubrimientos/eliminar/:id", descubrimientosController.deletePost);
+
+module.exports = router;

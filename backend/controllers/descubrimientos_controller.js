@@ -1,8 +1,9 @@
 const connection = require('../config/db');
 
 exports.createPost = async (req, res) => {
-    const { nombre, latitud, longitud, descripcion, fecha, usuario_id } = req.body;
+    const { nombre, latitud, longitud, descripcion, usuario_id } = req.body;
     const fotografia = req.file ? req.file.filename : null;
+    const fecha = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
     try {
         await connection.query(
