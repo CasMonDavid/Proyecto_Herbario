@@ -7,44 +7,21 @@ import Axios from "axios";
 //railway: https://backherbario--production-7369.up.railway.app
 
 const Editar = () => {
-    //OBTIENE LOS DATOS DEL URL
-    const { id } = useParams();
-    //console.log("Id: "+id);
+    const { id } = useParams(); //OBTIENE LOS DATOS DEL URL
+    const baseUrl = "http://localhost:4000";
 
     //const [planta, setPlanta] = useState([]);
-    const [numeroCatalogo, setNumeroCatalogo] = useState(0);
-    const [idOcurrencia, setIdOcurrencia] = useState("");
-    const [nombreCientifico, setNombreCientifico] = useState("");
-    const [fecha, setFecha] = useState("");
-    const [nombreComun, setNombreComun] = useState("");
-    const [taxon, setTaxon] = useState("");
-    const [idFamilia, setIdFamilia] = useState(0);
-    const [idColector, setIdColector] = useState(0);
-    const [idLocalidad, setIdLocalidad] = useState(0);
-    const [idHabitat, setIdHabitat] = useState(0);
-    const [fotografia, setFotografia] = useState("");
-    const [idInvestigador, setIdInvestigador] = useState(0);
+
+    const [planta, setPlanta] = useState([]);
     
     useEffect(() => {
-        Axios.get(`http://localhost:4000/editar/${id}`)
-            .then(response => {
-                setFotografia(response.data.fotografia);
-                setFecha(response.data.fecha_recoleccion);
-                setNombreCientifico(response.data.nombre_cientifico);
-                setNombreComun(response.data.nombre_comun);
-                setNumeroCatalogo(response.data.numero_catalago);
-                setIdOcurrencia(response.data.id_ocurrencia);
-                setTaxon(response.data.taxon);
-                setIdFamilia(response.data.id_familia);
-                setIdColector(response.data.id_colector);
-                setFecha(response.data.fecha_recoleccion);
-                setIdLocalidad(response.data.id_localidad);
-                setIdHabitat(response.data.id_habitat);
-                setIdInvestigador(response.data.id_investigador);
-            })
-            .catch(error => {
-                console.error("Hubo un error al obtener los datos:", error);
-            });
+        Axios.get(`http://localhost:4000/informacion/${id}`)
+        .then(response => {
+            setPlanta(response.data);
+        })
+        .catch(error => {
+            console.error("Hubo un error al obtener los datos:", error);
+        })
     }, [id]);
 
     const handleSubmit = (event) => {
@@ -113,12 +90,10 @@ const Editar = () => {
     return (
         <div className="editar-bg">
             <div className="editar-uno">
-                <img src={fotografia} alt="Fotogracia de la planta"  className="imgn-edr"/> {/* AQUI VA LA IMAGEN COLOCADA EN LA BASE DE DATOS */}
+                <img src={`${baseUrl}/${planta.fotografia}`} alt="Fotogracia de la planta"  className="imgn-edr"/> {/* AQUI VA LA IMAGEN COLOCADA EN LA BASE DE DATOS */}
                 <input
-                    type="url"
+                    type="file"
                     className="in-ep"
-                    placeholder="URL de la imagen"
-                    value={fotografia}
                     onChange={fotografiaChange}
                 />
                 <div className="nam-sub-ed"><h1 className="sub-ed">Nombre cientifico</h1></div>
@@ -126,7 +101,7 @@ const Editar = () => {
                     type="text"
                     className="in-ep"
                     placeholder="Nombre cientifico"
-                    value={nombreCientifico}
+                    value={planta.nombre_cientifico}
                     onChange={nombreCientificoChange}
                 />
                 <div className="nam-sub-ed"><h1 className="sub-ed">Nombre común</h1></div>
@@ -134,50 +109,34 @@ const Editar = () => {
                     type="text"
                     className="in-ep"
                     placeholder="Nombre común"
-                    value={nombreComun ? nombreComun : ''}
+                    value={planta.nombre_comun ? planta.nombre_comun : ''}
                     onChange={nombreComunChange}
-                />
-                <div className="nam-sub-ed"><h1 className="sub-ed">Número de catalogo</h1></div>
-                <input
-                    type="text"
-                    className="in-ep"
-                    placeholder="Número de catalogo"
-                    value={numeroCatalogo}
-                    onChange={numeroCatalogoChange}
                 />
             </div>
             <div className="editar-dos">
                 <div className="nam-sub-ed"><h1 className="sub-ed">Id: {id}</h1></div>
-                <div className="nam-sub-ed"><h1 className="sub-ed">Id concurrencia</h1></div>
-                <input
-                    type="text"
-                    className="in-ep"
-                    placeholder="Id concurrencia"
-                    value={idOcurrencia}
-                    onChange={idOcurrenciaChange}
-                />
                 <div className="nam-sub-ed"><h1 className="sub-ed">Taxon</h1></div>
                 <input
                     type="text"
                     className="in-ep"
                     placeholder="Taxon"
-                    value={taxon}
+                    value={planta.taxon}
                     onChange={taxonChange}
                 />
-                <div className="nam-sub-ed"><h1 className="sub-ed">Id familia</h1></div>
+                <div className="nam-sub-ed"><h1 className="sub-ed">Familia</h1></div>
                 <input
                     type="text"
                     className="in-ep"
-                    placeholder="Id familia"
-                    value={idFamilia}
+                    placeholder="Familia"
+                    value={planta.familia}
                     onChange={idFamiliaChange}
                 />
-                <div className="nam-sub-ed"><h1 className="sub-ed">Id colector</h1></div>
+                <div className="nam-sub-ed"><h1 className="sub-ed">Colector</h1></div>
                 <input
                     type="text"
                     className="in-ep"
-                    placeholder="Id colector"
-                    value={idColector}
+                    placeholder="Colector"
+                    value={planta.colector}
                     onChange={idColectorChange}
                 />
                 <div className="nam-sub-ed"><h1 className="sub-ed">Fecha recoleccion</h1></div>
@@ -185,31 +144,31 @@ const Editar = () => {
                     type="text"
                     className="in-ep"
                     placeholder="AAAA-MM-DD"
-                    value={fecha}
+                    value={planta.fecha_recoleccion}
                     onChange={fechaChange}
                 />
-                <div className="nam-sub-ed"><h1 className="sub-ed">Id localidad</h1></div>
+                <div className="nam-sub-ed"><h1 className="sub-ed">Localidad</h1></div>
                 <input
                     type="text"
                     className="in-ep"
-                    placeholder="Id localidad"
-                    value={idLocalidad}
+                    placeholder="Localidad"
+                    value={planta.localidad}
                     onChange={idLocalidadChange}
                 />
-                <div className="nam-sub-ed"><h1 className="sub-ed">Id habitad</h1></div>
+                <div className="nam-sub-ed"><h1 className="sub-ed">Habitad</h1></div>
                 <input
                     type="text"
                     className="in-ep"
-                    placeholder="Id habitad"
-                    value={idHabitat}
+                    placeholder="Habitad"
+                    value={planta.habitat}
                     onChange={idHabitatChange}
                 />
-                <div className="nam-sub-ed"><h1 className="sub-ed">Id investigador</h1></div>
+                <div className="nam-sub-ed"><h1 className="sub-ed">Investigador</h1></div>
                 <input
-                    type="number"
+                    type="text"
                     className="in-ep"
                     placeholder="Id investigador"
-                    value={idInvestigador}
+                    value={planta.nombre_investigador}
                     onChange={idInvestigadorChange}
                 />
                 <div>

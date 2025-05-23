@@ -6,10 +6,11 @@ import editar from "./lapiz.png"
 import borrar from "./borrar.png"
 
 const CardAdmin = ({ title, id, imageUrl}) => {
+    const baseUrl = "http://localhost:4000";
     return (
         <div className="cardA" style={{ width: "18rem", marginTop: "10px" }}>
             <div className="card-bodyA">
-                <img src={imageUrl} className="card-img-topA" alt={title} />
+                <img src={`${baseUrl}/${imageUrl}`} className="card-img-topA" alt={title} />
                 <div className="atriA"> {/* SE OCUPA COLOCAR LA LLAVE PRIMARIA PARA HACER EL VINCULO A LA FOTO SELECCIONADA */}
                     <Link to={`/informacion/${id}`} className="card-img-butt-2">
                         <img src={ver} className="card-img-denA" alt="ver" />
