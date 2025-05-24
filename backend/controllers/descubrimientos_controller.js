@@ -17,18 +17,67 @@ exports.createPost = async (req, res) => {
     } catch (error) {
         console.error(error)
         res.status(500).json({
-            status: true,
+            status: false,
             message: 'Error al registrar el descubrimiento'
         })
     }
 }
 
-exports.editPost = async (req, res) => {
+exports.updatePost = async (req, res) => {
+    const id = req.params.id;
+    const { nombre, latitud, longitud, descripcion } = req.body;
+    const fotografia = req.file ? req.file.path : req.body.fotografia;
+
+    
+
+    try {
+        const [result] = await connection.execute(
+        `UPDATE descubrimientos_plantas SET
+            nombre = ?,
+            latitud = ?,
+            longitud = ?,
+            descripcion = ?,
+            fotografia = ?
+        WHERE id = ?`,
+        [
+            nombre,
+            latitud,
+            longitud,
+            descripcion,
+            fotografia,
+            id
+        ]
+        );
+
+        if (result.affectedRows > 0) {
+            res.json({ message: 'Descubrimiento actualizado correctamente' });
+        } else {
+            res.status(404).json({message: 'Error al actualizar el descubrimiento'});
+        }
+        
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error al intentar actualizar el descubrimiento");
+    }
 
 };
 
 exports.getPostById = async (req, res) => {
+    try {
+        const id = req.params.id;
 
+        const [descubrimiento] = await connection.execute('SELECT * FROM descubrimientos_plantas WHERE id = ?', [id]);
+        if (descubrimiento.length === 0) {
+            return res.status(404).send("Descubrimiento no encontrado");
+        }
+        res.json(descubrimiento[0]);
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({
+            status: false,
+            message: 'Error al obtener el descubrimiento'
+        })
+    }
 };
 
 exports.getPostAll = async (req, res) => {
@@ -38,12 +87,27 @@ exports.getPostAll = async (req, res) => {
     } catch (error) {
         console.error(error)
         res.status(500).json({
-            status: true,
+            status: false,
             message: 'Error al obtener los descubrimientos'
         })
     }
 };
 
 exports.deletePost = async (req, res) => {
+    const id = req.params.id;
 
+    if (!id){
+        return res.status(400).json({message: 'No llego ningún id'});
+    }
+
+    try {
+        await connection.query("DELETE FROM descubrimientos_plantas WHERE id = ?", [id])
+        res.json({
+            status: true,
+            message: 'Descubrimiento eliminado con éxito'
+        })
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Ocurrio un error en el servidor al intentar eliminar el descubrimiento");
+    }
 };

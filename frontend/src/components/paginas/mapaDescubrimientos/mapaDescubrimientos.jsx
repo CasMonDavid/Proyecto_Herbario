@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { Link } from "react-router-dom";
 import L from "leaflet";
 import axios from "axios";
 import "leaflet/dist/leaflet.css";
@@ -31,6 +32,12 @@ const MapaDescubrimientos = () => {
                         {d.fotografia && (
                         <img src={`http://localhost:4000/fotos/descubrimientos/${d.fotografia}`} alt="descubrimiento" width="100" />
                         )}
+                        <button>
+                            <Link to={`/descubrimiento/${d.id}`} >Editar</Link>
+                        </button>
+                        <button>
+                            <Link to='/' >Eliminar</Link>
+                        </button>
                     </Popup>
                 </Marker>
             ))}

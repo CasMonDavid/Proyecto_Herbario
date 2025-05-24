@@ -16,6 +16,7 @@ import AdministrarUsuarios from './components/paginas/administrarUsuarios/admini
 import RegistrarPlanta from './components/paginas/registrarPlanta/registrarPlanta';
 import DescubrimientosMapa from './components/paginas/mapaDescubrimientos/mapaDescubrimientos';
 import RegistrarDescubrimiento from './components/paginas/registrarDescubrimiento/registrarDescubrimiento';
+import EditarDescubrimiento from './components/paginas/editarDescubrimiento/editarDescubrimiento';
 
 function App() {
 
@@ -39,6 +40,7 @@ function App() {
             <Route path='/registrarplanta' element={<RegistrarPlanta />} /> {/* LISTO: CON DETALLES */}
             <Route path='/descubrimientos' element={<DescubrimientosMapa />} />
             <Route path='/descubrimientos/agregar' element={<RegistrarDescubrimiento />} />
+            <Route path='/descubrimiento/:id' element={<EditarDescubrimiento />} />
           </Routes>
         </Router>
       </div>

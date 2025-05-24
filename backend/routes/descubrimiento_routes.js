@@ -21,7 +21,7 @@ router.get("/descubrimientos/:id", descubrimientosController.getPostById);
 
 router.post("/descubrimientos/publicar", upload.single("fotografia"), descubrimientosController.createPost);
 
-router.put("/descubrimientos/editar/:id", descubrimientosController.editPost);
+router.put("/descubrimientos/editar/:id", upload.single("fotografia"), descubrimientosController.updatePost);
 
 router.delete("/descubrimientos/eliminar/:id", descubrimientosController.deletePost);
 

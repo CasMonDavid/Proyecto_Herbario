@@ -154,14 +154,11 @@ exports.deletePlanta = async (req, res) => {
     }
 
     try {
-        connection.query("DELETE FROM plantas WHERE id_planta = ?", [id], (err) => {
-            if (err) {
-                console.error("Error al eliminar la planta:", err);
-                return res.status(500).json({ message: "Error al eliminar la planta" });
-            }
-
-            return res.status(200).json({ message: "Planta eliminada correctamente" });
-        });
+      await connection.query("DELETE FROM descubrimientos_plantas WHERE id = ?", [id])
+        res.json({
+            status: true,
+            message: 'Planta eliminado con éxito'
+        })
     } catch (err) {
         console.error(err);
         res.status(500).send("Ocurrio un error en el servidor al intentar eliminar la planta");
