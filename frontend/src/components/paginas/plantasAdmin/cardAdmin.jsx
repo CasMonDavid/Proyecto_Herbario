@@ -15,8 +15,8 @@ const CardAdmin = ({ title, id, imageUrl, onDelete }) => {
 
   try {
     const response = await Axios.delete(`http://localhost:4000/planta/borrar/${id}`);
-    console.log("Planta eliminada:", id); // 🔍 Debug
-    onDelete(id); // ✅ Actualiza el estado
+    console.log("Planta eliminada:", id); //  Debug
+    onDelete(id); //  Actualiza el estado
   } catch (error) {
     console.error("Error al eliminar:", error);
     alert("No se pudo eliminar la planta");
