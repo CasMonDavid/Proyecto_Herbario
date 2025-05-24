@@ -1,3 +1,4 @@
+import L from 'leaflet';
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, useMapEvents, Popup } from 'react-leaflet';

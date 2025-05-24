@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import './usuarioEditar.css'
-import { Link, useParams } from "react-router-dom";
+import './usuarioEditar.css';
+import { useParams, useNavigate } from "react-router-dom";
 import Axios from "axios";
 
 //local: http://localhost:4000
@@ -8,7 +8,7 @@ import Axios from "axios";
 
 const UsuarioEditar = () => {
     const { id } = useParams();
-    //console.log("Id: "+id);
+    const navigate = useNavigate();
 
     const [nombre, setNombre] = useState("");
     const [correoElectronico, setCorreoElectronico] = useState("");
@@ -30,39 +30,31 @@ const UsuarioEditar = () => {
     const editarUsuario = (event) => {
         event.preventDefault();
 
-        if (password!==undefined && passwordConfirm!==undefined && password===passwordConfirm){
+        if (password !== undefined && passwordConfirm !== undefined && password === passwordConfirm) {
             Axios.put(`http://localhost:4000/usuarioedit/${id}`, {
                 nombre: nombre,
                 correo_electronico: correoElectronico,
                 contrasena: password
             }).then(response => {
                 alert("Usuario actualizado de forma correcta");
+                navigate("/usuario"); // Redirigir después de guardar
             }).catch(error => {
                 console.error("Hubo un error al actualizar los datos:", error);
                 alert("Error al actualizar los datos");
             });
-        }else{
-            alert("Las contraseñas no concuerdan o no se lleno el espacio solucitado")
+        } else {
+            alert("Las contraseñas no concuerdan o no se llenó el espacio solicitado");
         }
-    };
-
-    const nombreChange = (event) => {
-        setNombre(event.target.value);
-    };
-    const correoChange = (event) => {
-        setCorreoElectronico(event.target.value);
-    };
-    const passwordChange = (event) => {
-        setPassword(event.target.value);
-    };
-    const passwordConfirmChange = (event) => {
-        setPasswordConfirm(event.target.value);
     };
 
     return (
         <div className="editar-bg">
             <div className="editar-uno">
-                <img src="https://media.licdn.com/dms/image/D5603AQFlXGZNIOH97A/profile-displayphoto-shrink_200_200/0/1697257441298?e=1724284800&v=beta&t=tqYh_UHmcvUancWaY1hCtWN_M5EcggunY6kdsJ5YK8g" alt="img"  className="imgn-edr"/>
+                <img
+                    src="https://media.licdn.com/dms/image/D5603AQFlXGZNIOH97A/profile-displayphoto-shrink_200_200/0/1697257441298?e=1724284800&v=beta&t=tqYh_UHmcvUancWaY1hCtWN_M5EcggunY6kdsJ5YK8g"
+                    alt="img"
+                    className="imgn-edr"
+                />
             </div>
             <div className="editar-dos">
                 <div className="nam-sub-ed"><h1 className="cont-ed">Nombre</h1></div>
@@ -71,15 +63,15 @@ const UsuarioEditar = () => {
                     className="in-ep"
                     placeholder="Nuevo nombre"
                     value={nombre}
-                    onChange={nombreChange}
+                    onChange={(e) => setNombre(e.target.value)}
                 />
                 <div className="nam-sub-ed"><h1 className="cont-ed">Correo</h1></div>
                 <input
                     type="email"
                     className="in-ep"
-                    placeholder="Correo electronico"
+                    placeholder="Correo electrónico"
                     value={correoElectronico}
-                    onChange={correoChange}
+                    onChange={(e) => setCorreoElectronico(e.target.value)}
                 />
                 <div className="nam-sub-ed"><h1 className="cont-ed">Contraseña</h1></div>
                 <input
@@ -87,20 +79,23 @@ const UsuarioEditar = () => {
                     className="in-ep"
                     placeholder="Contraseña"
                     value={password}
-                    onChange={passwordChange}
+                    onChange={(e) => setPassword(e.target.value)}
                 />
                 <input
                     type="password"
                     className="in-ep"
                     placeholder="Confirma contraseña"
-                    onChange={passwordConfirmChange}
+                    value={passwordConfirm}
+                    onChange={(e) => setPasswordConfirm(e.target.value)}
                 />
-                <Link to="/usuario">
-                    <button onClick={editarUsuario} className="boton-epUE ">Guardar</button>
-                </Link>
+                
+                <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginTop: "20px" }}>
+                    <button onClick={editarUsuario} className="boton-epUE">Guardar</button>
+                    <button onClick={() => navigate(-1)} className="boton-epUE2">Cancelar</button>
+                </div>
             </div>
         </div>
     );
-}
+};
 
 export default UsuarioEditar;

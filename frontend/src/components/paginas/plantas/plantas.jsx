@@ -43,6 +43,11 @@ const Plantas = () => {
             <Link to={"/administrarusuarios"}>
               <button>Administrar Usuarios</button>
             </Link>
+            <Link to={"/descubrimientos/agregar"}>
+              <button>Agregar Descubrimiento</button>
+            </Link>
+
+
           </div>
         </div>
 
