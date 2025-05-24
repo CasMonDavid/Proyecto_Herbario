@@ -52,11 +52,11 @@ const FormularioDescubrimiento = () => {
         data.append("fotografia", form.fotografia);
 
         try {
-            await axios.post("http://localhost:4000/descubrimientos/publicar", data);
-            alert("Descubrimiento registrado");
+            await axios.put(`http://localhost:4000/descubrimientos/editar/${id}`, data);
+            alert("Descubrimiento actualizado");
         } catch (err) {
             console.error(err);
-            alert("Error al registrar descubrimiento");
+            alert("Error al actualizar el descubrimiento");
         }
     };
 
@@ -86,7 +86,7 @@ const FormularioDescubrimiento = () => {
                 backgroundColor: '#f9f9f9'
             }}
         >
-            <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Nuevo Descubrimiento</h2>
+            <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Actualizar Descubrimiento</h2>
 
             <input
                 type="text"
@@ -132,7 +132,7 @@ const FormularioDescubrimiento = () => {
             <p style={{ marginBottom: '8px' }}>Selecciona la ubicación en el mapa:</p>
             <MapContainer
                 center={[24.10273914855748, -110.3159221446148]}
-                zoom={13}
+                zoom={11}
                 style={{ height: '300px', marginBottom: '20px', borderRadius: '8px', border: '1px solid #ccc' }}
             >
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
@@ -155,7 +155,7 @@ const FormularioDescubrimiento = () => {
                         fontSize: '1rem'
                     }}
                 >
-                    Registrar Descubrimiento
+                    Actualizar
                 </button>
                 <button
                     type="button"

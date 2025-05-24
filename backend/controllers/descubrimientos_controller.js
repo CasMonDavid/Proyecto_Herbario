@@ -26,9 +26,7 @@ exports.createPost = async (req, res) => {
 exports.updatePost = async (req, res) => {
     const id = req.params.id;
     const { nombre, latitud, longitud, descripcion } = req.body;
-    const fotografia = req.file ? req.file.path : req.body.fotografia;
-
-    
+    const fotografia = req.file ? req.file.filename : req.body.fotografia;
 
     try {
         const [result] = await connection.execute(
