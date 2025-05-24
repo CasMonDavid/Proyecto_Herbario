@@ -63,7 +63,7 @@ const RegistrarPlanta = () => {
     })
       .then(() => {
         alert("Planta registrada de forma exitosa");
-        navigate("/");
+        navigate("/plantas");
       })
       .catch((error) => {
         console.error("Hubo un error al registrar los datos:", error);
