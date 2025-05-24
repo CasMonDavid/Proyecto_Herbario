@@ -3,9 +3,6 @@ import './usuarioEditar.css';
 import { useParams, useNavigate } from "react-router-dom";
 import Axios from "axios";
 
-//local: http://localhost:4000
-//railway: https://backherbario--production-7369.up.railway.app
-
 const UsuarioEditar = () => {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -30,28 +27,37 @@ const UsuarioEditar = () => {
     const editarUsuario = (event) => {
         event.preventDefault();
 
-        if (password !== undefined && passwordConfirm !== undefined && password === passwordConfirm) {
-            Axios.put(`http://localhost:4000/usuarioedit/${id}`, {
-                nombre: nombre,
-                correo_electronico: correoElectronico,
-                contrasena: password
-            }).then(response => {
-                alert("Usuario actualizado de forma correcta");
-                navigate("/usuario"); // Redirigir después de guardar
-            }).catch(error => {
-                console.error("Hubo un error al actualizar los datos:", error);
-                alert("Error al actualizar los datos");
-            });
-        } else {
-            alert("Las contraseñas no concuerdan o no se llenó el espacio solicitado");
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+        let errores = [];
+
+        if (nombre.trim().length < 8) errores.push("- El nombre debe tener al menos 8 caracteres.");
+        if (!emailRegex.test(correoElectronico)) errores.push("- El correo no tiene un formato válido.");
+        if (password.length < 8) errores.push("- La contraseña debe tener al menos 8 caracteres.");
+        if (password !== passwordConfirm) errores.push("- Las contraseñas no coinciden.");
+
+        if (errores.length > 0) {
+            alert("Ocurrió un error:\n" + errores.join("\n"));
+            return;
         }
+
+        Axios.put(`http://localhost:4000/usuarioedit/${id}`, {
+            nombre: nombre,
+            correo_electronico: correoElectronico,
+            contrasena: password
+        }).then(response => {
+            alert("Usuario actualizado de forma correcta");
+            navigate("/usuario");
+        }).catch(error => {
+            console.error("Hubo un error al actualizar los datos:", error);
+            alert("Error al actualizar los datos");
+        });
     };
 
     return (
         <div className="editar-bg">
             <div className="editar-uno">
                 <img
-                    src="https://media.licdn.com/dms/image/D5603AQFlXGZNIOH97A/profile-displayphoto-shrink_200_200/0/1697257441298?e=1724284800&v=beta&t=tqYh_UHmcvUancWaY1hCtWN_M5EcggunY6kdsJ5YK8g"
+                    src="/default-user.png"
                     alt="img"
                     className="imgn-edr"
                 />
@@ -88,7 +94,7 @@ const UsuarioEditar = () => {
                     value={passwordConfirm}
                     onChange={(e) => setPasswordConfirm(e.target.value)}
                 />
-                
+
                 <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginTop: "20px" }}>
                     <button onClick={editarUsuario} className="boton-epUE">Guardar</button>
                     <button onClick={() => navigate(-1)} className="boton-epUE2">Cancelar</button>
@@ -99,3 +105,4 @@ const UsuarioEditar = () => {
 };
 
 export default UsuarioEditar;
+
