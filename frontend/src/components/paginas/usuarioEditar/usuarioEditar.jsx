@@ -95,14 +95,14 @@ const UsuarioEditar = () => {
           <h1 className="cont-ed">Contraseña</h1>
         </div>
         <input
-          type="password"
+          type="text"
           className="in-ep"
           placeholder="Contraseña"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
         <input
-          type="password"
+          type="text"
           className="in-ep"
           placeholder="Confirma contraseña"
           value={passwordConfirm}

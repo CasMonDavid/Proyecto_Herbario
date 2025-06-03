@@ -81,13 +81,13 @@ const RegistrarSesion = () => {
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
-          type="password"
+          type="text"
           placeholder="Contraseña"
           className="inRS"
           onChange={(e) => setPassword(e.target.value)}
         />
         <input
-          type="password"
+          type="text"
           placeholder="Confirmar contraseña"
           className="inRS"
           onChange={(e) => setConfirmPassword(e.target.value)}
