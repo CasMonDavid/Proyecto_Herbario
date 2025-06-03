@@ -19,39 +19,24 @@ const AdministrarUsuarios = () => {
       });
   }, []);
 
-  const buttonStyle = {
-    padding: '10px 20px',
-    backgroundColor: '#007bff',
-    color: 'white',
-    border: 'none',
-    borderRadius: '5px',
-    textDecoration: 'none',
-    fontWeight: 'bold',
-    display: 'inline-block',
-    marginTop: '10px'
-  };
-
-  const imageStyle = {
-    width: '300px',
-    height: '300px',
-    objectFit: 'cover',
-    borderRadius: '50%'
-  };
-
   return (
-    <div>
+    <div className="page-container">
+      <button className="btn-volver" onClick={() => window.history.back()}>
+        Volver
+      </button>
+
       {isLoading ? (
         <p className="loading-text">Cargando...</p>
       ) : (
         <div className="usuarios-container">
           {usuarios.map((user) => (
             <div className="usuario-card" key={user.id_investigador}>
-              <img src="/default-user.png" alt="Usuario" style={imageStyle} />
-              <div className="usuario-info">
-                <h2 className="usuario-nombre">{user.nombre}</h2>
-                <p className="usuario-correo">{user.correo_electronico}</p>
-                <Link to={`/usuarioedit/${user.id_investigador}`} style={buttonStyle}>Editar</Link>
-              </div>
+              <img src="/default-user.png" alt="Usuario" />
+              <h2 className="usuario-nombre">{user.nombre}</h2>
+              <p className="usuario-correo">{user.correo_electronico}</p>
+              <Link to={`/usuarioedit/${user.id_investigador}`} className="editar-btn">
+                Editar
+              </Link>
             </div>
           ))}
         </div>
