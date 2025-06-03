@@ -23,29 +23,6 @@ const PlantasAdmin = () => {
     fetchPlantas();
   }, []);
 
-  const handleDelete = async (id) => {
-
-    const confirmar = window.confirm("¿Estás seguro de que deseas eliminar este descubrimiento?");
-      if (!confirmar) return;
-
-      try {
-          const respuesta = await fetch(`http://localhost:4000/planta/borrar/${id}`, {
-              method: 'DELETE',
-          });
-
-          if (respuesta.ok) {
-              alert("Planta eliminada correctamente");
-              setPlantas(prevPlantas => prevPlantas.filter(planta => planta.id_planta !== id));
-          } else {
-              alert("Error al eliminar la planta");
-          }
-      } catch (error) {
-          console.error(error);
-          alert("Ocurrió un error al intentar eliminar");
-      }
-
-  };
-
   return (
     <div className="plantasA">
       <h1>Administrar plantas</h1>
@@ -59,7 +36,6 @@ const PlantasAdmin = () => {
               id={planta.id_planta}
               title={planta.nombre_cientifico}
               imageUrl={planta.fotografia}
-              onDelete={handleDelete}
             />
           ))}
         </div>

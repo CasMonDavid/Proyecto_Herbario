@@ -1,27 +1,35 @@
-import React from "react";
 import "./cardAdmin.css";
 import { Link } from "react-router-dom";
 import Axios from "axios";
 import ver from "./ojo.png";
 import editar from "./lapiz.png";
 import borrar from "./borrar.png";
+import React from "react";
 
-const CardAdmin = ({ title, id, imageUrl, onDelete }) => {
+const CardAdmin = ({ title, id, imageUrl }) => {
   const baseUrl = "http://localhost:4000";
 
 
   const eliminarPlanta = async () => {
-  if (!window.confirm("¿Eliminar esta planta?")) return;
+    const confirmar = window.confirm("¿Eliminar esta planta?");
+    if (!confirmar) return;
 
-  try {
-    const response = await Axios.delete(`http://localhost:4000/planta/borrar/${id}`);
-    console.log("Planta eliminada:", id); //  Debug
-    onDelete(id); //  Actualiza el estado
-  } catch (error) {
-    console.error("Error al eliminar:", error);
-    alert("No se pudo eliminar la planta");
-  }
-};
+    try {
+        const respuesta = await fetch(`http://localhost:4000/planta/borrar/${id}`, {
+            method: 'DELETE',
+        });
+
+        if (respuesta.ok) {
+            alert("Planta eliminada correctamente");
+            window.location.href = window.location.href;
+        } else {
+            alert("Error al eliminar la planta");
+        }
+    } catch (error) {
+        console.error(error);
+        alert("Ocurrió un error al intentar eliminar");
+    }
+  };
 
 
   return (
