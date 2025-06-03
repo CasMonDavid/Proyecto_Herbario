@@ -7,7 +7,6 @@ const Inicio = () => {
         <div className="descripcion">
             <DescripcionPP></DescripcionPP>
             <div className="mapa">
-                <Mapa></Mapa>
             </div>
         </div>
     );
