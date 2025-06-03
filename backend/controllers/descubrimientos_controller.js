@@ -26,26 +26,21 @@ exports.createPost = async (req, res) => {
 exports.updatePost = async (req, res) => {
     const id = req.params.id;
     const { nombre, latitud, longitud, descripcion } = req.body;
-    const fotografia = req.file ? req.file.filename : req.body.fotografia;
+    const fotografia = req.file && req.file.filename ? req.file.filename : req.body.fotografia;
+
+    let query = `UPDATE descubrimientos_plantas SET nombre = ?, latitud = ?, longitud = ?, descripcion = ?`;
+    let params = [nombre, latitud, longitud, descripcion];
+
+    if (req.file) {
+        query += `, fotografia = ?`;
+        params.push(req.file.filename);
+    }
+
+    query += ` WHERE id = ?`;
+    params.push(id);
 
     try {
-        const [result] = await connection.execute(
-        `UPDATE descubrimientos_plantas SET
-            nombre = ?,
-            latitud = ?,
-            longitud = ?,
-            descripcion = ?,
-            fotografia = ?
-        WHERE id = ?`,
-        [
-            nombre,
-            latitud,
-            longitud,
-            descripcion,
-            fotografia,
-            id
-        ]
-        );
+        const [result] = await connection.execute(query, params);
 
         if (result.affectedRows > 0) {
             res.json({ message: 'Descubrimiento actualizado correctamente' });

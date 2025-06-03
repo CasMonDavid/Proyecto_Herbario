@@ -49,7 +49,10 @@ const FormularioDescubrimiento = () => {
         data.append("latitud", form.latitud);
         data.append("longitud", form.longitud);
         data.append("usuario_id", usuario.id_investigador);
-        data.append("fotografia", form.fotografia);
+        if (form.fotografia) {
+            data.append("fotografia", form.fotografia);
+            console.log("Fotografía:", form.fotografia);
+        }
 
         try {
             await axios.put(`http://localhost:4000/descubrimientos/editar/${id}`, data);
@@ -125,7 +128,6 @@ const FormularioDescubrimiento = () => {
                 type="file"
                 onChange={handleFileChange}
                 accept="image/*"
-                required
                 style={{ marginBottom: '15px' }}
             />
 
