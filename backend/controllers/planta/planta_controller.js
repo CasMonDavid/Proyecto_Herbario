@@ -154,7 +154,7 @@ exports.deletePlanta = async (req, res) => {
     }
 
     try {
-      await connection.query("DELETE FROM descubrimientos_plantas WHERE id = ?", [id])
+      await connection.query("DELETE FROM plantas WHERE id_planta = ?", [id])
         res.json({
             status: true,
             message: 'Planta eliminado con éxito'
