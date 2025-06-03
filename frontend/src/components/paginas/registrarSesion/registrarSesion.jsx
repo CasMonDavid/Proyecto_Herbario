@@ -15,9 +15,11 @@ const RegistrarSesion = () => {
 
   const addAdmin = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    const letrasRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/;
 
     if (
       name.trim().length >= 8 &&
+      letrasRegex.test(name) &&
       email.trim() !== "" &&
       emailRegex.test(email) &&
       password.length >= 8 &&
@@ -39,6 +41,7 @@ const RegistrarSesion = () => {
       let errorMsg = "Ocurrió un error:\n";
 
       if (name.trim().length < 8) errorMsg += "- El nombre debe tener al menos 8 caracteres.\n";
+      if (!letrasRegex.test(name)) errorMsg += "- El nombre solo puede contener letras y espacios.\n";
       if (!emailRegex.test(email)) errorMsg += "- El correo no tiene un formato válido.\n";
       if (password.length < 8) errorMsg += "- La contraseña debe tener al menos 8 caracteres.\n";
       if (password !== confirmPassword) errorMsg += "- Las contraseñas no coinciden.\n";
@@ -62,7 +65,14 @@ const RegistrarSesion = () => {
           type="text"
           placeholder="Nombre completo"
           className="inRS"
-          onChange={(e) => setName(e.target.value)}
+          value={name}
+          onChange={(e) => {
+            const valor = e.target.value;
+            const soloLetras = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/;
+            if (soloLetras.test(valor)) {
+              setName(valor);
+            }
+          }}
         />
         <input
           type="email"
