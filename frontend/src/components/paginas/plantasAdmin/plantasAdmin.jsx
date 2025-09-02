@@ -29,7 +29,7 @@ const PlantasAdmin = () => {
       {isLoading ? (
         <p>Cargando...</p>
       ) : (
-        <div className="cartas">
+        <div className="cartasA">
           {plantas.map((planta) => (
             <Card
               key={planta.id_planta}
