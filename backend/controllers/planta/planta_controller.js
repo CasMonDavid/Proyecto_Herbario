@@ -1,4 +1,6 @@
 const connection = require('../../config/db');
+const fs = require("fs");
+const path = require("path");
 
 // Obtener todas las plantas
 exports.getAllPlantas = async (req, res) => {
@@ -49,8 +51,24 @@ exports.updatePlantaById = async (req, res) => {
     id_investigador
   } = req.body;
 
-  // Si llegó un archivo nuevo lo tomamos de multer, si no usamos el anterior
+  if (!id){
+      return res.status(400).json({message: 'No llego ningún id'});
+  }
+
+  const [planta] = await connection.query("SELECT * FROM plantas WHERE id_planta = ?",[id]);
+  if (planta.length === 0){
+      return res.status(404).json({message: 'El id de la planta no se enceuntra en la base de datos.'});
+  }
+
+  // Si llegó un archivo nuevo lo tomamos de multer y eliminamos el anterior, si no usamos el anterior
+  if(req.file){
+    const imagenAnterior = planta[0].fotografia;
+    const rutaBase = path.join(__dirname,"../../");
+    const rutaArchivo = path.join(rutaBase,imagenAnterior);
+    if (fs.existsSync(rutaArchivo)) fs.unlinkSync(rutaArchivo);
+  }
   const fotografia = req.file ? req.file.path : req.body.fotografia;
+
 
   // Validar los campos obligatorios
   if (
@@ -153,15 +171,26 @@ exports.deletePlanta = async (req, res) => {
         return res.status(400).json({message: 'No llego ningún id'});
     }
 
+    const [planta] = await connection.query("SELECT * FROM plantas WHERE id_planta = ?",[id]);
+    if (planta.length === 0){
+        return res.status(404).json({message: 'El id de la planta no se enceuntra en la base de datos.'});
+    }
+
+    const imagen = planta[0].fotografia;
+    const rutaBase = path.join(__dirname,"../../");
+    const rutaArchivo = path.join(rutaBase,imagen);
+    
     try {
       await connection.query("DELETE FROM plantas WHERE id_planta = ?", [id])
-        res.json({
-            status: true,
-            message: 'Planta eliminado con éxito'
-        })
+      // Borra el archivo fisico si existe
+      if (fs.existsSync(rutaArchivo)) fs.unlinkSync(rutaArchivo);
+      res.json({
+          status: true,
+          message: 'Planta eliminado con éxito'
+      })
     } catch (err) {
         console.error(err);
         res.status(500).send("Ocurrio un error en el servidor al intentar eliminar la planta");
-    }
+    } 
 
 };
