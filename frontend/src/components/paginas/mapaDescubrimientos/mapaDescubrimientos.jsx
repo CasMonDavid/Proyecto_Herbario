@@ -50,22 +50,22 @@ const MapaDescubrimientos = () => {
             {descubrimientos.map(d => (
                 <Marker key={d.id} position={[d.latitud, d.longitud]} icon={icon}>
                     <Popup>
-                        <div class="tarjeta">
+                        <div className="tarjeta">
                             {d.fotografia && (
                                 <img src={`http://localhost:4000/fotos/descubrimientos/${d.fotografia}`} alt="descubrimiento" width="100" />
                             )}
-                            <div class="tarjeta-content">
-                                <div class="tarjeta-title">{d.nombre}</div>
-                                <div class="tarjeta-description">
+                            <div className="tarjeta-content">
+                                <div className="tarjeta-title">{d.nombre}</div>
+                                <div className="tarjeta-description">
                                     {d.descripcion}
                                 </div>
                             </div>
                             { sesionActiva && Number(usuario.id_investigador) === d.usuario_id && (
-                                <div class="tarjeta-buttons">
-                                    <button class="edit-btn">
+                                <div className="tarjeta-buttons">
+                                    <button className="edit-btn">
                                         <Link to={`/descubrimiento/${d.id}`} className="botones-dirc" >Editar</Link>
                                     </button>
-                                    <button class="delete-btn" onClick={() => eliminarDescubrimiento(d.id)}>
+                                    <button className="delete-btn" onClick={() => eliminarDescubrimiento(d.id)}>
                                         Eliminar
                                     </button>
                                 </div>
