@@ -1,5 +1,4 @@
 .card {
-  
   display: flex;
   flex-direction: column;
   height: auto;
@@ -17,10 +16,14 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
 }
 
 .card-title {
   font-size: 25px;
   font-weight: 500;
   margin: 10px;
+  width: 100%;            
+  text-align: center;    
+  word-break: break-word; 
 }
