@@ -3,6 +3,7 @@ const multer = require("multer");
 const path = require("path");
 const router = express.Router();
 const plantaController = require('../controllers/planta/planta_controller');
+const validarPlanta = require("../middlewares/validar_planta")
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -25,9 +26,9 @@ router.get("/informacion/:id", plantaController.getPlantaById);
 router.get("/plantasadmin/getall", plantaController.getAllPlantas);
 
 //router.put('/editar/:id', plantaController.editPlantaById);
-router.put('/editar/:id', upload.single('fotografia'), plantaController.updatePlantaById);
+router.put('/editar/:id', upload.single('fotografia'), validarPlanta, plantaController.updatePlantaById);
 
-router.post('/registrarplanta', upload.single("fotografia"), plantaController.createPlanta);
+router.post('/registrarplanta', upload.single("fotografia"), validarPlanta, plantaController.createPlanta);
 
 // funcion para eliminar plantas por ID
 router.delete('/planta/borrar/:id', plantaController.deletePlanta)

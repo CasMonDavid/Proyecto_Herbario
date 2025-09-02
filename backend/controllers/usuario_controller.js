@@ -33,8 +33,8 @@ exports.createUser = async (req,res, next)=>{
     const hashedPassword = await bcrypt.hash(password, 10);
 
     try {
-        const [result] = await connection.query('INSERT INTO investigadores(nombre, correo_electronico, contrasena, codigo_acceso) VALUES(?,?,?,?)',
-            [name,email,hashedPassword,123456789]);
+        const [result] = await connection.query('INSERT INTO investigadores(nombre, correo_electronico, contrasena) VALUES(?,?,?)',
+            [name,email,hashedPassword]);
         res.send("Investigador registrado con éxito!!");
     }catch(err) {
         console.log(err);
@@ -53,8 +53,8 @@ exports.editUserById = async (req, res) => {
     
     try{
         const [result] = await connection.execute(
-            'UPDATE investigadores SET nombre = ?, correo_electronico = ?, contrasena = ?, codigo_acceso = ? WHERE id_investigador = ?',
-        [nombre, correo_electronico, hashedPassword, 123456789, id]);
+            'UPDATE investigadores SET nombre = ?, correo_electronico = ?, contrasena = ? WHERE id_investigador = ?',
+        [nombre, correo_electronico, hashedPassword, id]);
 
         if (result.affectedRows > 0) {
             res.json({ message: 'Usuario actualizado correctamente' });

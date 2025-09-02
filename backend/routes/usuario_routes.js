@@ -1,14 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const usuarioController = require('../controllers/usuario_controller');
+const validarUsuarios = require("../middlewares/validar_usuarios");
 
 const connection = require('../config/db');
 const bcrypt = require('bcrypt');
 
+router.post("/iniciarsesion/investigador", validarUsuarios, usuarioController.login);
+router.put('/usuarioedit/:id', validarUsuarios, usuarioController.editUserById);
 router.post("/iniciarsesion/investigador", usuarioController.login);
-router.put('/usuarioedit/:id', usuarioController.editUserById);
-router.post("/iniciarsesion/investigador", usuarioController.login);
-router.post("/registrar/user", usuarioController.createUser);
+router.post("/registrar/user", validarUsuarios, usuarioController.createUser);
 router.get("/usuarioedit/:id", usuarioController.getUserById);
 router.get("/administrarusuarios/getall", usuarioController.getAllUsers);
 

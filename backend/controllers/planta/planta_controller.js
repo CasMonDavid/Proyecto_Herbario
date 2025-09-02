@@ -15,8 +15,13 @@ exports.getAllPlantas = async (req, res) => {
 
 // Obtener planta por id (para info o para editar)
 exports.getPlantaById = async (req, res) => {
+  const id = req.params.id;
+
+  if (!id){
+      return res.status(400).json({message: 'No llego ningún id'});
+  }
+
   try {
-    const id = req.params.id;
     const [result] = await connection.execute(
       `SELECT plantas.*, investigadores.nombre AS nombre_investigador 
        FROM plantas 
@@ -36,56 +41,40 @@ exports.getPlantaById = async (req, res) => {
   }
 };
 
-// Actualizar planta por id
 exports.updatePlantaById = async (req, res) => {
-  const id = req.params.id;
-  const {
-    nombre_cientifico,
-    nombre_comun,
-    taxon,
-    familia,
-    colector,
-    fecha,            // fecha_recoleccion
-    localidad,
-    habitat,
-    id_investigador
-  } = req.body;
-
-  if (!id){
-      return res.status(400).json({message: 'No llego ningún id'});
-  }
-
-  const [planta] = await connection.query("SELECT * FROM plantas WHERE id_planta = ?",[id]);
-  if (planta.length === 0){
-      return res.status(404).json({message: 'El id de la planta no se enceuntra en la base de datos.'});
-  }
-
-  // Si llegó un archivo nuevo lo tomamos de multer y eliminamos el anterior, si no usamos el anterior
-  if(req.file){
-    const imagenAnterior = planta[0].fotografia;
-    const rutaBase = path.join(__dirname,"../../");
-    const rutaArchivo = path.join(rutaBase,imagenAnterior);
-    if (fs.existsSync(rutaArchivo)) fs.unlinkSync(rutaArchivo);
-  }
-  const fotografia = req.file ? req.file.path : req.body.fotografia;
-
-
-  // Validar los campos obligatorios
-  if (
-    !nombre_cientifico ||
-    !nombre_comun ||
-    !taxon ||
-    !familia ||
-    !colector ||
-    !fecha ||
-    !localidad ||
-    !habitat ||
-    !id_investigador
-  ) {
-    return res.status(400).json({ message: 'Faltan campos requeridos en el cuerpo de la solicitud' });
-  }
-
   try {
+    const id = req.params.id;
+    const { // Datos limpios
+      nombre_cientifico,
+      nombre_comun,
+      taxon,
+      familia,
+      colector,
+      fecha,
+      localidad,
+      habitat,
+      id_investigador
+    } = req.body;
+
+
+    if (!id){
+        return res.status(400).json({message: 'No llego ningún id'});
+    }
+
+    const [planta] = await connection.query("SELECT * FROM plantas WHERE id_planta = ?",[id]);
+    if (planta.length === 0){
+        return res.status(404).json({message: 'El id de la planta no se enceuntra en la base de datos.'});
+    }
+
+    // Si llegó un archivo nuevo lo tomamos de multer y eliminamos el anterior, si no usamos el anterior
+    if(req.file){
+      const imagenAnterior = planta[0].fotografia;
+      const rutaBase = path.join(__dirname,"../../");
+      const rutaArchivo = path.join(rutaBase,imagenAnterior);
+      if (fs.existsSync(rutaArchivo)) fs.unlinkSync(rutaArchivo);
+    }
+    const fotografia = req.file ? req.file.path : req.body.fotografia;
+
     const formattedFecha = new Date(fecha).toISOString().split('T')[0];
 
     const [result] = await connection.execute(
@@ -127,23 +116,11 @@ exports.updatePlantaById = async (req, res) => {
   }
 };
 
-// Crear nueva planta
 exports.createPlanta = async (req, res) => {
-  const { nombre_cientifico, nombre_comun, taxon, familia, colector, fecha, fecha_registro, localidad, habitat, id_investigador } = req.body;
-  const fotografia = req.file ? req.file.path : null;
-
-  if (
-    nombre_cientifico === undefined || nombre_comun === undefined ||
-    taxon === undefined || familia === undefined ||
-    colector === undefined || fecha === undefined ||
-    fecha_registro === undefined || localidad === undefined ||
-    habitat === undefined || fotografia === null ||
-    id_investigador === undefined
-  ) {
-    return res.status(400).json({ message: 'Faltan campos requeridos en el cuerpo de la solicitud' });
-  }
-
   try {
+    const fotografia = req.file ? req.file.path : null;
+    const { nombre_cientifico, nombre_comun, taxon, familia, colector, fecha, fecha_registro, localidad, habitat, id_investigador } = req.body;
+
     const formattedFecha = new Date(fecha).toISOString().split('T')[0];
     const formattedFechaRegistro = new Date(fecha_registro).toISOString().split('T')[0];
 
