@@ -37,7 +37,8 @@ const RegistrarPlanta = () => {
   const validarFotografia = (file) => {
     if (!file) return "Debe seleccionar una fotografía.";
     const validTypes = ["image/jpeg", "image/png", "image/jpg"];
-    if (!validTypes.includes(file.type)) return "Formato de imagen no válido (solo jpg, jpeg, png).";
+    if (!validTypes.includes(file.type))
+      return "Formato de imagen no válido (solo jpg, jpeg, png).";
     if (file.size > 5 * 1024 * 1024) return "La imagen no debe pesar más de 5MB.";
     return "";
   };
@@ -93,7 +94,7 @@ const RegistrarPlanta = () => {
       setErrorTaxon("El taxon es obligatorio.");
     } else if (!soloLetrasRegex.test(valor)) {
       setErrorTaxon("Solo se permiten letras y espacios.");
-    } else if (valor.length < 8 ) {
+    } else if (valor.length < 8) {
       setErrorTaxon("Debe ser de 8 caracteres");
     } else {
       setErrorTaxon("");
@@ -143,36 +144,50 @@ const RegistrarPlanta = () => {
   const registrarPlanta = (event) => {
     event.preventDefault();
 
-    if (
-      !nombreCientifico.trim() ||
-      !nombreComun.trim() ||
-      !taxon.trim() ||
-      !Familia.trim() ||
-      !Colector.trim() ||
-      !fecha ||
-      !Localidad.trim() ||
-      !Habitat.trim()
-    ) {
-      setErrorCampos("Todos los campos son obligatorios.");
-      return;
-    } else {
-      setErrorCampos("");
+    // ✅ Validación individual de todos los campos obligatorios
+    let valido = true;
+
+    if (!nombreCientifico.trim()) {
+      setErrorNombreCientifico("El nombre científico es obligatorio.");
+      valido = false;
+    }
+    if (!nombreComun.trim()) {
+      setErrorNombreComun("El nombre común es obligatorio.");
+      valido = false;
+    }
+    if (!taxon.trim()) {
+      setErrorTaxon("El taxon es obligatorio.");
+      valido = false;
+    }
+    if (!Familia.trim()) {
+      setErrorFamilia("La familia es obligatoria.");
+      valido = false;
+    }
+    if (!Colector.trim()) {
+      setErrorColector("El colector es obligatorio.");
+      valido = false;
+    }
+    if (!fecha) {
+      setErrorFecha("La fecha es obligatoria.");
+      valido = false;
+    }
+    if (!Localidad.trim()) {
+      setErrorLocalidad("La localidad es obligatoria.");
+      valido = false;
+    }
+    if (!Habitat.trim()) {
+      setErrorHabitat("El hábitat es obligatorio.");
+      valido = false;
+    }
+    if (!fotografia) {
+      setErrorFotografia("Debe seleccionar una fotografía.");
+      valido = false;
     }
 
-    if (
-      errorNombreCientifico ||
-      errorNombreComun ||
-      errorTaxon ||
-      errorFamilia ||
-      errorColector ||
-      errorFecha ||
-      errorFotografia ||
-      errorLocalidad ||
-      errorHabitat
-    ) {
-      alert("Corrige los errores antes de enviar el formulario.");
-      return;
-    }
+    if (!valido) return;
+
+    // Limpiar mensaje de error general
+    setErrorCampos("");
 
     const formattedDate = new Date(fecha).toISOString().split("T")[0];
     const fecha_registro = new Date().toISOString().slice(0, 19).replace("T", " ");
@@ -210,47 +225,69 @@ const RegistrarPlanta = () => {
       <div className="editar-unoRG">
         <h1>Registrar planta</h1>
 
-        <div className="nam-sub-ed"><h1 className="sub-ed">Url de la imagen</h1></div>
+        <div className="nam-sub-ed">
+          <h1 className="sub-ed">Url de la imagen</h1>
+        </div>
         <input type="file" className="in-ep" onChange={handleFotoChange} />
         {errorFotografia && <p style={{ color: "red" }}>{errorFotografia}</p>}
 
-        <div className="nam-sub-ed"><h1 className="sub-ed">Nombre científico</h1></div>
+        <div className="nam-sub-ed">
+          <h1 className="sub-ed">Nombre científico</h1>
+        </div>
         <input type="text" className="in-ep" onChange={nombreCientificoChange} />
         {errorNombreCientifico && <p style={{ color: "red" }}>{errorNombreCientifico}</p>}
 
-        <div className="nam-sub-ed"><h1 className="sub-ed">Nombre común</h1></div>
+        <div className="nam-sub-ed">
+          <h1 className="sub-ed">Nombre común</h1>
+        </div>
         <input type="text" className="in-ep" onChange={nombreComunChange} />
         {errorNombreComun && <p style={{ color: "red" }}>{errorNombreComun}</p>}
 
-        <div className="nam-sub-ed"><h1 className="sub-ed">Taxon</h1></div>
+        <div className="nam-sub-ed">
+          <h1 className="sub-ed">Taxon</h1>
+        </div>
         <input type="text" className="in-ep" onChange={taxonChange} />
         {errorTaxon && <p style={{ color: "red" }}>{errorTaxon}</p>}
 
-        <div className="nam-sub-ed"><h1 className="sub-ed">Familia</h1></div>
+        <div className="nam-sub-ed">
+          <h1 className="sub-ed">Familia</h1>
+        </div>
         <input type="text" className="in-ep" onChange={familiaChange} />
         {errorFamilia && <p style={{ color: "red" }}>{errorFamilia}</p>}
 
-        <div className="nam-sub-ed"><h1 className="sub-ed">Colector</h1></div>
+        <div className="nam-sub-ed">
+          <h1 className="sub-ed">Colector</h1>
+        </div>
         <input type="text" className="in-ep" onChange={colectorChange} />
         {errorColector && <p style={{ color: "red" }}>{errorColector}</p>}
 
-        <div className="nam-sub-ed"><h1 className="sub-ed">Fecha recolección</h1></div>
+        <div className="nam-sub-ed">
+          <h1 className="sub-ed">Fecha recolección</h1>
+        </div>
         <input type="date" className="in-ep" onChange={handleFechaChange} />
         {errorFecha && <p style={{ color: "red" }}>{errorFecha}</p>}
 
-        <div className="nam-sub-ed"><h1 className="sub-ed">Localidad</h1></div>
+        <div className="nam-sub-ed">
+          <h1 className="sub-ed">Localidad</h1>
+        </div>
         <input type="text" className="in-ep" onChange={localidadChange} />
         {errorLocalidad && <p style={{ color: "red" }}>{errorLocalidad}</p>}
 
-        <div className="nam-sub-ed"><h1 className="sub-ed">Hábitat</h1></div>
+        <div className="nam-sub-ed">
+          <h1 className="sub-ed">Hábitat</h1>
+        </div>
         <input type="text" className="in-ep" onChange={habitatChange} />
         {errorHabitat && <p style={{ color: "red" }}>{errorHabitat}</p>}
 
         {errorCampos && <p style={{ color: "red" }}>{errorCampos}</p>}
 
         <div className="contenedor-botones">
-          <button className="boton-epRP" onClick={() => window.history.back()}>Cancelar</button>
-          <button className="boton-epRP" onClick={registrarPlanta}>Registrar planta</button>
+          <button className="boton-epRP" onClick={() => window.history.back()}>
+            Cancelar
+          </button>
+          <button className="boton-epRP" onClick={registrarPlanta}>
+            Registrar planta
+          </button>
         </div>
       </div>
     </div>
