@@ -171,3 +171,35 @@ exports.deletePlanta = async (req, res) => {
     } 
 
 };
+
+exports.searchPlanta = async (req, res) => {
+  const { q } = req.body;
+
+  if (!q) return res.status(400).json({message: 'No llego ningún dato'});
+
+  try {
+    const like = `%${q}%`
+
+    console.log("Q: "+like)
+
+    const [rows] = await connection.query(
+      `
+      SELECT * FROM plantas
+      WHERE id_planta LIKE ?
+      OR nombre_cientifico LIKE ?
+      OR nombre_comun LIKE ?
+      OR taxon LIKE ?
+      OR familia LIKE ?
+      OR colector LIKE ?
+      `,
+      [like, like, like, like, like, like]
+    )
+
+    res.json(rows);
+
+  }catch(err){
+    console.error("Error en la búsqueda: ", err);
+    res.status(500).json({ menssage: "Error interno en el servidor" });
+  }
+
+};
