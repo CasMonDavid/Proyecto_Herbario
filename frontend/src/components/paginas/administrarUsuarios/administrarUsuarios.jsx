@@ -25,6 +25,8 @@ const AdministrarUsuarios = () => {
         Volver
       </button>
 
+      <h1> Adminitrar usuarios</h1>
+      
       {isLoading ? (
         <p className="loading-text">Cargando...</p>
       ) : (

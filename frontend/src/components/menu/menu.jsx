@@ -3,7 +3,6 @@ import './menu.css'
 import logo from './logow.png'
 import flecha from './flecha.png'
 import filtrar from './filtrar.png'
-import idioma from './idioma.png'
 import perfil from './usuario.png'
 import { Link } from "react-router-dom";
 
@@ -38,7 +37,7 @@ const Menu = () => {
                 />
                 <img className="filtrar" src={filtrar} alt="filtro"/>
                 <div className="line"></div>
-                <img className="idioma" src={idioma} alt="idioma"/>
+                
                 <Link className="fondo-perfil" to={user ? '/usuario' : '/iniciarsesion'}>
                     <img className="perfil" src={perfil} alt="perfil"/>
                 </Link>
