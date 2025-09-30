@@ -1,0 +1,76 @@
+.footer {
+  width: 97.55%;
+  background-color: #78B578;
+  color: white;
+  padding: 40px 20px 20px 20px;
+  font-family: Arial, sans-serif;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Sección superior: Logo + Título + Info */
+.footer-left {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.footer-logo {
+  width: 60px;
+  height: auto;
+  margin-right: 15px;
+}
+
+.footer-title {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.uabcs-title {
+  font-size: 22px;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+}
+
+.herbario-title {
+  font-size: 18px;
+  letter-spacing: 2px;
+  color: white;
+  margin-top: 2px;
+}
+
+.footer-center {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.footer-center p {
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-links li {
+  margin: 5px 0;
+}
+
+.footer-bottom {
+  text-align: center;
+  font-size: 14px;
+  border-top: 1px solid rgba(255,255,255,0.3);
+  padding-top: 10px;
+  width: 100%;
+}

@@ -1,18 +1,41 @@
+/* Wrapper principal */
 .App {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  min-height: 100vh; /* toda la altura de la ventana */
 }
 
-.datos {
+/* Contenedor principal de contenido */
+.content {
+  flex: 1 0 auto; /* ocupa todo el espacio disponible */
   display: flex;
   flex-direction: column;
-  justify-content: center;
   width: 100%;
+  position: relative;
+}
+
+/* Inner wrapper para evitar superposición de elementos absolutos */
+.content-inner {
+  flex: 1;
+  padding-bottom: 250px; /* igual a la altura del footer */
+  display: flex;
+  flex-direction: column;
   align-items: center;
 }
 
-.datos input {
+/* Footer */
+footer {
+  flex-shrink: 0; /* nunca se encoge */
+  width: 100%;
+  text-align: center;
+  padding: 20px;
+  background-color: #f0f0f0;
+  position: relative; /* evita superposición */
+  z-index: 1;
+}
+
+/* Inputs y botones ejemplo */
+.content-inner input {
   width: 300px;
   height: 30px;
   font-size: 20px;
@@ -21,7 +44,7 @@
   margin: 5px;
 }
 
-.datos button {
+.content-inner button {
   width: 150px;
   height: 50px;
   font-size: 25px;

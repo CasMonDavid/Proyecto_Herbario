@@ -3,6 +3,7 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 //import Axios from "axios";
 import Menu from "./components/menu/menu";
+import Footer from "./components/footer/footer";
 import Inicio from "./components/inicio";
 import IniciarSesion from "./components/paginas/inciarSesion/iniciarSesion";
 import RegistrarSesion from "./components/paginas/registrarSesion/registrarSesion";
@@ -19,33 +20,40 @@ import RegistrarDescubrimiento from './components/paginas/registrarDescubrimient
 import EditarDescubrimiento from './components/paginas/editarDescubrimiento/editarDescubrimiento';
 
 function App() {
-
   return (
-    <div className="App">
-      <div className="datos">
-        <Router>
-          <Menu />
+    <Router>
+      <div className="App">
+        <Menu />
 
-          <Routes>
-            <Route path='/' element={<Inicio />} />
-            <Route path='/iniciarsesion' element={<IniciarSesion />} />
-            <Route path='/plantas' element={<Plantas />} />
-            <Route path='/registrar' element={<RegistrarSesion />} />
-            <Route path='/plantasadmin' element={<PlantasAdmin />} />
-            <Route path='/editar/:id' element={<Editar />} /> {/* INTERFAZ ACTUALIZADA: ES PARA MANDAR DATOS A TRAVEZ DEL URL */}
-            <Route path='/informacion/:id' element={<Informacion />} /> {/* INTERFAZ ACTUALIZADA */}
-            <Route path='/usuario' element={<Usuario />} /> {/* NUEVA INTERFAZ */}
-            <Route path='/usuarioedit/:id' element={<UsuarioEditar />} /> {/* INTERFAZ ACTUALIZADA */}
-            <Route path='/administrarusuarios' element={<AdministrarUsuarios />} /> {/* NUEVA INTERFAZ */}
-            <Route path='/registrarplanta' element={<RegistrarPlanta />} /> {/* LISTO: CON DETALLES */}
-            <Route path='/descubrimientos' element={<DescubrimientosMapa />} />
-            <Route path='/descubrimientos/agregar' element={<RegistrarDescubrimiento />} />
-            <Route path='/descubrimiento/:id' element={<EditarDescubrimiento />} />
-          </Routes>
-        </Router>
+        {/* Contenedor principal */}
+        <div className="content">
+          {/* Inner wrapper para padding-bottom y elementos absolutos */}
+          <div className="content-inner">
+            <Routes>
+              <Route path='/' element={<Inicio />} />
+              <Route path='/iniciarsesion' element={<IniciarSesion />} />
+              <Route path='/plantas' element={<Plantas />} />
+              <Route path='/registrar' element={<RegistrarSesion />} />
+              <Route path='/plantasadmin' element={<PlantasAdmin />} />
+              <Route path='/editar/:id' element={<Editar />} />
+              <Route path='/informacion/:id' element={<Informacion />} />
+              <Route path='/usuario' element={<Usuario />} />
+              <Route path='/usuarioedit/:id' element={<UsuarioEditar />} />
+              <Route path='/administrarusuarios' element={<AdministrarUsuarios />} />
+              <Route path='/registrarplanta' element={<RegistrarPlanta />} />
+              <Route path='/descubrimientos' element={<DescubrimientosMapa />} />
+              <Route path='/descubrimientos/agregar' element={<RegistrarDescubrimiento />} />
+              <Route path='/descubrimiento/:id' element={<EditarDescubrimiento />} />
+            </Routes>
+          </div>
+        </div>
+
+        <Footer />
       </div>
-    </div>
+    </Router>
   );
 }
+
+
 
 export default App;

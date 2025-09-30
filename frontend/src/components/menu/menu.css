@@ -55,6 +55,8 @@
     font-size: 24px;
     color: white;
     font-weight: 100;
+    margin: 0; /* quitar márgenes por defecto del h1 */
+    line-height: 1; /* o ajustar según altura del contenedor */
 }
 
 .opciones {
