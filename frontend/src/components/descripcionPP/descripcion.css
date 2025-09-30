@@ -88,7 +88,7 @@
  max-width: 100%;
  height: auto;
  margin: auto;
- margin-top: 14vh;
+ margin-top: 4vh;
  overflow: hidden;
 }
 
@@ -106,7 +106,9 @@
 
 .slider .slide img {
     max-width: 100%;
+    border-radius: 20px; /* bordes redondeados */
 }
+
 
 @keyframes scroll {
     0% {

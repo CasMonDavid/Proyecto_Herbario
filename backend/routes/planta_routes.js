@@ -20,7 +20,7 @@ const upload = multer({ storage });
 router.get("/plantas/getall", plantaController.getAllPlantas);
 router.get("/plantas/getall", plantaController.getAllPlantas);
 
-router.get("/plantas/search", plantaController.searchPlanta);
+router.post("/plantas/search", plantaController.searchPlanta);
 
 //router.get("/editar/:id", plantaController.editPlantaById);
 
