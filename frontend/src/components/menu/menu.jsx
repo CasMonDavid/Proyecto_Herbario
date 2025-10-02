@@ -1,14 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import './menu.css'
 import logo from './logow.png'
 import flecha from './flecha.png'
 import filtrar from './filtrar.png'
 import perfil from './usuario.png'
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 const Menu = () => {
     const userStr = localStorage.getItem('user');
     const user = userStr ? JSON.parse(userStr) : null;
+    const navigate = useNavigate();
+
+    const [query, setQuery] = useState(""); //estado para las variables del buscador
+
+    const handleKeyDown = (event) => {// funciona que determina cuando el input recibe la tecla enter
+        if (event.key == 'Enter' && query.trim() != '') {//no puede estar vacio al pulsar enter en el buscador
+            navigate(`/resultado/${encodeURIComponent(query.trim())}`);
+        }
+    }
 
     if (user) {
         console.log(user.id_investigador);    // Output: 1
@@ -34,6 +43,9 @@ const Menu = () => {
                     type="text" 
                     className="search-input" 
                     placeholder="Buscar"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    onKeyDown={handleKeyDown}
                 />
                 <img className="filtrar" src={filtrar} alt="filtro"/>
                 <div className="line"></div>
