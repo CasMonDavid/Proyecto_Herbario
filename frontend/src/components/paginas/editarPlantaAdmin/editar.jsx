@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom"; // <--- Importa useNavigate
 import "./editar.css";
 import Axios from "axios";
 
 const Editar = () => {
   const { id } = useParams();
+  const navigate = useNavigate(); // <--- Inicializa navigate
   const baseUrl = "http://localhost:4000";
 
   // Estados para los campos
@@ -20,6 +21,7 @@ const Editar = () => {
   const [fotografia, setFotografia] = useState("");
   const [nuevaFoto, setNuevaFoto] = useState(null);
   const [idInvestigador, setIdInvestigador] = useState("");
+  const [investigadores, setInvestigadores] = useState([]);
 
   // Cargar datos al montar
   useEffect(() => {
@@ -42,6 +44,13 @@ const Editar = () => {
       })
       .catch((err) => console.error("Error al cargar planta:", err));
   }, [id]);
+
+  // Cargar lista de investigadores
+  useEffect(() => {
+    Axios.get(`${baseUrl}/administrarusuarios/getall`)
+      .then((res) => setInvestigadores(res.data))
+      .catch((err) => console.error("Error al cargar investigadores:", err));
+  }, []);
 
   // Enviar actualización
   const handleSubmit = (event) => {
@@ -73,7 +82,10 @@ const Editar = () => {
     Axios.put(`${baseUrl}/editar/${id}`, formData, {
       headers: { "Content-Type": "multipart/form-data" },
     })
-      .then(() => alert("Planta actualizada de forma correcta"))
+      .then(() => {
+        alert("Planta actualizada de forma correcta");
+        navigate("/plantasadmin"); // <--- Redirige después de guardar
+      })
       .catch((error) => {
         console.error("Error al actualizar:", error.response?.data || error);
         alert("Error Faltan campos por llenar");
@@ -169,16 +181,19 @@ const Editar = () => {
           onChange={(e) => setHabitat(e.target.value)}
         />
 
-        <label>ID Investigador</label>
-        <input
-          type="text"
-          className="in-ep"
+        <label>Investigador</label>
+        <select
+          className="inveztiga"
           value={idInvestigador}
-          onChange={(e) => {
-            const soloNumeros = e.target.value.replace(/\D/g, ""); // elimina todo lo que no sea dígito
-            setIdInvestigador(soloNumeros);
-          }}
-        />
+          onChange={(e) => setIdInvestigador(e.target.value)}
+        >
+          <option value="">Selecciona un investigador</option>
+          {investigadores.map((inv) => (
+            <option key={inv.id_investigador} value={inv.id_investigador}>
+              {inv.nombre}
+            </option>
+          ))}
+        </select>
 
         <div className="botones">
           <button type="button" onClick={() => window.history.back()}>
