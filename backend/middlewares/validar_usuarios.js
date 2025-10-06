@@ -1,17 +1,17 @@
 const { body, validationResult } = require("express-validator");
 
 const validarRegistro = [
-    body('name')
+    body('nombre')
         .optional()
         .matches(/^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]+$/).withMessage("El nombre solo puede contener letras y espacios")
         .isString().withMessage("El nombre debe ser texto")
         .isLength({ min: 3 }).withMessage("Debe tener al menos 3 caracteres"),
 
-    body('email')
+    body('correo_electronico')
         .notEmpty().withMessage("El correo es obligatorio")
         .isEmail().withMessage("Formato de correo no valido"),
     
-    body('password')
+    body('contrasena')
         .notEmpty().withMessage("La contraseña es obligatoria")
         .isLength({ min: 6 }).withMessage("Debe tener al menos 3 caracteres"),
 
