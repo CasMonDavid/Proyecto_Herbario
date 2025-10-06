@@ -17,7 +17,7 @@
 /* Inner wrapper para evitar superposición de elementos absolutos */
 .content-inner {
   flex: 1;
-  padding-bottom: 250px; /* igual a la altura del footer */
+  padding-bottom: 550px; /* igual a la altura del footer */
   display: flex;
   flex-direction: column;
   align-items: center;

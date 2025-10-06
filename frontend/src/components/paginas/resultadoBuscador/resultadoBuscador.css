@@ -1,0 +1,60 @@
+.resultado-container {
+  width: 100%;
+  max-width: 1200px; /* tu ancho de página */
+  margin: 0 auto; /* centra la página */
+  position: relative; /* IMPORTANTE: contenedor relativo para posicionar el botón */
+  padding: 20px;
+}
+
+.btn-volver {
+  position: absolute; /* relativo al contenedor, no a la pantalla */
+  top: 0;   /* ajusta según quieras, por ejemplo 0 o 20px */
+  left: 0;  /* pegado al lado izquierdo del contenedor */
+  padding: 10px 16px;
+  background-color: #35bc47;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-volver:hover {
+  background-color: #8ce99a;
+}
+
+.resultado-titulo {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #222;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.cartas {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 columnas iguales */
+  gap: 20px; /* espacio entre cartas */
+  justify-items: center; /* centra cada carta dentro de su celda */
+  margin-top: 40px; /* espacio entre título y cartas */
+}
+
+/* Ajustes responsive para pantallas más pequeñas */
+@media (max-width: 1200px) {
+  .cartas {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .cartas {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .cartas {
+    grid-template-columns: 1fr;
+  }
+}
