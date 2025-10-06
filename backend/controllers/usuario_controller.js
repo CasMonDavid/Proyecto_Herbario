@@ -43,29 +43,50 @@ exports.createUser = async (req,res, next)=>{
 };
 
 exports.editUserById = async (req, res) => {
+    console.log("REQ.BODY:", req.body); // para depurar
     const id = req.params.id;
+
+    // Primero extraemos los campos del body
     const { nombre, correo_electronico, contrasena } = req.body;
-    
-    if (nombre === undefined || correo_electronico === undefined || contrasena === undefined) {
+
+    // Ahora validamos correctamente
+    if (!nombre || !correo_electronico || nombre.trim() === "" || correo_electronico.trim() === "") {
+        console.log("Faltan campos:", nombre, correo_electronico);
         return res.status(400).json({ message: 'Faltan campos requeridos en el cuerpo de la solicitud' });
     }
-    const hashedPassword = await bcrypt.hash(contrasena, 10);
-    
-    try{
+
+    try {
+        let hashedPassword;
+        if (contrasena) {
+            hashedPassword = await bcrypt.hash(contrasena, 10);
+        }
+
+        const [usuarioActual] = await connection.execute(
+            'SELECT contrasena FROM investigadores WHERE id_investigador = ?',
+            [id]
+        );
+
+        if (usuarioActual.length === 0) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+
+        const passwordFinal = hashedPassword || usuarioActual[0].contrasena;
+
         const [result] = await connection.execute(
             'UPDATE investigadores SET nombre = ?, correo_electronico = ?, contrasena = ? WHERE id_investigador = ?',
-        [nombre, correo_electronico, hashedPassword, id]);
+            [nombre, correo_electronico, passwordFinal, id]
+        );
 
         if (result.affectedRows > 0) {
             res.json({ message: 'Usuario actualizado correctamente' });
         } else {
             res.status(404).json({ message: 'Usuario no encontrado' });
         }
-    }catch(err){
+    } catch (err) {
         console.log(err);
-        res.status(500).send("Error al actualizar la planta");
+        res.status(500).send("Error al actualizar el usuario");
     }
-}
+};
 
 exports.getUserById = async (req, res, next) => {
     try{

@@ -13,51 +13,65 @@ const UsuarioEditar = () => {
   const [passwordConfirm, setPasswordConfirm] = useState("");
 
   useEffect(() => {
-    Axios.get(`http://localhost:4000/usuarioedit/${id}`)
-      .then((response) => {
-        setNombre(response.data.nombre);
-        setCorreoElectronico(response.data.correo_electronico);
-        setPassword(response.data.contrasena);
-      })
-      .catch((error) => {
-        console.error("Hubo un error al obtener los datos:", error);
-      });
-  }, [id]);
+  Axios.get(`http://localhost:4000/usuarioedit/${id}`)
+    .then((response) => {
+      setNombre(response.data.nombre);
+      setCorreoElectronico(response.data.correo_electronico);
+      setPassword(""); // vacía la contraseña para que ingrese nueva si quiere
+      setPasswordConfirm("");
+    })
+    .catch((error) => {
+      console.error("Hubo un error al obtener los datos:", error);
+    });
+}, [id]);
 
-  const editarUsuario = (event) => {
-    event.preventDefault();
+const editarUsuario = (event) => {
+  event.preventDefault();
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-    let errores = [];
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  let errores = [];
 
-    if (nombre.trim().length < 8)
-      errores.push("- El nombre debe tener al menos 8 caracteres.");
-    if (!emailRegex.test(correoElectronico))
-      errores.push("- El correo no tiene un formato válido.");
+  if (nombre.trim().length < 8)
+    errores.push("- El nombre debe tener al menos 8 caracteres.");
+  if (!emailRegex.test(correoElectronico))
+    errores.push("- El correo no tiene un formato válido.");
+
+  // Validación de contraseña: solo si el usuario quiere cambiarla
+  if (password || passwordConfirm) {
     if (password.length < 8)
-      errores.push("- La contraseña debe tener al menos 8 caracteres.");
+      errores.push("- La nueva contraseña debe tener al menos 8 caracteres.");
     if (password !== passwordConfirm)
       errores.push("- Las contraseñas no coinciden.");
+  }
 
-    if (errores.length > 0) {
-      alert("Ocurrió un error:\n" + errores.join("\n"));
-      return;
-    }
+  if (errores.length > 0) {
+    alert("Ocurrió un error:\n" + errores.join("\n"));
+    return;
+  }
 
-    Axios.put(`http://localhost:4000/usuarioedit/${id}`, {
-      nombre: nombre,
-      correo_electronico: correoElectronico,
-      contrasena: password,
+  // Construir objeto a enviar
+  const datosActualizar = {
+  nombre: nombre,
+  correo_electronico: correoElectronico,
+};
+
+if (password.trim() !== "") {
+  datosActualizar.contrasena = password;
+}
+
+console.log("Datos a actualizar:", datosActualizar);
+
+  Axios.put(`http://localhost:4000/usuarioedit/${id}`, datosActualizar)
+    .then((response) => {
+      alert("Usuario actualizado de forma correcta");
+      navigate("/usuario");
     })
-      .then((response) => {
-        alert("Usuario actualizado de forma correcta");
-        navigate("/usuario");
-      })
-      .catch((error) => {
-        console.error("Hubo un error al actualizar los datos:", error);
-        alert("Error al actualizar los datos");
-      });
-  };
+    .catch((error) => {
+      console.error("Hubo un error al actualizar los datos:", error);
+      alert("Error al actualizar los datos");
+    });
+};
+
 
   return (
     <div className="editar-bg">
