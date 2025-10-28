@@ -8,6 +8,6 @@ router.use('/', require('./planta_routes'));
 router.use('/', require('./usuario_routes'));
 router.use('/', require('./descubrimiento_routes'));
 router.use('/', require('./administrador_routes'));
-
+router.use('/descubrimiento/comentario', require('./comentariosDescu_routes'));
 
 module.exports = router;
