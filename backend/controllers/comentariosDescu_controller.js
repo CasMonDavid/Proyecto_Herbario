@@ -45,8 +45,24 @@ exports.update = async (req,res) => { // put localhost:4000/descubrimiento/comen
     }
 };
 
-exports.delete = async (req,res) => {
-    
+exports.delete = async (req,res) => { // get localhost:4000/descubrimiento/comentario/delete
+    try {
+        const id_comentario = req.body.id_comentario;
+        const id_investigador = req.body.id_investigador;
+
+        const [investigador] = await connection.query("SELECT * FROM investigadores WHERE id_investigador = ?",[id_investigador]);
+        if (investigador.length === 0) return res.status(404).json({message: "El investigador vinculado no existe."});
+        const [comentario] = await connection.query("SELECT * FROM comentarios_descu WHERE id = ? AND id_investigador = ?",[id_comentario, id_investigador]);
+        if (comentario.length === 0) return res.status(404).json({message: "No se encontró ningún comentario ligado al investigador."});
+
+        await connection.query("DELETE FROM comentarios_descu WHERE id = ? AND id_investigador = ?",[id_comentario, id_investigador]);
+
+        res.status(200).json({});
+        
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Ocurrio un error en el servidor al querer eliminar el comentario");
+    }
 };
 
 exports.getById = async (req,res) => { // get localhost:4000/descubrimiento/comentario/getbyid/:id
@@ -65,6 +81,22 @@ exports.getById = async (req,res) => { // get localhost:4000/descubrimiento/come
     
 };
 
-exports.getByIdDescubrimiento = async (req,res) => {
-    
+exports.getByIdDescubrimiento = async (req,res) => { // get localhost:4000/descubrimiento/comentario/getByIdDescubrimiento/:id
+    try {
+        const id = req.params.id;
+
+        const [descubrimiento] = await connection.query("SELECT * FROM descubrimientos_plantas WHERE id = ?",[id]);
+        if (descubrimiento.length === 0) return res.status(404).json({message: "No se encontró el descubrimiento."});
+
+        const [comentarios] = await connection.query("SELECT c.id, c.comentario, i.nombre AS autor FROM comentarios_descu AS c INNER JOIN investigadores AS i ON c.id_investigador = i.id_investigador WHERE c.id_descubrimiento = ?",[id]);
+        if (comentarios.length === 0){
+            return res.status(200).json({});
+        }else{
+            res.status(200).json(comentarios);
+        }
+        
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Ocurrio un error en el servidor al querer buscar los comentarios del descubrimiento.");
+    }
 };
