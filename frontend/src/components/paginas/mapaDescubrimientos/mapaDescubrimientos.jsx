@@ -99,6 +99,48 @@ const MapaDescubrimientos = () => {
                     </button>
                   </div>
                 )}
+
+              {/* Sección de comentarios */}
+              <div className="comentarios-section">
+                <h4>Comentarios</h4>
+
+                {/* Formulario para nuevo comentario */}
+                <div className="nuevo-comentario">
+                  <input type="text" placeholder="Escribe un comentario..." />
+                  <button>Publicar</button>
+                </div>
+
+                {/* Comentario ejemplo */}
+                <div className="comentario">
+                  <div className="comentario-header">
+                    <strong>Juan Pérez</strong>{" "}
+                    <span className="comentario-fecha">• 2 nov 2025</span>
+                  </div>
+                  <div className="comentario-texto">
+                    Esta planta es muy común en la zona norte de La Paz.
+                  </div>
+                  <div className="comentario-acciones">
+                    <button>Editar</button>
+                    <button>Eliminar</button>
+                    <button>Responder</button>
+                  </div>
+
+                  {/* Subcomentario ejemplo */}
+                  <div className="subcomentario">
+                    <div className="comentario-header">
+                      <strong>Carlos</strong>{" "}
+                      <span className="comentario-fecha">• 2 nov 2025</span>
+                    </div>
+                    <div className="comentario-texto">
+                      ¡Exacto! También la he visto cerca del campus UABCS.
+                    </div>
+                    <div className="comentario-acciones">
+                      <button>Editar</button>
+                      <button>Eliminar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </Popup>
         </Marker>

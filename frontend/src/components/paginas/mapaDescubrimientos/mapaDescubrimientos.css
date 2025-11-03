@@ -69,3 +69,115 @@
     color: #333 !important;
     text-decoration: none;
 }
+
+.comentarios-section {
+  padding: 15px 20px;
+  border-top: 1px solid #ddd;
+  background-color: #f9f9f9;
+}
+
+.comentarios-section h4 {
+  margin-bottom: 10px;
+  font-size: 1.1em;
+  color: #333;
+}
+
+.nuevo-comentario {
+  display: flex;
+  flex-direction: column; /* apila verticalmente */
+  align-items: center;     /* centra horizontalmente */
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.nuevo-comentario input {
+  width: 95%;
+  max-width: 500px;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.95em; /* igual que el botón */
+}
+
+.nuevo-comentario button {
+  width: 100%;
+  max-width: 500px;
+  height: 36px; /* altura más compacta */
+  background-color: #78B578;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95em;
+  font-weight: 500;
+  display: block;
+  margin: 0 auto; /* asegura centrado horizontal */
+}
+
+.comentario {
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  margin: 0 auto 10px; /* centrado */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  width: 95%;
+  max-width: 500px;
+}
+
+.comentario-header {
+  font-size: 0.9em;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+.comentario-fecha {
+  font-size: 0.8em;
+  color: #999;
+}
+
+.comentario-texto {
+  font-size: 0.95em;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.comentario-acciones button {
+  background: none;
+  border: none;
+  color: #78B578;
+  font-size: 0.85em;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.subcomentario {
+  margin-left: 20px;
+  margin-top: 10px;
+  padding-left: 10px;
+  border-left: 2px solid #ddd;
+}
+
+.comentarios-section {
+  padding: 15px 20px;
+  border-top: 1px solid #ddd;
+  background-color: #f9f9f9;
+  max-height: 250px; /* Limita la altura total de la sección */
+  overflow-y: auto;   /* Habilita scroll vertical si se excede */
+  scrollbar-width: thin; /* Estilo para Firefox */
+}
+
+/* Opcional: mejora visual del scrollbar en navegadores WebKit */
+.comentarios-section::-webkit-scrollbar {
+  width: 6px;
+}
+
+.comentarios-section::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+.comentario-acciones {
+  display: flex;
+  justify-content: center; /* centra horizontalmente */
+  gap: 15px; /* espacio entre botones */
+  margin-top: 5px;
+}
