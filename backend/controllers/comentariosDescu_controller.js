@@ -108,7 +108,8 @@ exports.getByIdDescubrimiento = async (req,res) => { // get localhost:4000/descu
                     c.id, 
                     c.comentario, 
                     c.id_comentario_padre,
-                    i.nombre AS autor
+                    i.nombre AS autor,
+                    i.id_investigador AS id_autor
                     FROM comentarios_descu AS c
                     INNER JOIN investigadores AS i 
                     ON c.id_investigador = i.id_investigador
@@ -120,7 +121,8 @@ exports.getByIdDescubrimiento = async (req,res) => { // get localhost:4000/descu
                     h.id,
                     h.comentario,
                     h.id_comentario_padre,
-                    i2.nombre AS autor
+                    i2.nombre AS autor,
+                    i2.id_investigador AS id_autor
                     FROM comentarios_descu AS h
                     INNER JOIN investigadores AS i2 
                     ON h.id_investigador = i2.id_investigador
@@ -140,6 +142,7 @@ exports.getByIdDescubrimiento = async (req,res) => { // get localhost:4000/descu
                 id: c.id,
                 comentario: c.comentario,
                 autor: c.autor,
+                id_autor: c.id_autor,
                 id_comentario_padre: c.id_comentario_padre,
                 respuestas: []
             };
