@@ -7,11 +7,11 @@ const validarRegistro = [
         .isString().withMessage("El nombre debe ser texto")
         .isLength({ min: 3 }).withMessage("Debe tener al menos 3 caracteres"),
 
-    body('correo_electronico')
+    body('email')
         .notEmpty().withMessage("El correo es obligatorio")
         .isEmail().withMessage("Formato de correo no valido"),
     
-    body('contrasena')
+    body('password')
         .notEmpty().withMessage("La contraseña es obligatoria")
         .isLength({ min: 6 }).withMessage("Debe tener al menos 3 caracteres"),
 
