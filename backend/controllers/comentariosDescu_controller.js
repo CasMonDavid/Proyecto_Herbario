@@ -3,16 +3,30 @@ const connection = require('../config/db');
 exports.create = async (req,res) => { // post localhost:4000/descubrimiento/comentario/crear
     try {
         const contenido = req.body.contenido; // COMENTARIO
-        const id_descubrimiento = req.body.id_descubrimiento; // ID DEL DESCUBRIMIENTO
+        const id_objetivo = req.body.id_objetivo; // ID DEL OBJETIVO descubrimiento o comentario
         const id_investigador = req.body.id_investigador; // ID DEL INVESTIGADOR
+        const tipo = req.body.tipo; // TIPO DE OBJETIVO descubrimiento o comentario
 
-        const [descubrimiento] = await connection.query("SELECT * FROM descubrimientos_plantas WHERE id = ?",[id_descubrimiento]);
-        if (descubrimiento.length === 0) return res.status(404).json({message: "El descubrimiento vinculado no existe."});
-        const [investigador] = await connection.query("SELECT * FROM investigadores WHERE id_investigador = ?",[id_investigador]);
-        if (investigador.length === 0) return res.status(404).json({message: "El investigador vinculado no existe."});
+        if(tipo === "descubrimiento"){
+            const [descubrimiento] = await connection.query("SELECT * FROM descubrimientos_plantas WHERE id = ?",[id_objetivo]);
+            if (descubrimiento.length === 0) return res.status(404).json({message: "El descubrimiento vinculado no existe."});
+            const [investigador] = await connection.query("SELECT * FROM investigadores WHERE id_investigador = ?",[id_investigador]);
+            if (investigador.length === 0) return res.status(404).json({message: "El investigador vinculado no existe."});
 
-        const [result] = await connection.query("INSERT INTO comentarios_descu(comentario, fecha, id_descubrimiento, id_investigador) VALUES(?,NOW(),?,?)",
-                                                [contenido, id_descubrimiento, id_investigador]);
+            const [result] = await connection.query("INSERT INTO comentarios_descu(comentario, fecha, id_descubrimiento, id_investigador) VALUES(?,NOW(),?,?)",
+                                                    [contenido, id_objetivo, id_investigador]);
+        }else if(tipo === "comentario"){
+            const [comentario] = await connection.query("SELECT * FROM comentarios_descu WHERE id = ?",[id_objetivo]);
+            if (comentario.length === 0) return res.status(404).json({message: "El descubrimiento vinculado no existe."});
+            const [investigador] = await connection.query("SELECT * FROM investigadores WHERE id_investigador = ?",[id_investigador]);
+            if (investigador.length === 0) return res.status(404).json({message: "El investigador vinculado no existe."});
+
+            const [result] = await connection.query("INSERT INTO comentarios_descu(comentario, fecha, id_comentario_padre, id_investigador) VALUES(?,NOW(),?,?)",
+                                                    [contenido, id_objetivo, id_investigador]);
+        }else {
+            res.status(404).send("Tipo de objetivo no encontrado: debe de ser llenado como [descubrimiento] o [comentario]");
+        }
+
         res.status(200).send("Comentario registrado con éxito!!");
     }catch (err){
         console.log(err);
@@ -26,7 +40,6 @@ exports.update = async (req,res) => { // put localhost:4000/descubrimiento/comen
         const id_comentario = req.body.id_comentario; // ID COMENTARIO
         const id_investigador = req.body.id_investigador; // ID INVESTIGADOR
         const contenido = req.body.contenido; // COMENTARIO
-        
 
         const [comentario] = await connection.query("SELECT * FROM comentarios_descu WHERE id = ?",[id_comentario]);
         if (comentario.length === 0) return res.status(404).json({message: "El comentario vinculado no existe."});
@@ -88,11 +101,64 @@ exports.getByIdDescubrimiento = async (req,res) => { // get localhost:4000/descu
         const [descubrimiento] = await connection.query("SELECT * FROM descubrimientos_plantas WHERE id = ?",[id]);
         if (descubrimiento.length === 0) return res.status(404).json({message: "No se encontró el descubrimiento."});
 
-        const [comentarios] = await connection.query("SELECT c.id, c.comentario, i.nombre AS autor FROM comentarios_descu AS c INNER JOIN investigadores AS i ON c.id_investigador = i.id_investigador WHERE c.id_descubrimiento = ?",[id]);
+        const [comentarios] = await connection.query(
+            `
+                WITH RECURSIVE todos_comentarios AS (
+                    SELECT 
+                    c.id, 
+                    c.comentario, 
+                    c.id_comentario_padre,
+                    i.nombre AS autor
+                    FROM comentarios_descu AS c
+                    INNER JOIN investigadores AS i 
+                    ON c.id_investigador = i.id_investigador
+                    WHERE c.id_descubrimiento = ?
+
+                    UNION ALL
+
+                    SELECT 
+                    h.id,
+                    h.comentario,
+                    h.id_comentario_padre,
+                    i2.nombre AS autor
+                    FROM comentarios_descu AS h
+                    INNER JOIN investigadores AS i2 
+                    ON h.id_investigador = i2.id_investigador
+                    INNER JOIN todos_comentarios AS tc 
+                    ON tc.id = h.id_comentario_padre
+                )
+                SELECT * FROM todos_comentarios ORDER BY id ASC;
+            `,
+            [id]
+        );
+
+
+        // ---- Convertimos los resultados en árbol ----
+        const mapa = {};
+        comentarios.forEach(c => {
+            mapa[c.id] = { 
+                id: c.id,
+                comentario: c.comentario,
+                autor: c.autor,
+                id_comentario_padre: c.id_comentario_padre,
+                respuestas: []
+            };
+        });
+
+        const arbol = [];
+
+        comentarios.forEach(c => {
+        if (c.id_comentario_padre) {
+            mapa[c.id_comentario_padre]?.respuestas.push(mapa[c.id]);
+        } else {
+            arbol.push(mapa[c.id]);
+        }
+        });
+
         if (comentarios.length === 0){
             return res.status(200).json({});
         }else{
-            res.status(200).json(comentarios);
+            res.status(200).json(arbol);
         }
         
     } catch (err) {
