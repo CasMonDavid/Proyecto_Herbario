@@ -181,3 +181,40 @@
   gap: 15px; /* espacio entre botones */
   margin-top: 5px;
 }
+
+.comentario-alerta {
+  width: 95%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 0.9em;
+  text-align: center;
+  font-weight: 500;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+/* Colores por tipo de acción */
+.comentario-alerta.publicar {
+  background-color: #e6f4ea;
+  color: #2e7d32;
+  border: 1px solid #c8e6c9;
+}
+
+.comentario-alerta.editar {
+  background-color: #e3f2fd;
+  color: #1565c0;
+  border: 1px solid #bbdefb;
+}
+
+.comentario-alerta.responder {
+  background-color: #fff3e0;
+  color: #ef6c00;
+  border: 1px solid #ffe0b2;
+}
+
+.comentario-alerta.eliminar {
+  background-color: #ffebee;
+  color: #c62828;
+  border: 1px solid #ffcdd2;
+}

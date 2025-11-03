@@ -14,6 +14,8 @@ const icon = new L.Icon({
 
 const MapaDescubrimientos = () => {
   const [descubrimientos, setDescubrimientos] = useState([]);
+  const [mensajeComentario, setMensajeComentario] = useState(""); // mensaje emergente
+  const [nuevoComentario, setNuevoComentario] = useState(""); // contenido del comentario
   const usuario = JSON.parse(localStorage.getItem("user"));
   let sesionActiva = usuario ? true : false;
 
@@ -47,6 +49,57 @@ const MapaDescubrimientos = () => {
     } catch (error) {
       console.error(error);
       alert("Ocurrió un error al intentar eliminar");
+    }
+  };
+
+  // función para mostrar mensaje emergente
+  const mostrarMensaje = (tipo) => {
+    switch (tipo) {
+      case "publicar":
+        setMensajeComentario("Comentario publicado correctamente.");
+        break;
+      case "editar":
+        setMensajeComentario("Comentario editado exitosamente.");
+        break;
+      case "responder":
+        setMensajeComentario("Respuesta agregada correctamente.");
+        break;
+      case "eliminar":
+        setMensajeComentario("Comentario eliminado.");
+        break;
+      default:
+        setMensajeComentario("");
+    }
+
+    setTimeout(() => {
+      setMensajeComentario("");
+    }, 3000);
+  };
+
+  // función para publicar comentario
+  const publicarComentario = async (id_descubrimiento) => {
+    if (!nuevoComentario.trim()) return;
+
+    try {
+      const respuesta = await axios.post(
+        "http://localhost:4000/descubrimiento/comentario/crear",
+        {
+          contenido: nuevoComentario,
+          id_descubrimiento: id_descubrimiento,
+          id_investigador: usuario.id_investigador,
+        }
+      );
+
+      if (respuesta.status === 200) {
+        mostrarMensaje("publicar");
+        setNuevoComentario(""); // limpiar campo
+      }
+    } catch (error) {
+      console.error("Error al publicar comentario:", error);
+      setMensajeComentario("Ocurrió un error al publicar el comentario.");
+      setTimeout(() => {
+        setMensajeComentario("");
+      }, 3000);
     }
   };
 
@@ -106,8 +159,22 @@ const MapaDescubrimientos = () => {
 
                 {/* Formulario para nuevo comentario */}
                 <div className="nuevo-comentario">
-                  <input type="text" placeholder="Escribe un comentario..." />
-                  <button>Publicar</button>
+                  <input
+                    type="text"
+                    placeholder="Escribe un comentario..."
+                    value={nuevoComentario}
+                    onChange={(e) => setNuevoComentario(e.target.value)}
+                  />
+                  <button onClick={() => publicarComentario(d.id)}>
+                    Publicar
+                  </button>
+
+                  {/* Mensaje emergente */}
+                  {mensajeComentario && (
+                    <div className="comentario-alerta publicar">
+                      {mensajeComentario}
+                    </div>
+                  )}
                 </div>
 
                 {/* Comentario ejemplo */}
