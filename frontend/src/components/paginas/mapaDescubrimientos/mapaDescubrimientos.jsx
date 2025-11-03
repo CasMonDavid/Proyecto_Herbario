@@ -14,8 +14,11 @@ const icon = new L.Icon({
 
 const MapaDescubrimientos = () => {
   const [descubrimientos, setDescubrimientos] = useState([]);
+  const [comentarios, setComentarios] = useState({});
   const [mensajeComentario, setMensajeComentario] = useState(""); // mensaje emergente
   const [nuevoComentario, setNuevoComentario] = useState(""); // contenido del comentario
+  const [modoEdicion, setModoEdicion] = useState(null); // id del comentario en edición
+  const [respuestaA, setRespuestaA] = useState(null); // id del comentario a responder
   const usuario = JSON.parse(localStorage.getItem("user"));
   let sesionActiva = usuario ? true : false;
 
@@ -26,6 +29,18 @@ const MapaDescubrimientos = () => {
       .catch((err) => console.error("Error al cargar descubrimientos:", err));
   }, []);
 
+  useEffect(() => {
+    const cargarTodosLosComentarios = async () => {
+      for (const d of descubrimientos) {
+        await recargarComentarios(d.id);
+      }
+    };
+    if (descubrimientos.length > 0) {
+      cargarTodosLosComentarios();
+    }
+  }, [descubrimientos]);
+
+  // Funciones eliminarDescubrimiento, mostrarMensaje, recargarComentarios, publicarComentario, editarComentario, eliminarComentario
   const eliminarDescubrimiento = async (id) => {
     const confirmar = window.confirm(
       "¿Estás seguro de que deseas eliminar este descubrimiento?"
@@ -35,11 +50,8 @@ const MapaDescubrimientos = () => {
     try {
       const respuesta = await fetch(
         `http://localhost:4000/descubrimientos/eliminar/${id}`,
-        {
-          method: "DELETE",
-        }
+        { method: "DELETE" }
       );
-
       if (respuesta.ok) {
         alert("Descubrimiento eliminado correctamente");
         setDescubrimientos((prev) => prev.filter((d) => d.id !== id));
@@ -52,7 +64,6 @@ const MapaDescubrimientos = () => {
     }
   };
 
-  // función para mostrar mensaje emergente
   const mostrarMensaje = (tipo) => {
     switch (tipo) {
       case "publicar":
@@ -70,38 +81,124 @@ const MapaDescubrimientos = () => {
       default:
         setMensajeComentario("");
     }
-
     setTimeout(() => {
       setMensajeComentario("");
     }, 3000);
   };
 
-  // función para publicar comentario
+  const recargarComentarios = async (id) => {
+    const res = await axios.get(
+      `http://localhost:4000/descubrimiento/comentario/getbyiddescubrimiento/${id}`
+    );
+    setComentarios((prev) => ({
+      ...prev,
+      [id]: Array.isArray(res.data) ? res.data : [],
+    }));
+  };
+
   const publicarComentario = async (id_descubrimiento) => {
     if (!nuevoComentario.trim()) return;
+    const esRespuesta = typeof respuestaA === "number";
+    const data = { id_investigador: usuario.id_investigador };
+
+    if (esRespuesta) {
+      data.comentario = nuevoComentario;
+      data.id_comentario_padre = respuestaA;
+    } else {
+      data.contenido = nuevoComentario;
+      data.id_descubrimiento = id_descubrimiento;
+    }
 
     try {
-      const respuesta = await axios.post(
+      await axios.post(
         "http://localhost:4000/descubrimiento/comentario/crear",
-        {
-          contenido: nuevoComentario,
-          id_descubrimiento: id_descubrimiento,
-          id_investigador: usuario.id_investigador,
-        }
+        data
       );
-
-      if (respuesta.status === 200) {
-        mostrarMensaje("publicar");
-        setNuevoComentario(""); // limpiar campo
-      }
+      mostrarMensaje(esRespuesta ? "responder" : "publicar");
+      setNuevoComentario("");
+      setRespuestaA(null);
+      recargarComentarios(id_descubrimiento);
     } catch (error) {
-      console.error("Error al publicar comentario:", error);
+      console.error("Error al publicar comentario:", error.response?.data || error);
       setMensajeComentario("Ocurrió un error al publicar el comentario.");
-      setTimeout(() => {
-        setMensajeComentario("");
-      }, 3000);
+      setTimeout(() => setMensajeComentario(""), 3000);
     }
   };
+
+  const editarComentario = async (id_comentario, id_descubrimiento) => {
+    if (!nuevoComentario.trim()) return;
+    try {
+      await axios.put("http://localhost:4000/descubrimiento/comentario/actualizar", {
+        id_comentario,
+        id_investigador: usuario.id_investigador,
+        contenido: nuevoComentario,
+      });
+      mostrarMensaje("editar");
+      setNuevoComentario("");
+      setModoEdicion(null);
+      recargarComentarios(id_descubrimiento);
+    } catch (error) {
+      console.error("Error al editar comentario:", error);
+      setMensajeComentario("Ocurrió un error al editar el comentario.");
+      setTimeout(() => setMensajeComentario(""), 3000);
+    }
+  };
+
+  const eliminarComentario = async (id_comentario, id_descubrimiento) => {
+    const confirmar = window.confirm("¿Eliminar este comentario?");
+    if (!confirmar) return;
+    try {
+      await axios.delete("http://localhost:4000/descubrimiento/comentario/eliminar", {
+        data: { id_comentario, id_investigador: usuario.id_investigador },
+      });
+      mostrarMensaje("eliminar");
+      recargarComentarios(id_descubrimiento);
+    } catch (error) {
+      console.error("Error al eliminar comentario:", error);
+      setMensajeComentario("Ocurrió un error al eliminar el comentario.");
+      setTimeout(() => setMensajeComentario(""), 3000);
+    }
+  };
+
+  // Renderizado recursivo de comentarios
+  // Dentro de renderComentarios:
+const renderComentarios = (lista, id_descubrimiento) =>
+  lista.map((c) => (
+    <div key={c.id} className="comentario">
+      {/* Mostrar alerta solo sobre el comentario que se va a responder */}
+      {respuestaA === c.id && (
+  <div className="comentario-alerta responder">
+    Respondiendo al comentario #{c.id}
+    <button className="botones-dirc" onClick={() => setRespuestaA(null)}>
+      Cancelar
+    </button>
+  </div>
+)}
+
+
+      <div className="comentario-header">
+        <strong>{c.autor}</strong> <span className="comentario-fecha">• reciente</span>
+      </div>
+      <div className="comentario-texto">{c.comentario}</div>
+      {sesionActiva && (
+        <div className="comentario-acciones">
+          {c.id_investigador === usuario.id_investigador && (
+            <>
+              <button onClick={() => setModoEdicion(c.id)}>Editar</button>
+              <button onClick={() => eliminarComentario(c.id, id_descubrimiento)}>Eliminar</button>
+            </>
+          )}
+          <button onClick={() => setRespuestaA(c.id)}>Responder</button>
+        </div>
+      )}
+      {c.respuestas && c.respuestas.length > 0 && (
+        <div className="subcomentario">
+          {renderComentarios(c.respuestas, id_descubrimiento)}
+        </div>
+      )}
+    </div>
+  ));
+
 
   return (
     <MapContainer
@@ -127,31 +224,25 @@ const MapaDescubrimientos = () => {
                   {d.descripcion}
                   <br />
                   <strong>Fecha de descubrimiento:</strong>{" "}
-                  {d.fecha
-                    ? new Date(d.fecha).toLocaleDateString()
-                    : "Desconocida"}
+                  {d.fecha ? new Date(d.fecha).toLocaleDateString() : "Desconocida"}
                   <br />
                 </div>
               </div>
-              {sesionActiva &&
-                Number(usuario.id_investigador) === d.usuario_id && (
-                  <div className="tarjeta-buttons">
-                    <button className="edit-btn">
-                      <Link
-                        to={`/descubrimiento/${d.id}`}
-                        className="botones-dirc"
-                      >
-                        Editar
-                      </Link>
-                    </button>
-                    <button
-                      className="delete-btn"
-                      onClick={() => eliminarDescubrimiento(d.id)}
-                    >
-                      Eliminar
-                    </button>
-                  </div>
-                )}
+              {sesionActiva && Number(usuario.id_investigador) === d.usuario_id && (
+                <div className="tarjeta-buttons">
+                  <button className="edit-btn">
+                    <Link to={`/descubrimiento/${d.id}`} className="botones-dirc">
+                      Editar
+                    </Link>
+                  </button>
+                  <button
+                    className="delete-btn"
+                    onClick={() => eliminarDescubrimiento(d.id)}
+                  >
+                    Eliminar
+                  </button>
+                </div>
+              )}
 
               {/* Sección de comentarios */}
               <div className="comentarios-section">
@@ -161,12 +252,24 @@ const MapaDescubrimientos = () => {
                 <div className="nuevo-comentario">
                   <input
                     type="text"
-                    placeholder="Escribe un comentario..."
+                    placeholder={
+                      modoEdicion
+                        ? "Editando comentario..."
+                        : respuestaA
+                        ? "Respondiendo comentario..."
+                        : "Escribe un comentario..."
+                    }
                     value={nuevoComentario}
                     onChange={(e) => setNuevoComentario(e.target.value)}
                   />
-                  <button onClick={() => publicarComentario(d.id)}>
-                    Publicar
+                  <button
+                    onClick={() =>
+                      modoEdicion
+                        ? editarComentario(modoEdicion, d.id)
+                        : publicarComentario(d.id)
+                    }
+                  >
+                    {modoEdicion ? "Guardar" : "Publicar"}
                   </button>
 
                   {/* Mensaje emergente */}
@@ -177,36 +280,8 @@ const MapaDescubrimientos = () => {
                   )}
                 </div>
 
-                {/* Comentario ejemplo */}
-                <div className="comentario">
-                  <div className="comentario-header">
-                    <strong>Juan Pérez</strong>{" "}
-                    <span className="comentario-fecha">• 2 nov 2025</span>
-                  </div>
-                  <div className="comentario-texto">
-                    Esta planta es muy común en la zona norte de La Paz.
-                  </div>
-                  <div className="comentario-acciones">
-                    <button>Editar</button>
-                    <button>Eliminar</button>
-                    <button>Responder</button>
-                  </div>
-
-                  {/* Subcomentario ejemplo */}
-                  <div className="subcomentario">
-                    <div className="comentario-header">
-                      <strong>Carlos</strong>{" "}
-                      <span className="comentario-fecha">• 2 nov 2025</span>
-                    </div>
-                    <div className="comentario-texto">
-                      ¡Exacto! También la he visto cerca del campus UABCS.
-                    </div>
-                    <div className="comentario-acciones">
-                      <button>Editar</button>
-                      <button>Eliminar</button>
-                    </div>
-                  </div>
-                </div>
+                {/* Comentarios reales */}
+                {comentarios[d.id] && renderComentarios(comentarios[d.id], d.id)}
               </div>
             </div>
           </Popup>
