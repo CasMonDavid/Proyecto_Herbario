@@ -1,3 +1,7 @@
+.leaflet-popup-content {
+  width: 350px !important; /* Puedes subir a 500px si quieres aún más ancho */
+  max-width: none !important;
+}
 .tarjeta {
     background: #fff;
     width: 100%;
@@ -36,6 +40,7 @@
     display: flex;
     justify-content: space-between;
     padding: 0 20px 20px;
+    justify-content: center; /* centra si hay más de dos botones */
 }
 
 .tarjeta-buttons button {
