@@ -182,7 +182,7 @@ const renderComentarios = (lista, id_descubrimiento) =>
       <div className="comentario-texto">{c.comentario}</div>
       {sesionActiva && (
         <div className="comentario-acciones">
-          {c.id_investigador === usuario.id_investigador && (
+          {c.id_autor === usuario.id_investigador && (
             <>
               <button onClick={() => setModoEdicion(c.id)}>Editar</button>
               <button onClick={() => eliminarComentario(c.id, id_descubrimiento)}>Eliminar</button>
