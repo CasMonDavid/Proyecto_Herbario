@@ -167,20 +167,33 @@ const MapaDescubrimientos = () => {
   };
 
   const eliminarComentario = async (id_comentario, id_descubrimiento) => {
-    const confirmar = window.confirm("¿Eliminar este comentario?");
-    if (!confirmar) return;
-    try {
-      await axios.delete("http://localhost:4000/descubrimiento/comentario/eliminar", {
-        data: { id_comentario, id_investigador: usuario.id_investigador },
-      });
-      mostrarMensaje("eliminar");
-      recargarComentarios(id_descubrimiento);
-    } catch (error) {
-      console.error("Error al eliminar comentario:", error);
-      setMensajeComentario("Ocurrió un error al eliminar el comentario.");
-      setTimeout(() => setMensajeComentario(""), 3000);
-    }
-  };
+  const listaComentarios = comentarios[id_descubrimiento] || [];
+
+  // Buscar si el comentario tiene subcomentarios
+  const comentarioPadre = listaComentarios.find((c) => c.id === id_comentario);
+  const tieneRespuestas = comentarioPadre?.respuestas?.length > 0;
+
+  // Mensaje dinámico según si tiene hijos
+  const mensajeConfirmacion = tieneRespuestas
+    ? "⚠️ Si lo eliminas, también se eliminarán sus subcomentarios. ¿Deseas continuar?"
+    : "¿Eliminar este comentario?";
+
+  const confirmar = window.confirm(mensajeConfirmacion);
+  if (!confirmar) return;
+
+  try {
+    await axios.delete("http://localhost:4000/descubrimiento/comentario/eliminar", {
+      data: { id_comentario, id_investigador: usuario.id_investigador },
+    });
+    mostrarMensaje("eliminar");
+    recargarComentarios(id_descubrimiento);
+  } catch (error) {
+    console.error("Error al eliminar comentario:", error);
+    setMensajeComentario("Ocurrió un error al eliminar el comentario.");
+    setTimeout(() => setMensajeComentario(""), 3000);
+  }
+};
+
 
   // Renderizado recursivo de comentarios
   // Dentro de renderComentarios:
