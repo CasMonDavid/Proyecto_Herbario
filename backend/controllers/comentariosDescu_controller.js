@@ -53,30 +53,45 @@ exports.update = async (req,res) => { // put localhost:4000/descubrimiento/comen
         res.status(200).send("Comentario actualizado con éxito!!");
 
     } catch (error) {
-        console.log(err);
+        console.log(error);
         res.status(500).send("Ocurrio un error en el servidor al querer actualizar el comentario");
     }
 };
 
-exports.delete = async (req,res) => { // get localhost:4000/descubrimiento/comentario/delete
-    try {
-        const id_comentario = req.body.id_comentario;
-        const id_investigador = req.body.id_investigador;
+exports.delete = async (req, res) => {
+  try {
+    const { id_comentario, id_investigador } = req.body;
 
-        const [investigador] = await connection.query("SELECT * FROM investigadores WHERE id_investigador = ?",[id_investigador]);
-        if (investigador.length === 0) return res.status(404).json({message: "El investigador vinculado no existe."});
-        const [comentario] = await connection.query("SELECT * FROM comentarios_descu WHERE id = ? AND id_investigador = ?",[id_comentario, id_investigador]);
-        if (comentario.length === 0) return res.status(404).json({message: "No se encontró ningún comentario ligado al investigador."});
+    const [investigador] = await connection.query(
+      "SELECT * FROM investigadores WHERE id_investigador = ?",
+      [id_investigador]
+    );
+    if (investigador.length === 0)
+      return res.status(404).json({ message: "El investigador vinculado no existe." });
 
-        await connection.query("DELETE FROM comentarios_descu WHERE id = ? AND id_investigador = ?",[id_comentario, id_investigador]);
+    const [comentario] = await connection.query(
+      "SELECT * FROM comentarios_descu WHERE id = ? AND id_investigador = ?",
+      [id_comentario, id_investigador]
+    );
+    if (comentario.length === 0)
+      return res
+        .status(404)
+        .json({ message: "No se encontró ningún comentario ligado al investigador." });
 
-        res.status(200).json({});
-        
-    } catch (err) {
-        console.log(err);
-        res.status(500).send("Ocurrio un error en el servidor al querer eliminar el comentario");
-    }
+    await connection.query(
+      "DELETE FROM comentarios_descu WHERE id = ? AND id_investigador = ?",
+      [id_comentario, id_investigador]
+    );
+
+    res.status(200).json({
+      message: "Comentario y subcomentarios eliminados correctamente.",
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Ocurrió un error al intentar eliminar el comentario.");
+  }
 };
+
 
 exports.getById = async (req,res) => { // get localhost:4000/descubrimiento/comentario/getbyid/:id
     try {
