@@ -97,33 +97,30 @@ const MapaDescubrimientos = () => {
   };
 
   const publicarComentario = async (id_descubrimiento) => {
-    if (!nuevoComentario.trim()) return;
-    const esRespuesta = typeof respuestaA === "number";
-    const data = { id_investigador: usuario.id_investigador };
+  if (!nuevoComentario.trim()) return;
 
-    if (esRespuesta) {
-      data.comentario = nuevoComentario;
-      data.id_comentario_padre = respuestaA;
-    } else {
-      data.contenido = nuevoComentario;
-      data.id_descubrimiento = id_descubrimiento;
-    }
+  const esRespuesta = typeof respuestaA === "number";
 
-    try {
-      await axios.post(
-        "http://localhost:4000/descubrimiento/comentario/crear",
-        data
-      );
-      mostrarMensaje(esRespuesta ? "responder" : "publicar");
-      setNuevoComentario("");
-      setRespuestaA(null);
-      recargarComentarios(id_descubrimiento);
-    } catch (error) {
-      console.error("Error al publicar comentario:", error.response?.data || error);
-      setMensajeComentario("Ocurrió un error al publicar el comentario.");
-      setTimeout(() => setMensajeComentario(""), 3000);
-    }
+  const data = {
+    contenido: nuevoComentario,
+    id_investigador: usuario.id_investigador,
+    id_objetivo: esRespuesta ? respuestaA : id_descubrimiento,
+    tipo: esRespuesta ? "comentario" : "descubrimiento",
   };
+
+  try {
+    await axios.post("http://localhost:4000/descubrimiento/comentario/crear", data);
+    mostrarMensaje(esRespuesta ? "responder" : "publicar");
+    setNuevoComentario("");
+    setRespuestaA(null);
+    recargarComentarios(id_descubrimiento);
+  } catch (error) {
+    console.error("Error al publicar comentario:", error.response?.data || error);
+    setMensajeComentario("Ocurrió un error al publicar el comentario.");
+    setTimeout(() => setMensajeComentario(""), 3000);
+  }
+};
+
 
   const editarComentario = async (id_comentario, id_descubrimiento) => {
     if (!nuevoComentario.trim()) return;

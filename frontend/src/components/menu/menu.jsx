@@ -20,9 +20,9 @@ const Menu = () => {
     }
 
     if (user) {
-        console.log(user.id_investigador);    // Output: 1
-        console.log(user.nombre);  // Output: Alice
-        console.log(user.correo_electronico); // Output: alice@example.com
+        //console.log(user.id_investigador);    // Output: 1
+       // console.log(user.nombre);  // Output: Alice
+       // console.log(user.correo_electronico); // Output: alice@example.com
     }
 
     return (
