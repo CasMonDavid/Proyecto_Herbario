@@ -74,6 +74,7 @@ const FormularioDescubrimiento = () => {
         try {
             await axios.post("http://localhost:4000/descubrimientos/publicar", data);
             alert("Descubrimiento registrado");
+            window.location.href = "http://localhost:3000/plantas"; // 🔹 Redirección agregada aquí
         } catch (err) {
             console.error(err);
             alert("Error al registrar descubrimiento");

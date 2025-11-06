@@ -15,15 +15,12 @@ const icon = new L.Icon({
 const MapaDescubrimientos = () => {
   const [descubrimientos, setDescubrimientos] = useState([]);
   const [comentarios, setComentarios] = useState({});
-  const [mensajeComentario, setMensajeComentario] = useState(""); // mensaje emergente
-  const [estadoComentarios, setEstadoComentarios] = useState({}); // 🔹 estado local por descubrimiento
+  const [mensajeComentario, setMensajeComentario] = useState("");
+  const [estadoComentarios, setEstadoComentarios] = useState({});
   const usuario = JSON.parse(localStorage.getItem("user"));
   let sesionActiva = usuario ? true : false;
-
-  // 🔹 referencia al campo de comentario
   const inputRef = useRef(null);
 
-  // 🔹 funciones auxiliares para manejar el estado local por descubrimiento
   const getEstado = (id) =>
     estadoComentarios[id] || { nuevo: "", modoEdicion: null, respuestaA: null };
 
@@ -52,7 +49,6 @@ const MapaDescubrimientos = () => {
     }
   }, [descubrimientos]);
 
-  // Funciones eliminarDescubrimiento, mostrarMensaje, recargarComentarios, publicarComentario, editarComentario, eliminarComentario
   const eliminarDescubrimiento = async (id) => {
     const confirmar = window.confirm(
       "¿Estás seguro de que deseas eliminar este descubrimiento?"
@@ -167,36 +163,28 @@ const MapaDescubrimientos = () => {
   };
 
   const eliminarComentario = async (id_comentario, id_descubrimiento) => {
-  const listaComentarios = comentarios[id_descubrimiento] || [];
+    const listaComentarios = comentarios[id_descubrimiento] || [];
+    const comentarioPadre = listaComentarios.find((c) => c.id === id_comentario);
+    const tieneRespuestas = comentarioPadre?.respuestas?.length > 0;
+    const mensajeConfirmacion = tieneRespuestas
+      ? "⚠️ Si lo eliminas, también se eliminarán sus subcomentarios. ¿Deseas continuar?"
+      : "¿Eliminar este comentario?";
+    const confirmar = window.confirm(mensajeConfirmacion);
+    if (!confirmar) return;
 
-  // Buscar si el comentario tiene subcomentarios
-  const comentarioPadre = listaComentarios.find((c) => c.id === id_comentario);
-  const tieneRespuestas = comentarioPadre?.respuestas?.length > 0;
+    try {
+      await axios.delete("http://localhost:4000/descubrimiento/comentario/eliminar", {
+        data: { id_comentario, id_investigador: usuario.id_investigador },
+      });
+      mostrarMensaje("eliminar");
+      recargarComentarios(id_descubrimiento);
+    } catch (error) {
+      console.error("Error al eliminar comentario:", error);
+      setMensajeComentario("Ocurrió un error al eliminar el comentario.");
+      setTimeout(() => setMensajeComentario(""), 3000);
+    }
+  };
 
-  // Mensaje dinámico según si tiene hijos
-  const mensajeConfirmacion = tieneRespuestas
-    ? "⚠️ Si lo eliminas, también se eliminarán sus subcomentarios. ¿Deseas continuar?"
-    : "¿Eliminar este comentario?";
-
-  const confirmar = window.confirm(mensajeConfirmacion);
-  if (!confirmar) return;
-
-  try {
-    await axios.delete("http://localhost:4000/descubrimiento/comentario/eliminar", {
-      data: { id_comentario, id_investigador: usuario.id_investigador },
-    });
-    mostrarMensaje("eliminar");
-    recargarComentarios(id_descubrimiento);
-  } catch (error) {
-    console.error("Error al eliminar comentario:", error);
-    setMensajeComentario("Ocurrió un error al eliminar el comentario.");
-    setTimeout(() => setMensajeComentario(""), 3000);
-  }
-};
-
-
-  // Renderizado recursivo de comentarios
-  // Dentro de renderComentarios:
   const renderComentarios = (lista, id_descubrimiento) =>
     lista.map((c) => (
       <div key={c.id} className="comentario">
@@ -302,27 +290,38 @@ const MapaDescubrimientos = () => {
                       ? new Date(d.fecha).toLocaleDateString()
                       : "Desconocida"}
                     <br />
+                    {d.nombre_cientifico && (
+                      <>
+                        <strong>Relación:</strong> {d.nombre_cientifico}
+                        <br />
+                      </>
+                    )}
                   </div>
                 </div>
-                {sesionActiva &&
-                  Number(usuario.id_investigador) === d.usuario_id && (
-                    <div className="tarjeta-buttons">
-                      <button className="edit-btn">
-                        <Link
-                          to={`/descubrimiento/${d.id}`}
-                          className="botones-dirc"
-                        >
-                          Editar
-                        </Link>
-                      </button>
-                      <button
-                        className="delete-btn"
-                        onClick={() => eliminarDescubrimiento(d.id)}
-                      >
-                        Eliminar
-                      </button>
-                    </div>
+
+                {/* 🔹 Botones de editar, eliminar y detalles */}
+                <div
+                  className="tarjeta-buttons"
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    gap: "6px",
+                    marginTop: "8px",
+                    flexWrap: "wrap",
+                  }}
+                >
+                 <Link to={`/detalles/${d.id}`} className="detalles-btn">🔍 Detalles</Link>
+
+                  {sesionActiva && Number(usuario.id_investigador) === d.id_autor && (
+                    <>
+                      <Link to={`/descubrimiento/${d.id}`} className="edit-btn">✏️ Editar</Link>
+
+                      <button className="delete-btn" onClick={() => eliminarDescubrimiento(d.id)}>🗑️ Eliminar</button>
+                    </>
                   )}
+                </div>
+
+
 
                 {/* Sección de comentarios */}
                 <div className="comentarios-section">
@@ -408,7 +407,8 @@ const MapaDescubrimientos = () => {
                   </div>
 
                   {/* Comentarios reales */}
-                  {comentarios[d.id] && renderComentarios(comentarios[d.id], d.id)}
+                  {comentarios[d.id] &&
+                    renderComentarios(comentarios[d.id], d.id)}
                 </div>
               </div>
             </Popup>

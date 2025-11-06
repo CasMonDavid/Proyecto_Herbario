@@ -223,3 +223,139 @@
   color: #c62828;
   border: 1px solid #ffcdd2;
 }
+
+.tarjeta-buttons a,
+.tarjeta-buttons button {
+  background-color: #2196F3; /* color base */
+  color: #fff !important;
+  padding: 6px 10px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+/* Hover general */
+.tarjeta-buttons a:hover,
+.tarjeta-buttons button:hover {
+  background-color: #1976D2;
+}
+
+/* Colores individuales si los quieres distintos */
+.tarjeta-buttons .edit-btn {
+  background-color: #2196F3;
+}
+
+.tarjeta-buttons .delete-btn {
+  background-color: #f44336;
+}
+
+.tarjeta-buttons .delete-btn:hover {
+  background-color: #d32f2f;
+}
+
+.tarjeta-buttons .detalles-btn {
+  background-color: #9C27B0;
+}
+
+.tarjeta-buttons .detalles-btn:hover {
+  background-color: #7B1FA2;
+}
+
+.tarjeta-buttons a,
+.tarjeta-buttons button {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  background-color: #2196F3;
+  color: #fff !important;
+  padding: 6px 10px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 0.85rem;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  height: 32px; /* 🔹 iguala la altura exacta */
+  line-height: 1; /* 🔹 evita saltos verticales */
+}
+
+/* Hover general */
+.tarjeta-buttons a:hover,
+.tarjeta-buttons button:hover {
+  background-color: #1976D2;
+}
+
+/* Colores individuales */
+.tarjeta-buttons .detalles-btn {
+  background-color: #c8b913;
+}
+.tarjeta-buttons .detalles-btn:hover {
+  background-color: #948a14;
+}
+
+.tarjeta-buttons .edit-btn {
+  background-color: #2196F3;
+}
+.tarjeta-buttons .edit-btn:hover {
+  background-color: #1976D2;
+}
+
+.tarjeta-buttons .delete-btn {
+  background-color: #f44336;
+}
+.tarjeta-buttons .delete-btn:hover {
+  background-color: #d32f2f;
+}
+
+/* 🔹 Alineación y tamaño uniforme de los botones dentro de la tarjeta */
+.tarjeta-buttons {
+  display: flex;
+  justify-content: center; /* Centra horizontalmente todos los botones */
+  align-items: center;
+  gap: 10px; /* Espaciado entre botones */
+  flex-wrap: nowrap; /* Mantiene los tres botones en la misma línea */
+  padding: 10px 0 20px;
+}
+
+.tarjeta-buttons a,
+.tarjeta-buttons button {
+  width: 90px; /* 🔹 mismo ancho para los tres */
+  height: 36px; /* 🔹 misma altura */
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 🔹 Alineación y tamaño uniforme de los botones dentro de la tarjeta */
+.tarjeta-buttons {
+  display: flex;
+  justify-content: center; /* Centra horizontalmente todos los botones */
+  align-items: center;
+  gap: 10px; /* Espaciado entre botones */
+  flex-wrap: nowrap; /* Mantiene los tres botones en la misma línea */
+  padding: 10px 0 20px;
+}
+
+.tarjeta-buttons a,
+.tarjeta-buttons button {
+  min-width: 106px; /* 🔹 mismo ancho visible, sin recortar texto */
+  height: 36px;     /* 🔹 misma altura */
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box; /* asegura que padding no afecte el ancho */
+}
