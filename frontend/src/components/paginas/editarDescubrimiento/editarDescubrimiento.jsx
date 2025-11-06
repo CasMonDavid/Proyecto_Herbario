@@ -1,6 +1,6 @@
 import L from 'leaflet';
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom'; // <-- importamos useNavigate
+import { useParams, useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
 import axios from 'axios';
 import "leaflet/dist/leaflet.css";
@@ -14,17 +14,29 @@ const icon = new L.Icon({
 const FormularioDescubrimiento = () => {
     const usuario = JSON.parse(localStorage.getItem("user"));
     const { id } = useParams();
-    const navigate = useNavigate(); // <-- declaramos navigate
+    const navigate = useNavigate();
 
     const [form, setForm] = useState({});
+    const [plantas, setPlantas] = useState([]); // 🔹 lista de plantas
 
+    // 🔹 Cargar datos del descubrimiento y las plantas
     useEffect(() => {
-        axios.get(`http://localhost:4000/descubrimientos/${id}`)
-            .then(res => {
-                setForm(res.data);
-                console.log(res.data);
-            })
-            .catch(err => console.error("Error al cargar descubrimientos:", err));
+        const fetchData = async () => {
+            try {
+                const [descRes, plantasRes] = await Promise.all([
+                    axios.get(`http://localhost:4000/descubrimientos/${id}`),
+                    axios.get("http://localhost:4000/plantas/getall")
+                ]);
+                setForm({
+                    ...descRes.data,
+                    id_planta: descRes.data.relacion || ""
+                });
+                setPlantas(plantasRes.data);
+            } catch (err) {
+                console.error("Error al cargar datos:", err);
+            }
+        };
+        fetchData();
     }, [id]);
 
     const handleChange = (e) => {
@@ -49,14 +61,20 @@ const FormularioDescubrimiento = () => {
         data.append("latitud", form.latitud);
         data.append("longitud", form.longitud);
         data.append("usuario_id", usuario.id_investigador);
-        if (form.fotografia) {
-            data.append("fotografia", form.fotografia);
-            console.log("Fotografía:", form.fotografia);
+
+        if (form.fotografia) data.append("fotografia", form.fotografia);
+
+        // 🔹 enviar relación de planta
+        if (form.id_planta === "ninguna" || !form.id_planta) {
+            data.append("relacion", "");
+        } else {
+            data.append("relacion", form.id_planta);
         }
 
         try {
             await axios.put(`http://localhost:4000/descubrimientos/editar/${id}`, data);
             alert("Descubrimiento actualizado");
+            navigate(-1);
         } catch (err) {
             console.error(err);
             alert("Error al actualizar el descubrimiento");
@@ -80,17 +98,19 @@ const FormularioDescubrimiento = () => {
         <form
             onSubmit={handleSubmit}
             style={{
-                maxWidth: '500px',
-                margin: '20px auto',
-                padding: '20px',
+                maxWidth: '800px',
+                margin: '30px auto',
+                padding: '30px',
                 border: '1px solid #ccc',
-                borderRadius: '8px',
+                borderRadius: '10px',
                 fontFamily: 'Arial, sans-serif',
-                backgroundColor: '#f9f9f9'
+                backgroundColor: '#f9f9f9',
+                boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)'
             }}
         >
-            <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Actualizar Descubrimiento</h2>
+            <h2 style={{ textAlign: 'center', marginBottom: '25px' }}>Actualizar Descubrimiento</h2>
 
+            {/* Campo Nombre */}
             <input
                 type="text"
                 name="nombre"
@@ -99,43 +119,101 @@ const FormularioDescubrimiento = () => {
                 onChange={handleChange}
                 required
                 style={{
+                    display: 'block',
                     width: '100%',
-                    padding: '10px',
-                    marginBottom: '15px',
-                    borderRadius: '4px',
+                    padding: '12px',
+                    margin: '0 auto 18px auto',
+                    borderRadius: '6px',
                     border: '1px solid #ccc',
-                    fontSize: '1rem'
+                    fontSize: '1rem',
+                    boxSizing: 'border-box'
                 }}
             />
+
+            {/* Campo Descripción */}
             <textarea
                 name="descripcion"
                 placeholder="Descripción"
                 value={form.descripcion || ''}
                 onChange={handleChange}
                 required
-                rows={4}
+                rows={5}
                 style={{
+                    display: 'block',
                     width: '100%',
-                    padding: '10px',
-                    marginBottom: '15px',
-                    borderRadius: '4px',
+                    padding: '12px',
+                    margin: '0 auto 18px auto',
+                    borderRadius: '6px',
                     border: '1px solid #ccc',
                     fontSize: '1rem',
-                    resize: 'vertical'
+                    resize: 'vertical',
+                    boxSizing: 'border-box'
                 }}
             />
-            <input
-                type="file"
-                onChange={handleFileChange}
-                accept="image/*"
-                style={{ marginBottom: '15px' }}
-            />
 
-            <p style={{ marginBottom: '8px' }}>Selecciona la ubicación en el mapa:</p>
+            {/* 🔹 Campo relación con planta */}
+            <select
+                name="id_planta"
+                value={form.id_planta || ""}
+                onChange={handleChange}
+                required
+                style={{
+                    display: 'block',
+                    width: '100%',
+                    padding: '12px',
+                    margin: '0 auto 18px auto',
+                    borderRadius: '6px',
+                    border: '1px solid #ccc',
+                    fontSize: '1rem',
+                    boxSizing: 'border-box',
+                    backgroundColor: 'white'
+                }}
+            >
+                <option value="">Selecciona relación de la planta</option>
+                <option value="ninguna">Sin relación</option>
+                {plantas.map((planta) => (
+                    <option key={planta.id_planta} value={planta.id_planta}>
+                        {planta.nombre_cientifico}
+                    </option>
+                ))}
+            </select>
+
+            {/* 🔹 Etiqueta arriba del campo */}
+<label
+    htmlFor="fotografia"
+    style={{
+        display: 'block',
+        marginBottom: '5px',
+        fontWeight: 'bold'
+    }}
+>
+    Imagen (opcional):
+</label>
+
+<input
+    id="fotografia"
+    type="file"
+    onChange={handleFileChange}
+    accept="image/*"
+    style={{
+        display: 'block',
+        width: '100%',
+        margin: '0 auto 18px auto'
+    }}
+/>
+
+
+            <p style={{ marginBottom: '10px', fontWeight: 'bold' }}>Selecciona la ubicación en el mapa:</p>
             <MapContainer
-                center={[24.10273914855748, -110.3159221446148]}
-                zoom={11}
-                style={{ height: '300px', marginBottom: '20px', borderRadius: '8px', border: '1px solid #ccc' }}
+                center={[form.latitud || 23.6345, form.longitud || -102.5528]}
+                zoom={form.latitud && form.longitud ? 10 : 5}
+                style={{
+                    height: '350px',
+                    width: '100%',
+                    margin: '0 auto 25px auto',
+                    borderRadius: '10px',
+                    border: '1px solid #ccc'
+                }}
             >
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                 <MapClickHandler />
@@ -144,32 +222,34 @@ const FormularioDescubrimiento = () => {
                 )}
             </MapContainer>
 
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '15px' }}>
                 <button
                     type="submit"
                     style={{
-                        padding: '10px 20px',
+                        padding: '12px 24px',
                         backgroundColor: '#4CAF50',
                         color: 'white',
                         border: 'none',
-                        borderRadius: '4px',
+                        borderRadius: '6px',
                         cursor: 'pointer',
-                        fontSize: '1rem'
+                        fontSize: '1rem',
+                        transition: 'background-color 0.3s'
                     }}
                 >
-                    Actualizar
+                    Actualizar Descubrimiento
                 </button>
                 <button
                     type="button"
-                    onClick={() => navigate(-1)}  // <-- Botón para volver
+                    onClick={() => navigate(-1)}
                     style={{
-                        padding: '10px 20px',
+                        padding: '12px 24px',
                         backgroundColor: '#f44336',
                         color: 'white',
                         border: 'none',
-                        borderRadius: '4px',
+                        borderRadius: '6px',
                         cursor: 'pointer',
-                        fontSize: '1rem'
+                        fontSize: '1rem',
+                        transition: 'background-color 0.3s'
                     }}
                 >
                     Volver
