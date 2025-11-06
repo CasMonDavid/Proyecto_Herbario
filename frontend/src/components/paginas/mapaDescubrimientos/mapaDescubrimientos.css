@@ -359,3 +359,40 @@
   justify-content: center;
   box-sizing: border-box; /* asegura que padding no afecte el ancho */
 }
+
+.tarjeta-container {
+  perspective: 1000px;
+  position: relative;
+  width: 100%;
+}
+
+.tarjeta-container .tarjeta {
+  backface-visibility: hidden;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.tarjeta-front {
+  transform: rotateY(0deg);
+}
+
+.tarjeta-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: rotateY(180deg);
+  background: #fff;
+  padding: 10px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  width: 95%;
+  height: 97%;
+}
+
+.tarjeta-container.flipped .tarjeta-front {
+  transform: rotateY(180deg);
+}
+
+.tarjeta-container.flipped .tarjeta-back {
+  transform: rotateY(360deg);
+}
