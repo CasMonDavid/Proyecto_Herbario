@@ -65,11 +65,14 @@ const FormularioDescubrimiento = () => {
 
         // 🔹 El backend espera el campo "relacion", no "id_planta"
         // 🔹 Si el usuario elige "ninguna", mandamos un string vacío
-        if (form.id_planta === "ninguna" || form.id_planta === "" || form.id_planta === null) {
-            data.append("relacion", "");
-        } else {
-            data.append("relacion", form.id_planta);
-        }
+        // 🔹 En handleSubmit
+// Nuevo
+if (!(form.id_planta === "ninguna" || form.id_planta === "" || form.id_planta === null)) {
+    data.append("relacion", form.id_planta);
+}
+// 🔹 No se agrega 'relacion' si es "ninguna" o vacío
+
+
 
         try {
             await axios.post("http://localhost:4000/descubrimientos/publicar", data);

@@ -48,38 +48,38 @@ const FormularioDescubrimiento = () => {
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+    e.preventDefault();
 
-        if (!form.latitud || !form.longitud) {
-            alert("Selecciona una ubicación en el mapa");
-            return;
-        }
+    if (!form.latitud || !form.longitud) {
+        alert("Selecciona una ubicación en el mapa");
+        return;
+    }
 
-        const data = new FormData();
-        data.append("nombre", form.nombre);
-        data.append("descripcion", form.descripcion);
-        data.append("latitud", form.latitud);
-        data.append("longitud", form.longitud);
-        data.append("usuario_id", usuario.id_investigador);
+    const data = new FormData();
+    data.append("nombre", form.nombre);
+    data.append("descripcion", form.descripcion);
+    data.append("latitud", form.latitud);
+    data.append("longitud", form.longitud);
+    data.append("usuario_id", usuario.id_investigador);
 
-        if (form.fotografia) data.append("fotografia", form.fotografia);
+    if (form.fotografia) data.append("fotografia", form.fotografia);
 
-        // 🔹 enviar relación de planta
-        if (form.id_planta === "ninguna" || !form.id_planta) {
-            data.append("relacion", "");
-        } else {
-            data.append("relacion", form.id_planta);
-        }
+    // 🔹 enviar relación de planta
+    if (form.id_planta !== "ninguna" && form.id_planta) {
+        data.append("relacion", form.id_planta);
+    }
+    // si es "ninguna" o vacío, no se agrega 'relacion' y el backend lo tratará como NULL
 
-        try {
-            await axios.put(`http://localhost:4000/descubrimientos/editar/${id}`, data);
-            alert("Descubrimiento actualizado");
-            navigate(-1);
-        } catch (err) {
-            console.error(err);
-            alert("Error al actualizar el descubrimiento");
-        }
-    };
+    try {
+        await axios.put(`http://localhost:4000/descubrimientos/editar/${id}`, data);
+        alert("Descubrimiento actualizado");
+        navigate(-1);
+    } catch (err) {
+        console.error(err);
+        alert("Error al actualizar el descubrimiento");
+    }
+};
+
 
     const MapClickHandler = () => {
         useMapEvents({
