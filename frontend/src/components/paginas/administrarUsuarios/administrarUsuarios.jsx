@@ -22,7 +22,7 @@ const AdministrarUsuarios = () => {
   // 👇 Nueva función para eliminar usuario
   const eliminarUsuario = (id) => {
     if (window.confirm("¿Seguro que deseas eliminar este usuario?")) {
-      Axios.delete(`http://localhost:4000/usuario/${id}`)
+      Axios.delete(`http://localhost:4000/usuario/eliminar/${id}`)
         .then(() => {
           alert("Usuario eliminado correctamente");
           setUsuarios(prev => prev.filter(u => u.id_investigador !== id));
