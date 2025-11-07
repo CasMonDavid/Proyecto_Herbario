@@ -13,7 +13,7 @@ const RegistrarSesion = () => {
 
   const navigate = useNavigate(); // ✅ Hook para navegación
 
-  const addAdmin = () => {
+  const addAdmin = async () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
     const letrasRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/;
 
@@ -26,17 +26,31 @@ const RegistrarSesion = () => {
       confirmPassword !== "" &&
       contrasena === confirmPassword
     ) {
-      Axios.post("http://localhost:4000/registrar/user", {
-        nombre,
-        correo_electronico,
-        contrasena
-      }).then(() => {
+      try {
+        // ✅ Validar si el correo ya existe antes de registrar
+        const verificar = await Axios.get("http://localhost:4000/administrarusuarios/getall");
+        const usuarios = verificar.data;
+        const correoExiste = usuarios.some(u => u.correo_electronico === correo_electronico);
+
+        if (correoExiste) {
+          alert("Este correo ya está registrado. Por favor usa otro.");
+          return;
+        }
+
+        // Si no existe, proceder con el registro
+        await Axios.post("http://localhost:4000/registrar/user", {
+          nombre,
+          correo_electronico,
+          contrasena
+        });
+
         alert("Registro exitoso");
-        navigate("/iniciarsesion"); // ✅ Redirección aquí
-      }).catch(error => {
+        navigate("/iniciarsesion");
+      } catch (error) {
         console.error("Error en el registro:", error);
         alert("Ocurrió un error al registrar.");
-      });
+      }
+
     } else {
       let errorMsg = "Ocurrió un error:\n";
 
