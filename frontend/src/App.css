@@ -26,7 +26,6 @@
   margin-top: 8vh;
 }
 
-
 /* Footer */
 footer {
   flex-shrink: 0; /* nunca se encoge */
@@ -53,4 +52,10 @@ footer {
   height: 50px;
   font-size: 25px;
   margin: 5px;
+}
+
+/* ✅ Quita el espacio arriba del footer solo en la página del mapa */
+.no-footer-space {
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
 }
