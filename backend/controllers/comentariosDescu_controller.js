@@ -92,7 +92,6 @@ exports.delete = async (req, res) => {
   }
 };
 
-
 exports.getById = async (req,res) => { // get localhost:4000/descubrimiento/comentario/getbyid/:id
     try {
         const id = req.params.id;

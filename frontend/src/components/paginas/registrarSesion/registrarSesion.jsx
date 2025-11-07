@@ -6,9 +6,9 @@ import logoo from './logo_uabcs.png';
 import Axios from 'axios';
 
 const RegistrarSesion = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [nombre, setName] = useState("");
+  const [correo_electronico, setEmail] = useState("");
+  const [contrasena, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const navigate = useNavigate(); // ✅ Hook para navegación
@@ -18,18 +18,18 @@ const RegistrarSesion = () => {
     const letrasRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/;
 
     if (
-      name.trim().length >= 8 &&
-      letrasRegex.test(name) &&
-      email.trim() !== "" &&
-      emailRegex.test(email) &&
-      password.length >= 8 &&
+      nombre.trim().length >= 8 &&
+      letrasRegex.test(nombre) &&
+      correo_electronico.trim() !== "" &&
+      emailRegex.test(correo_electronico) &&
+      contrasena.length >= 8 &&
       confirmPassword !== "" &&
-      password === confirmPassword
+      contrasena === confirmPassword
     ) {
       Axios.post("http://localhost:4000/registrar/user", {
-        name,
-        email,
-        password
+        nombre,
+        correo_electronico,
+        contrasena
       }).then(() => {
         alert("Registro exitoso");
         navigate("/iniciarsesion"); // ✅ Redirección aquí
@@ -40,11 +40,11 @@ const RegistrarSesion = () => {
     } else {
       let errorMsg = "Ocurrió un error:\n";
 
-      if (name.trim().length < 8) errorMsg += "- El nombre debe tener al menos 8 caracteres.\n";
-      if (!letrasRegex.test(name)) errorMsg += "- El nombre solo puede contener letras y espacios.\n";
-      if (!emailRegex.test(email)) errorMsg += "- El correo no tiene un formato válido.\n";
-      if (password.length < 8) errorMsg += "- La contraseña debe tener al menos 8 caracteres.\n";
-      if (password !== confirmPassword) errorMsg += "- Las contraseñas no coinciden.\n";
+      if (nombre.trim().length < 8) errorMsg += "- El nombre debe tener al menos 8 caracteres.\n";
+      if (!letrasRegex.test(nombre)) errorMsg += "- El nombre solo puede contener letras y espacios.\n";
+      if (!emailRegex.test(correo_electronico)) errorMsg += "- El correo no tiene un formato válido.\n";
+      if (contrasena.length < 8) errorMsg += "- La contraseña debe tener al menos 8 caracteres.\n";
+      if (contrasena !== confirmPassword) errorMsg += "- Las contraseñas no coinciden.\n";
 
       alert(errorMsg);
     }
@@ -65,7 +65,7 @@ const RegistrarSesion = () => {
           type="text"
           placeholder="Nombre completo"
           className="inRS"
-          value={name}
+          value={nombre}
           onChange={(e) => {
             const valor = e.target.value;
             const soloLetras = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/;

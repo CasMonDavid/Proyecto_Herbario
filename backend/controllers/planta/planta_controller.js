@@ -25,7 +25,7 @@ exports.getPlantaById = async (req, res) => {
     const [result] = await connection.execute(
       `SELECT plantas.*, investigadores.nombre AS nombre_investigador 
        FROM plantas 
-       JOIN investigadores ON plantas.id_investigador = investigadores.id_investigador 
+       LEFT JOIN investigadores ON plantas.id_investigador = investigadores.id_investigador 
        WHERE id_planta = ?`, [id]
     );
     if (result.length === 0) {

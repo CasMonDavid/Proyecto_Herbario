@@ -27,9 +27,9 @@ exports.login = async (req, res) => {
 };
 
 exports.createUser = async (req,res, next)=>{
-    const name = req.body.name;
-    const email = req.body.email;
-    const password = req.body.password;
+    const name = req.body.nombre;
+    const email = req.body.correo_electronico;
+    const password = req.body.contrasena;
     const hashedPassword = await bcrypt.hash(password, 10);
 
     try {
@@ -109,5 +109,21 @@ exports.getAllUsers = async (req, res, next) => {
     } catch (err) {
         console.log(err);
         res.status(500).send("Error al obtener la lista de investigadores");
+    }
+};
+
+exports.delete = async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        await connection.query("DELETE FROM investigadores WHERE id_investigador = ?",[id]);
+
+        res.status(200).json({
+            message: "Investigador eliminado correctamente.",
+        });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Ocurrió un error al intentar eliminar al investigador.");
     }
 };

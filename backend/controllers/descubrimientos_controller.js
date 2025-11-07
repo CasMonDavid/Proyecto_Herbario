@@ -93,7 +93,7 @@ exports.getPostById = async (req, res) => {
                 `
                     SELECT d.nombre, d.latitud, d.longitud, d.descripcion, d.fecha, d.fotografia, i.id_investigador AS id_autor, i.nombre AS autor, d.relacion, p.nombre_cientifico
                     FROM descubrimientos_plantas AS d
-                    INNER JOIN investigadores AS i
+                    LEFT JOIN investigadores AS i
                     ON d.usuario_id = i.id_investigador
                     INNER JOIN plantas AS p
                     ON d.relacion = p.id_planta
@@ -104,7 +104,7 @@ exports.getPostById = async (req, res) => {
                 `
                     SELECT d.nombre, d.latitud, d.longitud, d.descripcion, d.fecha, d.fotografia, i.id_investigador AS id_autor, i.nombre AS autor, d.relacion
                     FROM descubrimientos_plantas AS d
-                    INNER JOIN investigadores AS i
+                    LEFT JOIN investigadores AS i
                     ON d.usuario_id = i.id_investigador
                     WHERE id = ?
                 `;
@@ -127,7 +127,7 @@ exports.getPostAll = async (req, res) => {
             `
             SELECT d.id, d.nombre, d.latitud, d.longitud, d.descripcion, d.fecha, d.fotografia, i.id_investigador AS id_autor, i.nombre AS autor, d.relacion, p.nombre_cientifico
             FROM descubrimientos_plantas AS d
-            JOIN investigadores AS i
+            LEFT JOIN investigadores AS i
             ON d.usuario_id = i.id_investigador
             LEFT JOIN plantas AS p
             ON d.relacion = p.id_planta
