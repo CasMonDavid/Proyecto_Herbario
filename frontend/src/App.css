@@ -54,7 +54,7 @@ footer {
   margin: 5px;
 }
 
-/* ✅ Quita el espacio arriba del footer solo en la página del mapa */
+/* ✅ Quita el espacio arriba del footer solo en iniciar sesión y registrar */
 .no-footer-space {
   padding-bottom: 0 !important;
   margin-bottom: 0 !important;

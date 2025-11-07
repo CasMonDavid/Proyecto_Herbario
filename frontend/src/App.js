@@ -22,7 +22,15 @@ import ResultadoBusqueda from './components/paginas/resultadoBuscador/resultadoB
 
 function AppContent() {
   const location = useLocation();
-  const isMapaPage = location.pathname === '/descubrimientos';
+
+  // ✅ Detecta las páginas donde solo se quita el espacio arriba del footer
+  const noFooterSpaceRoutes = ['/iniciarsesion', '/registrar', '/'];
+
+  // ✅ Detecta la página donde NO se muestra footer (mapa)
+  const noFooterRoutes = ['/descubrimientos'];
+
+  const hasNoFooterSpace = noFooterSpaceRoutes.includes(location.pathname);
+  const hideFooter = noFooterRoutes.includes(location.pathname);
 
   return (
     <div className="App">
@@ -31,7 +39,7 @@ function AppContent() {
       {/* Contenedor principal */}
       <div className="content">
         {/* Inner wrapper para padding-bottom y elementos absolutos */}
-        <div className={`content-inner ${isMapaPage ? 'no-footer-space' : ''}`}>
+        <div className={`content-inner ${hasNoFooterSpace ? 'no-footer-space' : ''}`}>
           <Routes>
             <Route path='/' element={<Inicio />} />
             <Route path='/iniciarsesion' element={<IniciarSesion />} />
@@ -52,8 +60,8 @@ function AppContent() {
         </div>
       </div>
 
-      {/*  Solo muestra el footer si NO está en la página de mapa */}
-      {!isMapaPage && <Footer />}
+      {/* ✅ Footer visible siempre excepto en mapa descubrimientos */}
+      {!hideFooter && <Footer />}
     </div>
   );
 }
