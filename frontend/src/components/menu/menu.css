@@ -1,10 +1,17 @@
 .background-menu {
-    display: flex;
-    align-items: center;
-    height: 8vh;
-    width: 100%;
-    background: #78B578;
+  display: flex;
+  align-items: center;
+  height: 8vh;
+  width: 100%;
+  background: #78B578;
+
+  /*  agregado para mantener fijo */
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
 }
+
 
 .parte-uno {
     display: flex;
