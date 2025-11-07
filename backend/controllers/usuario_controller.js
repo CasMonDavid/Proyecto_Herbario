@@ -2,28 +2,28 @@ const connection = require('../config/db');
 const bcrypt = require('bcrypt');
 
 exports.login = async (req, res) => {
-  const { email, password } = req.body;
-  try {
-    const [result] = await connection.query('SELECT * FROM investigadores WHERE correo_electronico = ?',
-        [email]);
-    if (result.length === 0) {
-      res.status(404).json({ success: false, message: "Usuario no encontrado" });
+    try {
+        const { email, password } = req.body;
+
+        const [result] = await connection.query('SELECT * FROM investigadores WHERE correo_electronico = ?',
+            [email]);
+        
+        if (result.length === 0) return res.status(404).json({ success: false, message: "Usuario no encontrado" });
+
+        const usuario = result[0];
+
+        const match = await bcrypt.compare(password, usuario.contrasena);
+
+        if (match) {
+        res.json({ success: true, data: usuario });
+        } else {
+        res.json({ success: false, message: "Contraseña incorrecta" });
+        }
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Error al iniciar sesión");
     }
-
-    const usuario = result[0];
-
-    const match = await bcrypt.compare(password, usuario.contrasena);
-
-    if (match) {
-      res.json({ success: true, data: usuario });
-    } else {
-      res.json({ success: false, message: "Contraseña incorrecta" });
-    }
-
-  } catch (err) {
-    console.log(err);
-    res.status(500).send("Error al iniciar sesión");
-  }
 };
 
 exports.createUser = async (req,res, next)=>{
