@@ -7,13 +7,13 @@ const validarRegistro = [
         .isString().withMessage("El nombre debe ser texto")
         .isLength({ min: 3 }).withMessage("Debe tener al menos 3 caracteres"),
 
-    body('email')
+    body('correo_electronico')
         .notEmpty().withMessage("El correo es obligatorio")
         .isEmail().withMessage("Formato de correo no valido"),
     
-    body('password')
-        .notEmpty().withMessage("La contraseña es obligatoria")
-        .isLength({ min: 6 }).withMessage("Debe tener al menos 3 caracteres"),
+    body('contrasena')
+        .optional()
+        .isLength({ min: 6 }).withMessage("Debe tener al menos 6 caracteres"),
 
     // Este middleware final captura los errores
     (req, res, next) => {
