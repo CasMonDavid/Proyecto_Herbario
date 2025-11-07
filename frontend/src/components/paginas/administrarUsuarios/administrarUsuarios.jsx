@@ -19,6 +19,21 @@ const AdministrarUsuarios = () => {
       });
   }, []);
 
+  // 👇 Nueva función para eliminar usuario
+  const eliminarUsuario = (id) => {
+    if (window.confirm("¿Seguro que deseas eliminar este usuario?")) {
+      Axios.delete(`http://localhost:4000/usuario/${id}`)
+        .then(() => {
+          alert("Usuario eliminado correctamente");
+          setUsuarios(prev => prev.filter(u => u.id_investigador !== id));
+        })
+        .catch(error => {
+          console.error("Error al eliminar usuario:", error);
+          alert("Hubo un error al eliminar el usuario");
+        });
+    }
+  };
+
   return (
     <div className="page-container">
       <button className="btn-volver" onClick={() => window.history.back()}>
@@ -36,9 +51,19 @@ const AdministrarUsuarios = () => {
               <img src="/default-user.png" alt="Usuario" />
               <h2 className="usuario-nombre">{user.nombre}</h2>
               <p className="usuario-correo">{user.correo_electronico}</p>
-              <Link to={`/usuarioedit/${user.id_investigador}`} className="editar-btn">
-                Editar
-              </Link>
+
+              {/* Contenedor centrado para los botones */}
+              <div className="botones-acciones">
+                <Link to={`/usuarioedit/${user.id_investigador}`} className="editar-btn btn-accion">
+                  Editar
+                </Link>
+                <button
+                  className="eliminar-btn btn-accion"
+                  onClick={() => eliminarUsuario(user.id_investigador)}
+                >
+                  Eliminar
+                </button>
+              </div>
             </div>
           ))}
         </div>

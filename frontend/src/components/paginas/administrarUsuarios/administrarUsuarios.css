@@ -28,6 +28,7 @@
 
 .usuario-card {
   width: 250px;
+  height: 300px;
   background-color: #f9f9f9;
   border-radius: 12px;
   padding: 20px;
@@ -60,23 +61,105 @@
   margin-bottom: 10px;
 }
 
-.editar-btn {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
+/* Contenedor de los botones para mantenerlos perfectamente alineados */
+.botones-acciones {
+  display: flex;
+  justify-content: center;
+  align-items: center; /* ✅ fuerza a ambos al mismo nivel vertical */
+  gap: 10px;
+  margin-top: 8px;
+}
+
+/* Además, asegúrate de que los botones estén perfectamente alineados dentro */
+.btn-accion {
+  display: flex; /* cambia inline-flex → flex para evitar baseline offset */
+  align-items: center;
+  justify-content: center;
+  width: 110px;
+  height: 38px;
+  padding: 0 12px;
+  font-size: 14px;
+  font-weight: 700;
   border-radius: 6px;
-  font-weight: bold;
-  cursor: pointer;
   text-decoration: none;
-  display: inline-block;
+  cursor: pointer;
+  border: none;
+  box-sizing: border-box;
 }
 
-.editar-btn:hover {
-  background-color: #0056b3;
+
+/* Anula cualquier estilo global específico que pueda afectar a los <a> */
+.usuario-card .editar-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-decoration: none !important;
+  border: none !important;
+  padding: 0 12px !important;
+  box-sizing: border-box !important;
+  background-color: #007bff !important;
 }
 
+/* Asegura que el anchor no tenga estilos de enlace (underline) */
+.usuario-card .editar-btn,
+.usuario-card .editar-btn:link,
+.usuario-card .editar-btn:visited {
+  text-decoration: none !important;
+  color: #ffffff !important;
+}
+
+/* Botón Eliminar estilo fijo */
+.usuario-card .eliminar-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 12px !important;
+  box-sizing: border-box !important;
+  background-color: #dc3545 !important;
+  color: #ffffff !important;
+  border: none !important;
+}
+
+/* Hovers */
+.usuario-card .editar-btn:hover {
+  background-color: #0056b3 !important;
+}
+
+.usuario-card .eliminar-btn:hover {
+  background-color: #b02a37 !important;
+}
+
+/* Focus visual consistente */
+.usuario-card .editar-btn:focus,
+.usuario-card .eliminar-btn:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(0,0,0,0.05) !important;
+}
+
+/* último recurso: si hay estilos globales que aún afecten, forzamos con mayor especificidad */
+.usuario-card .btn-accion {
+  font-size: 14px !important;
+  height: 38px !important;
+  width: 110px !important;
+  padding: 0 12px !important;
+}
+
+/* estilos restantes */
 .page-container h1 {
   text-align: center;
-  margin-bottom: 30px; /* Ajusta el espacio debajo del título si quieres */
+  margin-bottom: 30px;
+}
+
+.usuario-nombre,
+.usuario-correo {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; /* ✅ evita que texto largo agrande la tarjeta */
+  width: 100%;
+}
+/* Si quieres permitir salto de línea en correo pero mantener tamaño igual: */
+.usuario-correo {
+  white-space: normal;
+  word-wrap: break-word;
+  min-height: 36px; /* asegura altura igual incluso si hay una línea más */
 }
